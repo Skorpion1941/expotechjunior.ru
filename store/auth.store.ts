@@ -35,7 +35,7 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     clear() {
-      this.$patch(defineValue);
+      this.$patch({ user: defineValue.user });
     },
     set(input: IAuthStore) {
       this.$patch({ user: input });

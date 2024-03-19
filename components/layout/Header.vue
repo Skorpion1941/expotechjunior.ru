@@ -19,7 +19,7 @@ const { user } = useAuthStore();
       >
     </ul>
     <div class="btn-entry">
-      <div class="user-info" v-if="user.status">
+      <div class="user-info" v-if="user.status == true">
         <NuxtLink to="/user">
           <h3>
             {{ user.surname }} {{ user.name.slice(0, 1) }}.
@@ -32,14 +32,15 @@ const { user } = useAuthStore();
     </div>
   </header>
 </template>
-Ы
 <style lang="scss" scoped>
 header {
+  width: 100%;
   font-size: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px;
+  border-bottom: 2px solid $second-color;
   ul {
     .link {
       text-transform: uppercase;

@@ -1,54 +1,41 @@
 <script setup>
-import { onMounted } from "vue";
 import { inject, reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
+import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
 
 const props = defineProps({
   role: String,
 });
+const { user } = useAuthStore();
 const supabase = useSupabaseClient();
-const signIn = ref(false);
 const loading = ref(false);
 const createProjectValue = reactive({
   name: "",
-  title_url: "default.png",
+  title_photo: "default.png",
   tilda_url: "",
   team: [],
   direction: [],
 });
 const schema = Yup.object().shape({
-  name: Yup.string().required("Это поле обязательно").email("@"),
+  name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
 
-const signUp = async () => {
+const createProject = async () => {
   try {
     loading.value = true;
-    const directionsJson = JSON.stringify(registerValue.directions);
-    console.log(directionsJson);
-    const { error } = await supabase.auth.signUp({
-      email: registerValue.email,
-      password: registerValue.password,
-      options: {
-        data: {
-          name: registerValue.name,
-          surname: registerValue.surname,
-          patronymic: registerValue.patronymic,
-          email: registerValue.email,
-          password: registerValue.password,
-          avatar_url: registerValue.avatar_url,
-          post: registerValue.post,
-          about_me: registerValue.about_me,
-          directions: directionsJson,
-          organization_id: registerValue.organization[0],
-          role: props.role,
-        },
-      },
+    const { error } = await supabase.from("projects").insert({
+      name: createProjectValue.name,
+      title_photo: createProjectValue.title_photo,
+      tilda_url: createProjectValue.tilda_url,
+      direction_id: createProjectValue.direction[0],
+      user_id: user.id,
     });
-    signIn;
+
     if (error) throw error;
+    closeModal();
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
@@ -56,21 +43,26 @@ const signUp = async () => {
     }
   } finally {
     loading.value = false;
-    signIn.value = true;
   }
 };
 </script>
 <template>
-  <div v-if="!signIn">
-    <Form @submit="signUp()" :validation-schema="schema" v-slot="{ errors }">
+  <div>
+    <Form
+      @submit="createProject()"
+      :validation-schema="schema"
+      v-slot="{ errors }"
+    >
       <div class="photo">
         <UiPhoto
-          v-model:path="createProjectValue.title_url"
-          size="27"
+          v-model:path="createProjectValue.title_photo"
+          width="100%"
+          height="400px"
           :update="true"
         >
         </UiPhoto>
       </div>
+
       <UiInput
         label="Название проекта:"
         name="name"
@@ -78,7 +70,13 @@ const signUp = async () => {
         placeholder="Введите название"
         v-model:model-value="createProjectValue.name"
         :errors="errors.name"
-      ></UiInput>
+      ></UiInput
+      ><UiSelect
+        v-model:model-value="createProjectValue.direction"
+        :array="allDirections"
+        label="Организация"
+        :name="4"
+      ></UiSelect>
       <UiInput
         label="Сылка на проект:"
         name="tilda_url"
@@ -94,12 +92,6 @@ const signUp = async () => {
         </button>
       </div>
     </Form>
-  </div>
-  <div v-if="signIn" class="notification">
-    <h3>
-      Вам на почту {{ registerValue.email }} было отправленно письмо для
-      подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
-    </h3>
   </div>
 </template>
 <style scoped lang="scss">

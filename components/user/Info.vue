@@ -6,7 +6,9 @@ const supabase = useSupabaseClient();
 const signOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
+
     authStore.clear();
+    authStore.user.status = false;
     if (error) throw error;
   } catch (error) {
     console.log(error);

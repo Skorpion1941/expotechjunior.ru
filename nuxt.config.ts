@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/supabase",
     "@vee-validate/nuxt",
+    "@nuxtjs/google-fonts",
   ],
   veeValidate: {
     // disable or enable auto imports
@@ -39,6 +40,11 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: "/",
       callback: "/",
+    },
+  },
+  googleFonts: {
+    families: {
+      Roboto: [400, 500, 700],
     },
   },
 });

@@ -4,11 +4,11 @@ import type { NuxtImg } from "#build/components";
 </script>
 <template>
   <div class="welcome">
-    <div>
+    <div class="kvant-img">
+      <div></div>
       <NuxtImg
         class="slide-in-fwd-left"
         src="https://avatars.mds.yandex.net/i?id=a466caf38d2bc6c687409f0097f2b3310f42654f-4888906-images-thumbs&n=13"
-        height="650px"
       ></NuxtImg>
     </div>
     <div class="vector">
@@ -67,13 +67,31 @@ import type { NuxtImg } from "#build/components";
   height: 650px;
   display: grid;
   grid-template-columns: 60% 40%;
+  .kvant-img {
+    width: 100%;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+
+      z-index: 1;
+    }
+    div {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      background: black;
+      opacity: 0.3;
+      height: 100%;
+    }
+  }
   .vector {
     width: 100%;
     height: 100%;
     background-color: $first-color;
     background: linear-gradient(0deg, $second-color 0%, $third-color 100%);
     position: relative;
-    z-index: 0;
+    z-index: 3;
     &::before {
       content: "";
       z-index: 0;

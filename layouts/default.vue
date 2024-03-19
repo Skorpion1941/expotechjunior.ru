@@ -45,6 +45,7 @@ const seeUser = async () => {
 onMounted(async () => {
   await seeUser();
   await fetchDirections();
+  console.log(store.user);
 });
 </script>
 
