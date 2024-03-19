@@ -1,0 +1,14 @@
+$main-color: white;
+$text-color: white;
+$first-color: #02caaf;
+$second-color: #0490d6;
+$third-color: #3b61a8;
+@mixin main-btn {
+  font-size: 20px;
+  color: white;
+  background-color: #02caaf;
+
+  &:hover {
+    background-color: #029bc9;
+  }
+}
