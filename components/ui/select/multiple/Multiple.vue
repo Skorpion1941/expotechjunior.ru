@@ -3,20 +3,14 @@ import { onMounted } from "vue";
 import { inject, ref } from "vue";
 
 const props = defineProps(["array", "modelValue"]);
-const directions = ref([]);
 const isListVisible = ref(false);
 
-const { modelValue } = toRefs(props);
+const { modelValue, array } = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
 
 const toggleList = () => {
   isListVisible.value = !isListVisible.value;
 };
-const supabase = useSupabaseClient();
-onMounted(async () => {
-  const { data } = await supabase.from("directions").select();
-  directions.value = data;
-});
 </script>
 <template>
   <div class="multi-selector">
@@ -39,7 +33,7 @@ onMounted(async () => {
 
       <div class="list" :class="{ show: !isListVisible }">
         <UiSelectMultipleOptionList
-          :directions="directions"
+          :directions="array"
           :array="modelValue"
         ></UiSelectMultipleOptionList>
       </div>

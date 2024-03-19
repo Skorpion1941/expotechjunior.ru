@@ -21,6 +21,8 @@
   margin: 100px auto;
   border: 2px solid $second-color;
   border-radius: 17px;
+
+  background-color: white;
 }
 .close {
   position: absolute;

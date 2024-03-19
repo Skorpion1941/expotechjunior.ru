@@ -11,7 +11,7 @@ defineProps({
     v-for="direction in directions"
     :key="direction.id"
     :id="direction.id"
-    :name="direction.full_name"
+    :name="direction.name"
     :on-click-option="
       () => {
         direction.checked = !direction.checked;

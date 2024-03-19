@@ -4,6 +4,7 @@ import { inject, reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
 import { fetchOrganizations, allOrganizations } from "~/util/useOrganizations";
+import { allDirections } from "~/util/useDirections";
 
 const props = defineProps({
   role: String,
@@ -118,7 +119,7 @@ onMounted(async () => {
       <UiSelectMultiple
         v-if="props.role == 'expert'"
         v-model:model-value="registerValue.directions"
-        array=""
+        :array="allDirections"
       ></UiSelectMultiple>
       <UiSelect
         v-model:model-value="registerValue.organization"
