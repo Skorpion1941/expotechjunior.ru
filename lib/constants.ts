@@ -1,4 +1,0 @@
-export const EXPO_TECH_JUNIOR_SUPABASE_URL = process.env
-  .EXPO_TECH_JUNIOR_SUPABASE_URL as string;
-export const EXPO_TECH_JUNIOR_SUPABASE_ANON_KEY = process.env
-  .EXPO_TECH_JUNIOR_SUPABASE_ANON_KEY as string;

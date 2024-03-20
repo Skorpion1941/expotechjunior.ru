@@ -6,7 +6,7 @@ const { user } = useAuthStore();
 </script>
 <template>
   <header>
-    <div>
+    <div class="logo">
       <NuxtImg src="/logo.svg" width="55px"></NuxtImg>
     </div>
     <ul>
@@ -39,8 +39,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 0;
   border-bottom: 2px solid $second-color;
+  .logo {
+    margin-left: 10px;
+  }
   ul {
     .link {
       text-transform: uppercase;
@@ -54,12 +57,15 @@ header {
       }
     }
   }
-  .user-info {
-    a {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      color: $first-color;
+  .btn-entry {
+    margin-right: 10px;
+    .user-info {
+      a {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: $first-color;
+      }
     }
   }
 }

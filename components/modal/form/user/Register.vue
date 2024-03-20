@@ -12,6 +12,10 @@ const props = defineProps({
 const supabase = useSupabaseClient();
 const signIn = ref(false);
 const loading = ref(false);
+const errorMessage = reactive({
+  directions: "",
+  organization: "",
+});
 const registerValue = reactive({
   name: "",
   surname: "",
@@ -38,6 +42,16 @@ const schema = Yup.object().shape({
 });
 
 const signUp = async () => {
+  errorMessage.directions = "";
+  errorMessage.organization = "";
+  if (registerValue.organization.length == 0) {
+    errorMessage.organization = "Это поле обязательно";
+    return;
+  }
+  if (registerValue.directions.length == 0) {
+    errorMessage.directions = "Это поле обязательно";
+    return;
+  }
   try {
     loading.value = true;
     const directionsJson = JSON.stringify(registerValue.directions);
@@ -61,7 +75,9 @@ const signUp = async () => {
         },
       },
     });
-    signIn;
+
+    console.log(registerValue);
+
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
@@ -120,13 +136,16 @@ onMounted(async () => {
         v-if="props.role == 'expert'"
         v-model:model-value="registerValue.directions"
         :array="allDirections"
+        style="z-index: 5"
       ></UiSelectMultiple>
+      <p>{{ errorMessage.directions }}</p>
       <UiSelect
         v-model:model-value="registerValue.organization"
         :array="allOrganizations"
         label="Организация"
         :name="2"
       ></UiSelect>
+      <p>{{ errorMessage.organization }}</p>
       <UiInput
         label="Должность:"
         name="post"
@@ -210,13 +229,11 @@ form {
       border: 1px solid #ccc;
       border-radius: 20px;
     }
-    p {
-      color: red;
-      margin: 0px;
-    }
   }
 
   p {
+    color: red;
+    margin: 0px;
     font-size: 16px;
   }
   a {

@@ -69,9 +69,6 @@ form {
     margin: 5px 0;
     flex-direction: column;
   }
-  p {
-    font-size: 16px;
-  }
   a {
     text-decoration: underline;
     color: #02c9af;

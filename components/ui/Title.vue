@@ -9,7 +9,7 @@ defineProps({
 <template>
   <div class="title">
     <div>
-      <h2>{{ name }}</h2>
+      <h1>{{ name }}</h1>
       <hr />
     </div>
     <div></div>
@@ -21,13 +21,13 @@ defineProps({
   div {
     &:first-child {
       position: relative;
-      h2 {
+      h1 {
         padding: 0 30px;
         text-align: center;
         color: $third-color;
       }
       hr {
-        height: 7px;
+        height: 4px;
         width: 100%;
         background: $second-color;
         border: none;
@@ -37,16 +37,16 @@ defineProps({
           position: absolute;
           width: 12px;
           height: 12px;
-          border: 3px solid $second-color;
+          border: 4px solid $second-color;
           border-radius: 50px;
         }
         &::after {
-          right: -15px;
-          margin-top: -6px;
+          right: -18px;
+          margin-top: -8px;
         }
         &::before {
-          left: -15px;
-          margin-top: -6px;
+          left: -18px;
+          margin-top: -8px;
         }
       }
     }

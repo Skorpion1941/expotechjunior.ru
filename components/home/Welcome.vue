@@ -17,18 +17,22 @@ import type { NuxtImg } from "#build/components";
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3261-3862-4135-a662-663334613663/-/resize/108x/-/format/webp/pgrants_logo_gp-vert.png"
             width="100px"
+            class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3234-3830-4236-a463-633365363132/-/resize/84x/-/format/webp/Blue_Brush_White.png"
             width="70px"
+            class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild6262-3963-4133-a432-363035623766/-/resize/84x/-/format/webp/noroot.png"
             width="50px"
+            class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3930-6636-4439-b033-373638663265/-/resize/211x/-/format/webp/gorizontalny_bely.png"
             height="45px"
+            class="scale-img"
           ></NuxtImg>
         </div>
         <div class="info-welcome">
@@ -127,12 +131,6 @@ import type { NuxtImg } from "#build/components";
       width: 100%;
       align-items: center;
       gap: 20px;
-      img {
-        transition: transform 0.5s ease-in-out;
-        &:hover {
-          transform: scale(1.2);
-        }
-      }
     }
     .info-welcome {
       margin: 100px 0 0 0;

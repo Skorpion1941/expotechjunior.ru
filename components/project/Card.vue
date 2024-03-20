@@ -16,7 +16,9 @@ const openLink = (link: string) => {
 
 <template>
   <div class="card">
-    <UiPhoto :path="title_photo" size="20"></UiPhoto>
+    <div class="img-project">
+      <UiPhoto :path="title_photo" width="100%" height="100%"></UiPhoto>
+    </div>
     <div class="project-info">
       <div>
         <h3 class="project-name">{{ name }}</h3>
@@ -41,19 +43,24 @@ const openLink = (link: string) => {
   border: 5px solid $first-color;
   overflow: hidden;
   border-radius: 20px;
+  &:hover {
+    box-shadow: 0 10px 40px rgb(0, 0, 0, 0.2);
+  }
   .project-info {
     width: 90%;
+    height: 45%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
   }
-  img {
+  .img-project {
     width: 100%;
-    height: 200px;
+    height: 50%;
   }
   .project-name {
+    margin-top: 10px;
     font-size: 22px;
     color: $second-color;
   }

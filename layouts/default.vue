@@ -14,6 +14,7 @@ const fetchOrganization = async (id: string) => {
     .eq("id", id);
   organization.value = data as any;
 };
+
 const seeUser = async () => {
   try {
     const { data, error } = await supabase.auth.getSession();

@@ -44,9 +44,10 @@ label {
 }
 
 input {
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: 1px solid #ccc;
   border-radius: 20px;
+  font-size: 16px;
 }
 p {
   color: red;

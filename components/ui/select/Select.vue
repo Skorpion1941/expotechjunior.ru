@@ -2,7 +2,13 @@
 import { onMounted } from "vue";
 import { inject, ref } from "vue";
 
-const props = defineProps(["array", "modelValue", "label", "name"]);
+const props = defineProps([
+  "array",
+  "modelValue",
+  "label",
+  "placeholder",
+  "name",
+]);
 const isListVisible = ref(false);
 const { modelValue } = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
@@ -21,7 +27,8 @@ const addOption = (item) => {
     <div class="selector" :class="{ select_show: isListVisible }">
       <div class="select-fields">
         <div>
-          <label>{{ modelValue[props.name] }}</label>
+          <label v-if="modelValue != ''">{{ modelValue[props.name] }}</label>
+          <label class="placeholder" v-else>{{ props.placeholder }}</label>
         </div>
         <div>
           <span
@@ -62,6 +69,10 @@ const addOption = (item) => {
     padding: 0 !important;
     label {
       padding: 10px 20px;
+    }
+    .placeholder {
+      font-weight: 100;
+      color: #979797;
     }
     div {
       &:first-child {

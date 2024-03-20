@@ -11,6 +11,9 @@ const props = defineProps({
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
+const errorMessage = reactive({
+  direction: "",
+});
 const createProjectValue = reactive({
   name: "",
   title_photo: "default.png",
@@ -18,12 +21,18 @@ const createProjectValue = reactive({
   team: [],
   direction: [],
 });
+
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
 
 const createProject = async () => {
+  errorMessage.direction = "";
+  if (createProjectValue.direction.length == 0) {
+    errorMessage.direction = "Это поле обязательно";
+    return;
+  }
   try {
     loading.value = true;
     const { error } = await supabase.from("projects").insert({
@@ -74,14 +83,16 @@ const createProject = async () => {
       ><UiSelect
         v-model:model-value="createProjectValue.direction"
         :array="allDirections"
-        label="Организация"
+        label="Напрвление проекта"
         :name="4"
+        placeholder="Выберите направление"
       ></UiSelect>
+      <p>{{ errorMessage.direction }}</p>
       <UiInput
         label="Сылка на проект:"
         name="tilda_url"
         type="url"
-        placeholder="Введите должность"
+        placeholder="https://"
         v-model:model-value="createProjectValue.tilda_url"
         :errors="errors.tilda_url"
       ></UiInput>
@@ -121,44 +132,16 @@ form {
       border: 1px solid #ccc;
       border-radius: 20px;
     }
-    p {
-      color: red;
-      margin: 0px;
-    }
   }
 
   p {
+    color: red;
+    margin: 0px;
     font-size: 16px;
   }
   a {
     text-decoration: underline;
     color: #02c9af;
-  }
-  textarea {
-    width: 100%;
-    max-width: 380px;
-    min-height: 100px;
-    padding: 10px;
-    border-radius: 20px;
-    font-size: 14px;
-  }
-  textarea::-webkit-scrollbar {
-    width: 12px;
-  }
-  textarea::-webkit-scrollbar-track {
-    background: $second-color;
-    border-radius: 0 20px 20px 0;
-  }
-  textarea::-webkit-scrollbar-thumb {
-    background-color: $first-color;
-    border-radius: 20px;
-  }
-}
-.notification {
-  width: 100%;
-  h3 {
-    margin: 30px 50px;
-    text-align: center;
   }
 }
 </style>

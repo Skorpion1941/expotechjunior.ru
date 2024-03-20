@@ -13,7 +13,6 @@ const files = ref();
 
 const downloadImage = async () => {
   try {
-    console.log(path.value);
     const { data, error } = await supabase.storage
       .from("title_photo")
       .download(path.value);

@@ -13,7 +13,6 @@ const files = ref();
 
 const downloadImage = async () => {
   try {
-    console.log(path.value);
     const { data, error } = await supabase.storage
       .from("avatars")
       .download(path.value);
@@ -98,6 +97,7 @@ onMounted(async () => {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: white;
     border: 1px solid #ccc;
     border-radius: 50%;
     img {

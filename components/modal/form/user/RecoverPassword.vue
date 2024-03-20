@@ -73,6 +73,8 @@ form {
     flex-direction: column;
   }
   p {
+    color: red;
+    margin: 0px;
     font-size: 16px;
   }
   a {
