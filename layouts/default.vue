@@ -2,6 +2,7 @@
 import { nameModal, modalShow, titleModal } from "~/components/modal/useModal";
 import { useAuthStore } from "~/store/auth.store";
 import { fetchDirections } from "~/util/useDirections";
+import { allProjects, fetchProjects } from "~/util/useProjects";
 
 const store = useAuthStore();
 const supabase = useSupabaseClient();
@@ -44,9 +45,9 @@ const seeUser = async () => {
   }
 };
 onMounted(async () => {
-  await seeUser();
   await fetchDirections();
-  console.log(store.user);
+  await fetchProjects();
+  await seeUser();
 });
 </script>
 

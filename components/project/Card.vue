@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { defineProps } from "vue";
 const { user } = useAuthStore();
-defineProps({
+const props = defineProps({
   id: Number,
   name: String,
   title_photo: String,
-  direction: Array,
+  direction: Object,
   tilda_url: String,
 });
 
@@ -24,13 +24,13 @@ const openLink = (link: string) => {
         <h3 class="project-name">{{ name }}</h3>
         <div class="check">
           <UiSelectChecked
-            :name="direction.short_name"
-            :color="direction.color"
+            :name="props.direction.short_name"
+            :color="props.direction.color"
           ></UiSelectChecked>
         </div>
       </div>
       <div class="btn">
-        <button @click="openLink(tilda_url as string)">Просмотр</button>
+        <button @click="openLink(props.tilda_url as string)">Просмотр</button>
       </div>
     </div>
   </div>

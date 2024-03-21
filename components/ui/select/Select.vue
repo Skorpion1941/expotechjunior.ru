@@ -63,6 +63,7 @@ const addOption = (item) => {
   border: 1px solid #ccc;
   overflow: hidden;
   border-radius: 20px;
+  min-width: 300px;
   .select-fields {
     width: 100%;
     display: flex;
@@ -81,10 +82,10 @@ const addOption = (item) => {
       }
       &:last-child {
         border-left: 1px solid #ccc;
-        width: 7%;
+        width: 40px;
         .down-arrow {
           font-size: 1.5rem;
-          margin: 10px 0 0 5px;
+          margin: 5px 0 0 5px;
           display: inline-block;
           cursor: pointer;
           transition: 0.2s linear;
@@ -106,7 +107,7 @@ const addOption = (item) => {
 }
 .list {
   width: 100%;
-  height: 100px;
+  height: 150px;
   overflow: auto;
   background: white;
   scrollbar-width: var(--scrollbarWidth);

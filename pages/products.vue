@@ -1,18 +1,23 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { openModal } from "../components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
+import { allProjects } from "~/util/useProjects";
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
-const projects = ref();
+const projects = ref() as any;
+const items = ref() as any;
 const filters = reactive({
   sortDirection: [],
   searchQuery: "",
 });
-const onChangeSearchInput = (event) => {
-  filters.searchQuery = event.target.value;
+const filtersProject = () => {
+  items.value = allProjects.value;
+  items.value = Object.values(allProjects.value).filter(
+    (project) => project.directions.name == filters.sortDirection[4]
+  );
+  console.log(items.value);
 };
-
 const fetchProjectsUser = async () => {
   try {
     const { data, error } = await supabase
@@ -24,7 +29,13 @@ const fetchProjectsUser = async () => {
   } catch {}
 };
 onMounted(async () => {
-  await fetchProjectsUser();
+  items.value = allProjects.value;
+  console.log(allProjects.value);
+});
+watch(filters, () => {
+  if (filters.sortDirection.length != 0) {
+    filtersProject();
+  }
 });
 </script>
 
@@ -48,7 +59,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="container">
-      <ProjectCardList :array="projects"></ProjectCardList>
+      <ProjectCardList :array="items"></ProjectCardList>
     </div>
   </div>
 </template>

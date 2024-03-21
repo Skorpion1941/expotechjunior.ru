@@ -1,9 +1,10 @@
 <script setup>
-import { inject, reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
 import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
+import { allProjects, fetchProjects } from "~/util/useProjects";
 
 const props = defineProps({
   role: String,
@@ -26,7 +27,10 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
-
+const getProject = () => {
+  allProjects.value = Object.values(allProjects.value).push(createProjectValue);
+  console.log(allProjects.value);
+};
 const createProject = async () => {
   errorMessage.direction = "";
   if (createProjectValue.direction.length == 0) {
@@ -42,7 +46,7 @@ const createProject = async () => {
       direction_id: createProjectValue.direction[0],
       user_id: user.id,
     });
-
+    await fetchProjects();
     if (error) throw error;
     closeModal();
   } catch (error) {
@@ -99,7 +103,7 @@ const createProject = async () => {
 
       <div>
         <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Зарегистрироваться" }}
+          {{ loading ? "Загрузка..." : "Добавить" }}
         </button>
       </div>
     </Form>

@@ -9,8 +9,8 @@ export interface Organization {
   city: string;
 }
 export interface Project {
-  id: string;
-  createdAt: string;
+  id?: number;
+  createdAt?: string;
   name: string;
   team: any;
   tilda_url: string;

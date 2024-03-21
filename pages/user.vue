@@ -1,22 +1,18 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { openModal } from "../components/modal/useModal";
+import { allProjects } from "~/util/useProjects";
 const { user } = useAuthStore();
-const supabase = useSupabaseClient();
-const projects = ref();
-const fetchProjectsUser = async () => {
-  try {
-    const { data, error } = await supabase
-      .from("projects")
-      .select("*, directions(*)")
-      .eq("user_id", user.id)
-      .order("id");
-
-    projects.value = data;
-  } catch {}
+const myProjects = ref();
+const userProject = () => {
+  myProjects.value = allProjects.value;
+  myProjects.value = Object.values(allProjects.value).filter(
+    (project) => project.user_id == user.id
+  );
+  console.log(myProjects.value);
 };
-onMounted(async () => {
-  await fetchProjectsUser();
+onMounted(() => {
+  userProject();
 });
 </script>
 
@@ -26,11 +22,11 @@ onMounted(async () => {
     <div class="title">
       <UiTitle name="МОИ ПРОЕКТЫ"></UiTitle
       ><button @click="openModal('projectCreate', 'Новый проект')">
-        Добавить
+        Добавить проект
       </button>
     </div>
     <div class="container">
-      <ProjectCardList :array="projects"></ProjectCardList>
+      <ProjectCardList :array="myProjects"></ProjectCardList>
     </div>
   </div>
 </template>
