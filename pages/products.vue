@@ -45,7 +45,7 @@ watch(filters, () => {
 <template>
   <div class="my-project">
     <div class="title">
-      <UiTitle name="МОИ ПРОЕКТЫ"></UiTitle>
+      <UiTitle name="ПРОЕКТЫ УЧАСТНИКОВ"></UiTitle>
       <div class="filter">
         <UiSelect
           v-model:model-value="filters.sortDirection"
