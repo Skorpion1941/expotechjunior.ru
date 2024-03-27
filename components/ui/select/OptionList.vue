@@ -1,7 +1,6 @@
 <script setup>
 const props = defineProps({
   array: Array,
-  modelValue: Array,
 });
 const emit = defineEmits(["addOption"]);
 </script>

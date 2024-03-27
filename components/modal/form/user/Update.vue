@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted } from "vue";
-import { inject, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
 import { fetchOrganizations, allOrganizations } from "~/util/useOrganizations";
-
+const user = useSupabaseUser();
+console.log(user);
 const props = defineProps({
   role: String,
 });
@@ -13,16 +14,16 @@ const authStore = useAuthStore();
 const signIn = ref(false);
 const loading = ref(false);
 const updateValue = reactive({
-  name: "",
-  surname: "",
-  patronymic: "",
-  password: "",
-  avatar_url: "default.png",
-  post: "",
-  about_me: "",
-  directions: [],
-  organization: [],
+  name: authStore.user.name,
+  surname: authStore.user.surname,
+  patronymic: authStore.user.patronymic,
+  avatar_url: authStore.user.avatar_url,
+  post: authStore.user.post,
+  about_me: authStore.user.about_me,
+  directions: authStore.user.directions,
+  organization: authStore.user.organization,
 });
+console.log(updateValue);
 const schema = Yup.object().shape({
   password: Yup.string().required("Это поле обязательно").min(6, "Миним 6"),
   name: Yup.string().required("Это поле обязательно"),
@@ -66,12 +67,17 @@ onMounted(async () => {
 </script>
 <template>
   <div v-if="!signIn">
-    <Form @submit="signUp()" :validation-schema="schema" v-slot="{ errors }">
+    <Form
+      @submit="updateUser()"
+      :validation-schema="schema"
+      v-slot="{ errors }"
+    >
       <div class="avatar-fio">
-        <div>
+        <div class="avatar">
           <UiAvatar
-            v-model:path="registerValue.avatar_url"
-            size="14"
+            v-model:path="updateValue.avatar_url"
+            width="100%"
+            height="100%"
             :update="true"
           ></UiAvatar>
         </div>
@@ -81,7 +87,7 @@ onMounted(async () => {
             name="name"
             type="text"
             placeholder="Введите имя"
-            v-model:model-value="registerValue.name"
+            v-model:model-value="updateValue.name"
             :errors="errors.name"
           ></UiInput>
           <UiInput
@@ -89,7 +95,7 @@ onMounted(async () => {
             name="surname"
             type="text"
             placeholder="Введите фамилию"
-            v-model:model-value="registerValue.surname"
+            v-model:model-value="updateValue.surname"
             :errors="errors.surname"
           ></UiInput>
           <UiInput
@@ -97,7 +103,7 @@ onMounted(async () => {
             name="patronymic"
             type="text"
             placeholder="Введите отчество"
-            v-model:model-value="registerValue.patronymic"
+            v-model:model-value="updateValue.patronymic"
             :errors="errors.patronymic"
           ></UiInput>
         </div>
@@ -105,50 +111,27 @@ onMounted(async () => {
 
       <UiSelectMultiple
         v-if="props.role == 'expert'"
-        v-model:model-value="registerValue.directions"
+        v-model:model-value="updateValue.directions"
         array=""
       ></UiSelectMultiple>
       <UiSelect
-        v-model:model-value="registerValue.organization"
+        v-model:model-value="updateValue.organization"
         :array="allOrganizations"
         label="Организация"
+        :name="2"
       ></UiSelect>
       <UiInput
         label="Должность:"
         name="post"
         type="text"
         placeholder="Введите должность"
-        v-model:model-value="registerValue.post"
+        v-model:model-value="updateValue.post"
         :errors="errors.post"
-      ></UiInput>
-      <UiInput
-        label="Email:"
-        name="email"
-        type="email"
-        placeholder="Введите Email"
-        v-model:model-value="registerValue.email"
-        :errors="errors.email"
-      ></UiInput>
-      <UiInput
-        label="Пароль:"
-        name="password"
-        type="password"
-        placeholder="Введите пароль"
-        v-model:model-value="registerValue.password"
-        :errors="errors.password"
-      ></UiInput>
-      <UiInput
-        label="Повтор пароля:"
-        name="password_repeat"
-        type="password"
-        placeholder="Повтирите пароль"
-        v-model:model-value="registerValue.password_repeat"
-        :errors="errors.password_repeat"
       ></UiInput>
 
       <div>
         <label>О себе:</label>
-        <textarea maxlength="500" v-model="registerValue.about_me"></textarea>
+        <textarea maxlength="500" v-model="updateValue.about_me"></textarea>
       </div>
 
       <div>
@@ -160,7 +143,7 @@ onMounted(async () => {
   </div>
   <div v-if="signIn" class="notification">
     <h3>
-      Вам на почту {{ registerValue.email }} было отправленно письмо для
+      Вам на почту {{ updateValue.email }} было отправленно письмо для
       подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
     </h3>
   </div>
@@ -177,8 +160,11 @@ form {
     gap: 25px;
     display: flex;
     flex-direction: row;
+    .avatar {
+      width: 50%;
+    }
     .fio {
-      width: 60%;
+      width: 50%;
     }
   }
   div {
@@ -210,9 +196,8 @@ form {
     color: #02c9af;
   }
   textarea {
-    width: 100%;
-    max-width: 380px;
-    min-height: 100px;
+    max-width: 96%;
+    min-height: 50px;
     padding: 10px;
     border-radius: 20px;
     font-size: 14px;

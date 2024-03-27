@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
   array: Array,
+  role: String,
 });
 </script>
 <template>
@@ -12,6 +13,7 @@ const props = defineProps({
     :title_photo="item.title_photo"
     :tilda_url="item.tilda_url"
     :direction="item.directions"
+    :role="role"
   ></ProjectCard>
 </template>
 <style lang="scss" scoped></style>

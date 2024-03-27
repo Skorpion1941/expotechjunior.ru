@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { object, string, type InferType } from "yup";
-import { openModal, closeModal } from "../../useModal";
+import { openModal, closeModal, fromModal } from "../../useModal";
 import { useAuthStore } from "~/store/auth.store";
+import { allOrganizations } from "~/util/useOrganizations";
+import { allProfiles } from "~/util/useProfiles";
 
 const supabase = useSupabaseClient();
 const authStore = useAuthStore();
 const loading = ref(false);
 const errorMassage = ref("");
+const organization = ref();
+const myProfile = ref();
 const authValue = reactive({
   email: "",
   password: "",
@@ -16,6 +20,11 @@ const schema = object({
   password: string().required("Это поле обязательно").min(6, "Миним 6"),
 });
 
+const fetchMyOrganization = (id: number) => {
+  organization.value = Object.values(allOrganizations.value).find(
+    (item: any) => item.id === id
+  );
+};
 const signIn = async () => {
   try {
     loading.value = true;
@@ -23,25 +32,24 @@ const signIn = async () => {
       email: authValue.email,
       password: authValue.password,
     });
-    const id = `${user.user?.user_metadata.organization_id}`;
-    const { data } = await supabase
-      .from("organizations")
-      .select("name, city")
-      .eq("id", id);
 
     if (user != null) {
+      myProfile.value = Object.values(allProfiles.value).find(
+        (profile: any) => profile.id == user.user?.id
+      );
+      await fetchMyOrganization(user.user?.user_metadata.organization_id);
       authStore.set({
-        id: user.user?.id,
+        id: myProfile.value.id,
         email: user.user?.email,
-        name: user.user?.user_metadata.name,
-        surname: user.user?.user_metadata.surname,
-        patronymic: user.user?.user_metadata.patronymic,
-        avatar_url: user.user?.user_metadata.avatar_url,
-        post: user.user?.user_metadata.post,
-        about_me: user.user?.user_metadata.about_me,
-        directions: user.user?.user_metadata.directions,
-        organization: data,
-        role: user.user?.user_metadata.role,
+        name: myProfile.value.name,
+        surname: myProfile.value.surname,
+        patronymic: myProfile.value.patronymic,
+        avatar_url: myProfile.value.avatar_url,
+        post: myProfile.value.post,
+        about_me: myProfile.value.about_me,
+        directions: myProfile.value.directions,
+        organization: organization.value,
+        role: myProfile.value.role,
         status: true,
       });
     }
@@ -88,7 +96,14 @@ const signIn = async () => {
       :errors="errors.password"
     ></UiInput>
 
-    <a href="#" @click="() => openModal('confirmEmail', 'Востановление пароля')"
+    <a
+      href="#"
+      @click="
+        () => {
+          openModal('confirmEmail', 'Востановление пароля', true);
+          fromModal('login', 'Вход', true);
+        }
+      "
       >Востановить пароль</a
     >
     <div>
@@ -99,7 +114,14 @@ const signIn = async () => {
     </div>
     <p>
       Нет акаунта?
-      <a href="#" @click="() => openModal('register', 'Регистрация')"
+      <a
+        href="#"
+        @click="
+          () => {
+            openModal('register', 'Регистрация', true);
+            fromModal('login', 'Вход', true);
+          }
+        "
         >Зарегистрироваться</a
       >
     </p>

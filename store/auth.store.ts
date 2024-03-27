@@ -24,7 +24,7 @@ const defineValue: { user: IAuthStore } = {
     about_me: "",
     directions: {},
     organization: {},
-    role: {},
+    role: "",
     status: false,
   },
 };

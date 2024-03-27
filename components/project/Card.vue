@@ -7,6 +7,7 @@ const props = defineProps({
   title_photo: String,
   direction: Object,
   tilda_url: String,
+  role: String,
 });
 
 const openLink = (link: string) => {
@@ -31,6 +32,12 @@ const openLink = (link: string) => {
       </div>
       <div class="btn">
         <button @click="openLink(props.tilda_url as string)">Просмотр</button>
+        <button
+          v-if="role == 'expert'"
+          @click="openLink(props.tilda_url as string)"
+        >
+          Оценить
+        </button>
       </div>
     </div>
   </div>
@@ -71,6 +78,7 @@ const openLink = (link: string) => {
   .btn {
     width: 100%;
     display: flex;
+    gap: 15px;
     justify-content: center;
     justify-self: flex-end;
   }

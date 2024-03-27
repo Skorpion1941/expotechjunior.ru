@@ -1,7 +1,4 @@
 <script setup>
-import { onMounted } from "vue";
-import { inject, ref } from "vue";
-
 const props = defineProps([
   "array",
   "modelValue",
@@ -15,10 +12,8 @@ const emit = defineEmits(["update:modelValue"]);
 const toggleList = () => {
   isListVisible.value = !isListVisible.value;
 };
-const modal = ref([]);
 const addOption = (item) => {
   emit("update:modelValue", Object.values(item));
-  console.log(modelValue.value);
 };
 </script>
 <template>
@@ -94,24 +89,12 @@ const addOption = (item) => {
     }
   }
 }
-.list::-webkit-scrollbar {
-  width: 12px;
-}
-.list::-webkit-scrollbar-track {
-  background: $second-color;
-  border-radius: 0 0 20px 0;
-}
-.list::-webkit-scrollbar-thumb {
-  background-color: $first-color;
-  border-radius: 20px;
-}
+
 .list {
   width: 100%;
-  height: 150px;
+  max-height: 150px;
   overflow: auto;
   background: white;
-  scrollbar-width: var(--scrollbarWidth);
-  scrollbar-color: var(--scrollbarThumb) var(--scrollbarBg);
   box-shadow: 0 30px 60px rgb(0, 0, 0, 0.2);
   z-index: 4;
   display: flex;
@@ -119,6 +102,17 @@ const addOption = (item) => {
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 0 0 20px 20px;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 0 0 20px 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $first-color;
+    border-radius: 20px;
+  }
 }
 .select_show {
   border-radius: 20px 20px 0 0;

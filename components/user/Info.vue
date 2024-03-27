@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { openModal } from "../modal/useModal";
+
 const authStore = useAuthStore();
 const router = useRouter();
 const supabase = useSupabaseClient();
@@ -16,9 +18,21 @@ const signOut = async () => {
     router.push("/");
   }
 };
+const updateMyUser = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    authStore.clear();
+    authStore.user.status = false;
+    if (error) throw error;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    router.push("/");
+  }
+};
 onMounted(() => {
-  array.value = JSON.parse(authStore.user.directions);
-  console.log(array.value);
+  array.value = authStore.user.directions;
 });
 </script>
 
@@ -26,13 +40,23 @@ onMounted(() => {
   <div class="user-info">
     <div class="user-block">
       <div class="icon">
+        <button
+          @click="openModal('userUpdate', 'Обнавление', false)"
+          style="background: none !important"
+        >
+          <Icon name="fa-solid:user-edit" color="white" size="30px"></Icon>
+        </button>
         <button @click="signOut" style="background: none !important">
           <Icon name="icomoon-free:exit" color="white" size="30px"></Icon>
         </button>
       </div>
       <div class="info-avatar">
-        <div>
-          <UiAvatar :path="authStore.user.avatar_url" size="10"></UiAvatar>
+        <div class="avatar">
+          <UiAvatar
+            :path="authStore.user.avatar_url"
+            width="200px"
+            height="200px"
+          ></UiAvatar>
         </div>
         <div class="info">
           <div>
@@ -45,8 +69,8 @@ onMounted(() => {
           <div class="info" style="gap: 5px !important">
             <h1>Организация</h1>
             <h2 style="padding-top: 10px">
-              {{ authStore.user.organization[0].name }},
-              {{ authStore.user.organization[0].city }}
+              {{ authStore.user.organization.name }},
+              {{ authStore.user.organization.city }}
             </h2>
             <h2>
               {{

@@ -1,41 +1,44 @@
 <script lang="ts" setup>
 import { onMounted, watch } from "vue";
-import { openModal } from "../components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 import { allProjects } from "~/util/useProjects";
-const { user } = useAuthStore();
-const supabase = useSupabaseClient();
 const projects = ref() as any;
-const items = ref() as any;
 const filters = reactive({
   sortDirection: [],
   searchQuery: "",
 });
+const selectDirection = ref();
 const filtersProject = () => {
-  items.value = allProjects.value;
-  items.value = Object.values(allProjects.value).filter(
-    (project) => project.directions.name == filters.sortDirection[4]
-  );
-  console.log(items.value);
-};
-const fetchProjectsUser = async () => {
-  try {
-    const { data, error } = await supabase
-      .from("projects")
-      .select("*, directions(*)")
-      .order("id");
+  projects.value = allProjects.value;
 
-    projects.value = data;
-  } catch {}
+  if (filters.sortDirection.length > 0 && filters.sortDirection[4] != "Все") {
+    projects.value = Object.values(projects.value).filter(
+      (project: any) => project.directions.id == filters.sortDirection[0]
+    );
+  }
+  if (filters.searchQuery != "") {
+    projects.value = Object.values(projects.value).filter((item: any) => {
+      return item.name.lastIndexOf(filters.searchQuery) != -1;
+    });
+  }
 };
+
 onMounted(async () => {
-  items.value = allProjects.value;
-  console.log(allProjects.value);
+  projects.value = allProjects.value;
+  selectDirection.value = Object.values(allDirections.value);
+  if (selectDirection.value[0].name != "Все") {
+    selectDirection.value.unshift({
+      id: 0,
+      createdAt: "",
+      name: "Все",
+      short_name: "Все",
+      description: "Все",
+      color: "Все",
+    });
+  }
 });
 watch(filters, () => {
-  if (filters.sortDirection.length != 0) {
-    filtersProject();
-  }
+  filtersProject();
 });
 </script>
 
@@ -46,7 +49,7 @@ watch(filters, () => {
       <div class="filter">
         <UiSelect
           v-model:model-value="filters.sortDirection"
-          :array="allDirections"
+          :array="selectDirection"
           :name="4"
           placeholder="Все"
         ></UiSelect>
@@ -58,8 +61,8 @@ watch(filters, () => {
         ></UiInput>
       </div>
     </div>
-    <div class="container">
-      <ProjectCardList :array="items"></ProjectCardList>
+    <div class="container" v-auto-animate>
+      <ProjectCardList :array="projects"></ProjectCardList>
     </div>
   </div>
 </template>
@@ -74,14 +77,17 @@ watch(filters, () => {
   }
   .filter {
     display: flex;
+    gap: 15px;
   }
   .container {
     margin: 100px 0;
-    width: 100%;
+
     display: flex;
     flex-wrap: wrap;
-    gap: 200px;
     justify-content: flex-start;
+    width: 100%;
+    row-gap: 100px;
+    column-gap: 200px;
   }
 }
 </style>

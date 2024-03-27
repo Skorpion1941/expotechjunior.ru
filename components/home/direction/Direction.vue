@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { allDirections } from "~/util/useDirections";
 </script>
+
 <template>
   <div class="direction">
     <UiTitle name="ПРОЕКТЫ ПО НАПРАВЛЕНИЯМ"></UiTitle>
@@ -13,14 +14,16 @@ import { allDirections } from "~/util/useDirections";
 <style lang="scss" scoped>
 .direction {
   width: 80%;
-  margin: 150px auto;
+  margin: 50px auto;
   display: flex;
+
   flex-direction: column;
   .list {
     margin: 50px 0;
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    z-index: 3;
   }
 }
 </style>

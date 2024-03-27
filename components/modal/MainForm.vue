@@ -30,8 +30,14 @@ const posts = defineProps<MailForm>();
     v-if="name == 'recoverPassword'"
     :confirm="false"
   ></ModalFormUserRecoverPassword>
+  <!-- Добавление проекта -->
   <ModalFormProjectCreate v-if="name == 'projectCreate'">
   </ModalFormProjectCreate>
+  <ModalFormUserUpdate v-if="name == 'userUpdate'" role="user">
+  </ModalFormUserUpdate>
+
+  <ModalFormUserUpdate v-if="name == 'expertUpdate'" role="expert">
+  </ModalFormUserUpdate>
 </template>
 
 <style scoped lang="scss"></style>

@@ -27,10 +27,7 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
-const getProject = () => {
-  allProjects.value = Object.values(allProjects.value).push(createProjectValue);
-  console.log(allProjects.value);
-};
+
 const createProject = async () => {
   errorMessage.direction = "";
   if (createProjectValue.direction.length == 0) {

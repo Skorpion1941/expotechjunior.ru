@@ -3,8 +3,8 @@ import { ref, toRefs, watch } from "vue";
 
 const supabase = useSupabaseClient();
 
-const prop = defineProps(["path", "size", "update"]);
-const { path, size, update } = toRefs(prop);
+const prop = defineProps(["path", "width", "height", "update"]);
+const { path, width, height, update } = toRefs(prop);
 
 const emit = defineEmits(["upload", "update:path"]);
 const uploading = ref(false);
@@ -58,7 +58,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="avatar" :style="{ height: size + 'em', width: size + 'em' }">
+  <div class="avatar" :style="{ height: height, width: width }">
     <div class="image">
       <!-- <img
         v-if="src"
@@ -73,11 +73,11 @@ onMounted(async () => {
       <div
         v-else
         class="no-image"
-        :style="{ height: size + 'em', width: size + 'em' }"
+        :style="{ height: height, width: width }"
       ></div>
     </div>
-    <div class="avatar-btn" v-if="update == true">
-      <label class="button" for="single">
+    <div class="avatar-btn button" v-if="update == true">
+      <label for="single">
         {{ uploading ? "Загрузка ..." : "Загрузить фото" }}
       </label>
       <input

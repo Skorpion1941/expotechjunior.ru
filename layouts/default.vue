@@ -1,42 +1,55 @@
 <script lang="ts" setup>
-import { nameModal, modalShow, titleModal } from "~/components/modal/useModal";
+import {
+  nameModal,
+  modalShow,
+  titleModal,
+  backShow,
+  nameFromModal,
+  titleFromModal,
+} from "~/components/modal/useModal";
 import { useAuthStore } from "~/store/auth.store";
-import { fetchDirections } from "~/util/useDirections";
-import { allProjects, fetchProjects } from "~/util/useProjects";
+import { allDirections, fetchDirections } from "~/util/useDirections";
+import { allOrganizations, fetchOrganizations } from "~/util/useOrganizations";
+import { fetchProjects } from "~/util/useProjects";
+import { allProfiles, fetchProfiles, fetchProfile } from "~/util/useProfiles";
 
 const store = useAuthStore();
 const supabase = useSupabaseClient();
 const isLoadingStore = useIsLoadingStore();
-const organization = ref({ name: [], city: [] });
-const fetchOrganization = async (id: string) => {
-  const { data } = await supabase
-    .from("organizations")
-    .select("name, city")
-    .eq("id", id);
-  organization.value = data as any;
+const organization = ref();
+const myProfile = ref();
+const fetchMyOrganization = (id: number) => {
+  organization.value = Object.values(allOrganizations.value).find(
+    (item: any) => item.id === id
+  );
 };
 
 const seeUser = async () => {
   try {
     const { data, error } = await supabase.auth.getSession();
+
     if (data.session) {
-      await fetchOrganization(data.session.user?.user_metadata.organization_id);
+      myProfile.value = Object.values(allProfiles.value).find(
+        (profile: any) => profile.id == data.session.user?.id
+      );
+
+      await fetchMyOrganization(myProfile.value.organization_id);
       store.set({
-        id: data.session.user?.id,
+        id: myProfile.value.id,
         email: data.session.user?.email,
-        name: data.session.user?.user_metadata.name,
-        surname: data.session.user?.user_metadata.surname,
-        patronymic: data.session.user?.user_metadata.patronymic,
-        avatar_url: data.session.user?.user_metadata.avatar_url,
-        post: data.session.user?.user_metadata.post,
-        about_me: data.session.user?.user_metadata.about_me,
-        directions: data.session.user?.user_metadata.directions,
+        name: myProfile.value.name,
+        surname: myProfile.value.surname,
+        patronymic: myProfile.value.patronymic,
+        avatar_url: myProfile.value.avatar_url,
+        post: myProfile.value.post,
+        about_me: myProfile.value.about_me,
+        directions: myProfile.value.directions,
         organization: organization.value,
-        role: data.session.user?.user_metadata.role,
+        role: myProfile.value.role,
         status: true,
       });
-      console.log(store.user);
     }
+    console.log(store.user);
     if (error) throw error;
   } catch (error) {
     console.log(error);
@@ -45,7 +58,9 @@ const seeUser = async () => {
   }
 };
 onMounted(async () => {
+  await fetchProfiles();
   await fetchDirections();
+  await fetchOrganizations();
   await fetchProjects();
   await seeUser();
 });
@@ -53,11 +68,14 @@ onMounted(async () => {
 
 <template>
   <LayoutLoader v-if="isLoadingStore.isLoading"></LayoutLoader>
-  <div v-else>
+  <div v-else style="position: relative">
     <ModalCommon
       v-if="modalShow"
       :title="titleModal"
       :name-form="nameModal"
+      :back-show="backShow"
+      :from-name-modal="nameFromModal"
+      :from-title-modal="titleFromModal"
     ></ModalCommon>
     <LayoutHeader></LayoutHeader>
     <div>

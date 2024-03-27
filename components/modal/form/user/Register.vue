@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted } from "vue";
-import { inject, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
-import { fetchOrganizations, allOrganizations } from "~/util/useOrganizations";
+import { allOrganizations } from "~/util/useOrganizations";
 import { allDirections } from "~/util/useDirections";
+import { openModal } from "../../useModal";
 
 const props = defineProps({
   role: String,
@@ -48,7 +48,7 @@ const signUp = async () => {
     errorMessage.organization = "Это поле обязательно";
     return;
   }
-  if (registerValue.directions.length == 0) {
+  if (registerValue.directions.length == 0 && props.role == "expert") {
     errorMessage.directions = "Это поле обязательно";
     return;
   }
@@ -65,7 +65,6 @@ const signUp = async () => {
           surname: registerValue.surname,
           patronymic: registerValue.patronymic,
           email: registerValue.email,
-          password: registerValue.password,
           avatar_url: registerValue.avatar_url,
           post: registerValue.post,
           about_me: registerValue.about_me,
@@ -75,9 +74,6 @@ const signUp = async () => {
         },
       },
     });
-
-    console.log(registerValue);
-
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
@@ -86,21 +82,23 @@ const signUp = async () => {
     }
   } finally {
     loading.value = false;
+    if (props.role == "user") {
+      openModal("login", "Вход");
+      return;
+    }
     signIn.value = true;
   }
 };
-onMounted(async () => {
-  await fetchOrganizations();
-});
 </script>
 <template>
-  <div v-if="!signIn">
+  <div v-if="!signIn" class="form">
     <Form @submit="signUp()" :validation-schema="schema" v-slot="{ errors }">
       <div class="avatar-fio">
-        <div>
+        <div class="avatar">
           <UiAvatar
             v-model:path="registerValue.avatar_url"
-            size="14"
+            width="100%"
+            height="100%"
             :update="true"
           ></UiAvatar>
         </div>
@@ -191,7 +189,7 @@ onMounted(async () => {
       </div>
     </Form>
   </div>
-  <div v-if="signIn" class="notification">
+  <div v-if="signIn && role == 'expert'" class="notification">
     <h3>
       Вам на почту {{ registerValue.email }} было отправленно письмо для
       подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
@@ -210,8 +208,13 @@ form {
     gap: 25px;
     display: flex;
     flex-direction: row;
+    .avatar {
+      width: 50%;
+    }
     .fio {
-      width: 60%;
+      width: 50%;
+      height: 100%;
+      align-self: center;
     }
   }
   div {
@@ -241,9 +244,8 @@ form {
     color: #02c9af;
   }
   textarea {
-    width: 100%;
-    max-width: 380px;
-    min-height: 100px;
+    max-width: 96%;
+    min-height: 50px;
     padding: 10px;
     border-radius: 20px;
     font-size: 14px;

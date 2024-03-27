@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "@vee-validate/nuxt",
     "@nuxtjs/google-fonts",
+    "@formkit/auto-animate/nuxt",
   ],
   veeValidate: {
     // disable or enable auto imports

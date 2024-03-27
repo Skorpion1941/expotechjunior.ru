@@ -26,7 +26,6 @@ export async function fetchProjects() {
     console.error("Ошибка", err);
   }
 }
-
 /**
  *  Add a new todo to supabase
  */

@@ -6,10 +6,7 @@ import type { NuxtImg } from "#build/components";
   <div class="welcome">
     <div class="kvant-img">
       <div></div>
-      <NuxtImg
-        class="slide-in-fwd-left"
-        src="https://avatars.mds.yandex.net/i?id=a466caf38d2bc6c687409f0097f2b3310f42654f-4888906-images-thumbs&n=13"
-      ></NuxtImg>
+      <img class="slide-in-fwd-left" src="~/public/welcom.png" />
     </div>
     <div class="vector">
       <div class="info">
@@ -37,10 +34,7 @@ import type { NuxtImg } from "#build/components";
         </div>
         <div class="info-welcome">
           <div>
-            <NuxtImg
-              height="45px"
-              src="https://thumb.tildacdn.com/tild3036-3435-4032-b632-343164336362/-/resize/37x/-/format/webp/_.png"
-            ></NuxtImg>
+            <img height="45px" src="~/public/white-logo.png" />
             <h3>
               ВСЕРОССИЙСКАЯ ЯРМАРКА<br />
               ТЕХНОЛОГИЧЕСКИХ ПРОЕКТОВ
