@@ -1,19 +1,15 @@
 <script setup>
 import { reactive, ref, onMounted } from "vue";
 import * as Yup from "yup";
-import { defineProps } from "vue";
 import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
 import { allProjects, fetchProjects } from "~/util/useProjects";
-
-const props = defineProps({
-  role: String,
-});
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
 const errorMessage = reactive({
   direction: "",
+  team: "",
 });
 const createProjectValue = reactive({
   name: "",
@@ -34,12 +30,17 @@ const createProject = async () => {
     errorMessage.direction = "Это поле обязательно";
     return;
   }
+  if (createProjectValue.team.length == 0) {
+    errorMessage.team = "Это поле обязательно";
+    return;
+  }
   try {
     loading.value = true;
     const { error } = await supabase.from("projects").insert({
       name: createProjectValue.name,
       title_photo: createProjectValue.title_photo,
       tilda_url: createProjectValue.tilda_url,
+      team: createProjectValue.team,
       direction_id: createProjectValue.direction[0],
       user_id: user.id,
     });
@@ -88,7 +89,13 @@ const createProject = async () => {
         :name="4"
         placeholder="Выберите направление"
       ></UiSelect>
+
       <p>{{ errorMessage.direction }}</p>
+      <ModalFormProjectTeam
+        v-model:model-value="createProjectValue.team"
+        label="Команда проекта"
+      ></ModalFormProjectTeam>
+      <p>{{ errorMessage.team }}</p>
       <UiInput
         label="Сылка на проект:"
         name="tilda_url"

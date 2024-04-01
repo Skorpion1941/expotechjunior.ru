@@ -3,15 +3,15 @@ import { onMounted } from "vue";
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
-import { fetchOrganizations, allOrganizations } from "~/util/useOrganizations";
+import { allOrganizations } from "~/util/useOrganizations";
+import { updateProfile } from "~/util/useProfiles";
 const user = useSupabaseUser();
-console.log(user);
+
 const props = defineProps({
   role: String,
 });
 const supabase = useSupabaseClient();
 const authStore = useAuthStore();
-const signIn = ref(false);
 const loading = ref(false);
 const updateValue = reactive({
   name: authStore.user.name,
@@ -23,7 +23,6 @@ const updateValue = reactive({
   directions: authStore.user.directions,
   organization: authStore.user.organization,
 });
-console.log(updateValue);
 const schema = Yup.object().shape({
   password: Yup.string().required("Это поле обязательно").min(6, "Миним 6"),
   name: Yup.string().required("Это поле обязательно"),
@@ -34,9 +33,8 @@ const schema = Yup.object().shape({
 
 const updateUser = async () => {
   try {
-    loading.value = true;
     const directionsJson = JSON.stringify(updateValue.directions);
-    console.log(directionsJson);
+
     const { data, error } = await supabase.auth.updateUser({
       data: {
         name: updateValue.name,
@@ -49,7 +47,31 @@ const updateUser = async () => {
         organization_id: updateValue.organization[0],
       },
     });
-
+    updateProfile({
+      id: authStore.user.id,
+      name: updateValue.name,
+      surname: updateValue.surname,
+      patronymic: updateValue.patronymic,
+      avatar_url: updateValue.avatar_url,
+      post: updateValue.post,
+      about_me: updateValue.about_me,
+      directions: directionsJson,
+      organization_id: updateValue.organization[0],
+    });
+    authStore.set({
+      id: authStore.user.id,
+      email: authStore.user.email,
+      name: updateValue.name,
+      surname: updateValue.surname,
+      patronymic: updateValue.patronymic,
+      avatar_url: updateValue.avatar_url,
+      post: updateValue.post,
+      about_me: updateValue.about_me,
+      directions: directionsJson,
+      organization: updateValue.directions,
+      role: authStore.user.role,
+      status: true,
+    });
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
@@ -58,20 +80,12 @@ const updateUser = async () => {
     }
   } finally {
     loading.value = false;
-    signIn.value = true;
   }
 };
-onMounted(async () => {
-  await fetchOrganizations();
-});
 </script>
 <template>
-  <div v-if="!signIn">
-    <Form
-      @submit="updateUser()"
-      :validation-schema="schema"
-      v-slot="{ errors }"
-    >
+  <div>
+    <Form :validation-schema="schema" v-slot="{ errors }">
       <div class="avatar-fio">
         <div class="avatar">
           <UiAvatar
@@ -135,17 +149,11 @@ onMounted(async () => {
       </div>
 
       <div>
-        <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Зарегистрироваться" }}
+        <button @click="updateUser()" type="submit" :disabled="loading">
+          {{ loading ? "Загрузка..." : "Обнавить" }}
         </button>
       </div>
     </Form>
-  </div>
-  <div v-if="signIn" class="notification">
-    <h3>
-      Вам на почту {{ updateValue.email }} было отправленно письмо для
-      подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
-    </h3>
   </div>
 </template>
 <style scoped lang="scss">

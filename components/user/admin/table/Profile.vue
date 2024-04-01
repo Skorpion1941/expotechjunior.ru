@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from "vue";
+<script lang="ts" setup>
+import { ref, defineProps } from "vue";
 import { allProfiles } from "~/util/useProfiles";
 import { allOrganizations } from "~/util/useOrganizations";
 import { allRoles } from "~/util/useRoles";
@@ -26,14 +26,16 @@ const profiles = ref();
 const filters = reactive({
   sortRole: [],
 });
-const findOrganization = (id) => {
+const findOrganization = (id: number) => {
   const organization = Object.values(allOrganizations.value).find(
-    (org) => org.id == id
+    (org: any) => org.id == id
   );
   return `${organization.name}`;
 };
-const findRoles = (name) => {
-  const role = Object.values(allRoles.value).find((role) => role.code == name);
+const findRoles = (name: string) => {
+  const role = Object.values(allRoles.value).find(
+    (role: any) => role.code == name
+  );
   return `${role.name}`;
 };
 const filtersProfiles = () => {
@@ -41,11 +43,11 @@ const filtersProfiles = () => {
   console.log(modelValue.value);
   if (modelValue.value.length > 0 && modelValue.value[3] != "Все") {
     profiles.value = Object.values(profiles.value).filter(
-      (profile) => profile.role == modelValue.value[3]
+      (profile: any) => profile.role == modelValue.value[3]
     );
   }
   if (search.value != "") {
-    profiles.value = Object.values(profiles.value).filter((item) => {
+    profiles.value = Object.values(profiles.value).filter((item: any) => {
       return (
         item.name.lastIndexOf(search.value) != -1 ||
         item.surname.lastIndexOf(search.value) != -1 ||
@@ -54,8 +56,9 @@ const filtersProfiles = () => {
     });
   }
 };
+
 onMounted(() => {
-  role.value = allRoles.value;
+  role.value = Object.values(allRoles.value);
   if (role.value[0].name != "Все")
     role.value.unshift({
       id: 0,
@@ -69,6 +72,9 @@ watch(modelValue, () => {
   filtersProfiles();
 });
 watch(search, () => {
+  filtersProfiles();
+});
+watch(allProfiles, () => {
   filtersProfiles();
 });
 </script>

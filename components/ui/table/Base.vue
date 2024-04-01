@@ -83,7 +83,6 @@ const addOption = (item) => {
       align-items: center;
       color: #461818;
       border-right: 2px solid #eeeff4;
-      cursor: pointer;
     }
     @media screen and (max-width: 767px) {
       display: none;

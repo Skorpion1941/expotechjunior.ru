@@ -1,7 +1,3 @@
-export interface IBaseField {
-  id: string;
-  createdAt: string;
-}
 export interface Profile {
   id: string;
   createdAt: string;
@@ -17,7 +13,7 @@ export interface Profile {
 }
 
 export interface Organization {
-  id?: string;
+  id?: number;
   createdAt?: string;
   name: string;
   city: string;
@@ -46,4 +42,10 @@ export interface Role {
   createdAt?: string;
   name: string;
   code: string;
+}
+export interface Schedule {
+  id?: number;
+  createdAt?: string;
+  date: string;
+  time: string;
 }

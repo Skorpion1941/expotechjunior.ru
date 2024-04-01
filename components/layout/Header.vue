@@ -1,5 +1,5 @@
 <script setup>
-import { HEADER_DATA } from "./header.data";
+import { HEADER_DATA } from "./nav.data";
 import { openModal } from "../modal/useModal";
 
 const { user } = useAuthStore();
@@ -7,7 +7,9 @@ const { user } = useAuthStore();
 <template>
   <header>
     <div class="logo">
-      <NuxtImg src="/logo.svg" width="55px"></NuxtImg>
+      <nuxt-link to="/">
+        <NuxtImg src="/logo.svg" width="55px"></NuxtImg
+      ></nuxt-link>
     </div>
     <ul>
       <nuxt-link
@@ -48,15 +50,21 @@ header {
   align-items: center;
   padding: 0;
   border-bottom: 2px solid $second-color;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
   .logo {
     margin-left: 10px;
   }
   ul {
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
     .link {
       text-transform: uppercase;
       text-decoration: none;
       padding: 10px;
-      display: inline-block;
       transition: all 0.4s ease 0s;
       span {
         color: $third-color;
@@ -77,3 +85,4 @@ header {
   }
 }
 </style>
+./nav.data

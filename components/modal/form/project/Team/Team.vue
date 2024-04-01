@@ -1,18 +1,47 @@
-<script setup>
+<script lang="ts" setup>
 import { onMounted } from "vue";
-import { inject, ref } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 
-const props = defineProps(["modelValue", "label", "name"]);
+interface Team {
+  id: number;
+  surname: string;
+  name: string;
+}
+const props = defineProps(["modelValue", "label"]);
 const isListVisible = ref(false);
 const { modelValue } = toRefs(props);
+const array = ref<Team[]>([]);
+
+const team = ref<Team>({ id: 0, surname: "", name: "" });
+const teamId = ref(0);
 const emit = defineEmits(["update:modelValue"]);
-const toggleList = () => {
-  isListVisible.value = !isListVisible.value;
+const errorMassage = ref("");
+const generateId = () => {
+  teamId.value++;
+  return teamId.value;
 };
-const modal = ref([]);
-const addOption = (item) => {
-  emit("update:modelValue", Object.values(item));
-  console.log(modelValue.value);
+
+const toggleList = () => {};
+const addTeam = () => {
+  errorMassage.value = "";
+  if (team.value.surname == "" || team.value.name == "") {
+    errorMassage.value =
+      "Для добавления нового члена команда заполните поля фамилии и имени";
+    return;
+  }
+  if (array.value.length > 4) {
+    errorMassage.value = "Максимальное число сленов команда 5 человек";
+    return;
+  }
+  array.value.push({
+    id: generateId(),
+    surname: team.value.surname,
+    name: team.value.name,
+  });
+  emit("update:modelValue", array.value);
+};
+const removeTeam = (item: any) => {
+  array.value.splice(array.value.indexOf(item), 1);
 };
 </script>
 <template>
@@ -21,32 +50,31 @@ const addOption = (item) => {
     <div class="selector" :class="{ select_show: isListVisible }">
       <div class="select-fields">
         <div>
-          <label>{{ modelValue[props.name] }}</label>
+          <input v-model="team.surname" placeholder="Фамилия" type="text" />
+          <input v-model="team.name" placeholder="Имя" type="text" />
         </div>
         <div>
-          <span
-            class="down-arrow"
-            @click="toggleList"
-            :class="{ rotate180: isListVisible }"
-            >&blacktriangledown;</span
-          >
+          <Icon
+            @click="addTeam"
+            name="pajamas:plus"
+            color="black"
+            size="25px"
+          ></Icon>
         </div>
       </div>
-      <!---------List of checkboxes and options----------->
 
-      <div class="list" :class="{ show: !isListVisible }">
-        <UiSelectOptionList
-          :array="props.array"
-          :modelValue="modelValue"
-          @add-option="addOption"
-        ></UiSelectOptionList>
+      <div class="list" v-if="array.length > 0">
+        <ModalFormProjectTeamList
+          :array="array"
+          @remove-team="removeTeam"
+        ></ModalFormProjectTeamList>
       </div>
     </div>
+    <p>{{ errorMassage }}</p>
   </div>
 </template>
 <style scoped lang="scss">
 .multi-selector {
-  position: relative;
   .title {
     font-size: 20px;
   }
@@ -54,14 +82,20 @@ const addOption = (item) => {
 .selector {
   width: 100%;
   border: 1px solid #ccc;
-  overflow: hidden;
   border-radius: 20px;
   .select-fields {
     width: 100%;
     display: flex;
     padding: 0 !important;
-    label {
+    input {
       padding: 10px 20px;
+      max-width: 157px;
+      font-size: 16px;
+      border: none;
+      &:first-child {
+        border-radius: 20px 0 0 20px;
+        border-right: 1px solid #ccc;
+      }
     }
     div {
       &:first-child {
@@ -70,40 +104,26 @@ const addOption = (item) => {
       }
       &:last-child {
         border-left: 1px solid #ccc;
-        width: 7%;
-        .down-arrow {
-          font-size: 1.5rem;
-          margin: 10px 0 0 5px;
-          display: inline-block;
-          cursor: pointer;
-          transition: 0.2s linear;
-        }
+        width: 9%;
+
+        padding: 7px 0 0 2px;
+        cursor: pointer;
       }
     }
   }
 }
-.list::-webkit-scrollbar {
-  width: 12px;
-}
-.list::-webkit-scrollbar-track {
-  background: $second-color;
-  border-radius: 0 0 20px 0;
-}
-.list::-webkit-scrollbar-thumb {
-  background-color: $first-color;
-  border-radius: 20px;
+
+p {
+  color: red;
+  margin: 0px;
+  font-size: 16px;
 }
 .list {
   width: 100%;
-  height: 100px;
-  overflow: auto;
   background: white;
-  scrollbar-width: var(--scrollbarWidth);
-  scrollbar-color: var(--scrollbarThumb) var(--scrollbarBg);
   box-shadow: 0 30px 60px rgb(0, 0, 0, 0.2);
-  z-index: 4;
   display: flex;
-  position: absolute;
+  overflow: hidden;
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 0 0 20px 20px;

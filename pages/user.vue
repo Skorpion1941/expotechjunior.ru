@@ -11,19 +11,26 @@ const filters = reactive({
   sortDirection: [],
   searchQuery: "",
 });
-const selectDirection = ref();
+const selectDirection = ref([]);
 
 const userProject = () => {
   myProjects.value = allProjects.value;
   myProjects.value = Object.values(allProjects.value).filter(
     (project) => project.user_id == user.id
   );
+  filtersProject();
+};
+const userCreate = () => {
+  if (myProjects.value.length <= 5) {
+    openModal("projectCreate", "Новый проект", false);
+  }
 };
 const expertProject = () => {
   expertDirections.value = user.directions.map((item: any) => item.id);
   myProjects.value = Object.values(allProjects.value).filter((project) => {
     return Object.values(expertDirections.value).includes(project.direction_id);
   });
+  filtersProject();
 };
 const filtersProject = () => {
   filterProjects.value = myProjects.value;
@@ -44,7 +51,7 @@ const filtersProject = () => {
 
 onMounted(() => {
   filterProjects.value = myProjects.value;
-  selectDirection.value = user.directions;
+
   console.log(allProjects.value);
   if (user.role == "user") {
     userProject();
@@ -52,6 +59,7 @@ onMounted(() => {
   }
   if (user.role == "expert") {
     expertProject();
+    selectDirection.value = Object.values(user.directions);
     if (selectDirection.value[0].name != "Все") {
       selectDirection.value.unshift({
         id: 0,
@@ -80,14 +88,11 @@ watch(filters, () => {
           :name="user.role == 'user' ? 'МОИ ПРОЕКТЫ' : 'ПРОЕКТЫ ДЛЯ ОЦЕНКИ'"
         ></UiTitle>
         <div class="filter">
-          <button
-            v-if="user.role == 'user'"
-            @click="openModal('projectCreate', 'Новый проект')"
-          >
+          <button v-if="user.role == 'user'" @click="userCreate()">
             Добавить проект
           </button>
           <UiSelect
-            v-if="selectDirection > 2 && user.role == 'expert'"
+            v-if="selectDirection.length > 2 && user.role == 'expert'"
             v-model:model-value="filters.sortDirection"
             :array="selectDirection"
             :name="4"

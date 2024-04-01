@@ -62,7 +62,7 @@ export async function updateRoles(role: Role) {
     const { error } = await supabase
       .from("roles")
       .update(role as never)
-      .eq("id", role.id)
+      .eq("id", role.id as number)
       .single();
 
     if (error) {
@@ -84,7 +84,10 @@ export async function updateRoles(role: Role) {
 async function deleteRoles(role: Role) {
   try {
     const supabase = useSupabaseClient();
-    await supabase.from("projrolesects").delete().eq("id", role.id);
+    await supabase
+      .from("projrolesects")
+      .delete()
+      .eq("id", role.id as number);
     console.log("deleted roles", role.id);
   } catch (error) {
     console.error("error", error);

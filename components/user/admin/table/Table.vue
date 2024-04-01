@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from "vue";
-import { object } from "yup";
 import { openModal } from "~/components/modal/useModal";
 export interface TableData {
   name: string;
@@ -39,8 +37,8 @@ const TABLE_DATA = ref<TableData[]>([
     titleCreateModal: "Добавить проект",
   },
   {
-    name: "Рассписагие",
-    table: "direction",
+    name: "Рассписание",
+    table: "schedule",
     select: false,
     nameCreateModal: "projectCreate",
     titleCreateModal: "Добавить проект",
@@ -118,6 +116,10 @@ const selectTable = (item: any) => {
     v-if="modelValue.table == 'direction'"
     :search="filters.searchQuery"
   ></UserAdminTableDirection>
+  <UserAdminTableSchedule
+    v-if="modelValue.table == 'schedule'"
+    :search="filters.searchQuery"
+  ></UserAdminTableSchedule>
 </template>
 
 <style scoped lang="scss">

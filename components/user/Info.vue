@@ -68,16 +68,16 @@ onMounted(() => {
           </div>
           <div class="info" style="gap: 5px !important">
             <h1>Организация</h1>
-            <h2 style="padding-top: 10px">
+            <h3 style="padding-top: 10px">
               {{ authStore.user.organization.name }},
               {{ authStore.user.organization.city }}
-            </h2>
-            <h2>
+            </h3>
+            <h3>
               {{
                 authStore.user.post.charAt(0).toUpperCase() +
                 authStore.user.post.substr(1)
               }}
-            </h2>
+            </h3>
           </div>
           <div class="direction" v-if="authStore.user.role == 'expert'">
             <h1>Направления интересов</h1>
@@ -87,8 +87,8 @@ onMounted(() => {
           </div>
 
           <div v-if="authStore.user.about_me">
-            <h1 style="padding-top: 10px">О себе</h1>
-            <h2>{{ authStore.user.about_me }}</h2>
+            <h2 style="padding-top: 10px">О себе</h2>
+            <h4>{{ authStore.user.about_me }}</h4>
           </div>
         </div>
       </div>
@@ -109,7 +109,11 @@ onMounted(() => {
     .icon {
       display: flex;
       justify-content: flex-end;
+      button {
+        border: none !important;
+      }
     }
+
     .info-avatar {
       max-width: 100%;
       display: flex;

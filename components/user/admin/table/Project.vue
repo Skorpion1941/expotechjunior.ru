@@ -1,6 +1,8 @@
-<script setup>
-import { ref } from "vue";
+<script lang="ts" setup>
+import { ref, defineProps } from "vue";
+import { openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
+import { allProfiles } from "~/util/useProfiles";
 import { allProjects } from "~/util/useProjects";
 
 const props = defineProps(["search"]);
@@ -10,12 +12,13 @@ const tableHeads = [
   { name: "Название", select: false },
   { name: "Фото", select: false },
   { name: "Направление", select: true },
+  { name: "Команда", select: false },
+  { name: "Пользователь", select: false },
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 300px 300px 400px 240px";
+const tableSizeColumns = "60px 250px 192px 350px 300px 260px 380px";
 
-const modelValue = ref(["Все", "Все", "Все", "Все", "Все"]);
 const directions = ref();
 
 const projects = ref();
@@ -38,25 +41,33 @@ const indexs = ref([
   },
 ]);
 const filters = reactive({
-  sortDirection: [],
+  sortDirection: ["Все", "Все", "Все", "Все", "Все"],
 });
-const filtersProject = () => {
+const filtersProjects = () => {
   projects.value = allProjects.value;
 
   if (filters.sortDirection.length > 0 && filters.sortDirection[4] != "Все") {
     projects.value = Object.values(projects.value).filter(
-      (project) => project.directions.id == filters.sortDirection[0]
+      (project: any) => project.directions.id == filters.sortDirection[0]
     );
   }
   if (search.value != "") {
-    projects.value = Object.values(projects.value).filter((item) => {
+    projects.value = Object.values(projects.value).filter((item: any) => {
       return item.name.lastIndexOf(search.value) != -1;
     });
   }
-  console.log(projects.value);
+};
+const findProfile = (id: string) => {
+  const profile: any = Object.values(allProfiles.value).find(
+    (prof: any) => prof.id == id
+  );
+  return `${profile.surname} ${profile.name} ${profile.patronymic}`;
+};
+const openLink = (link: string) => {
+  window.open(link);
 };
 onMounted(() => {
-  directions.value = allDirections.value;
+  directions.value = Object.values(allDirections.value);
   if (directions.value[0].name != "Все")
     directions.value.unshift({
       id: 0,
@@ -66,20 +77,23 @@ onMounted(() => {
       description: "Все",
       color: "Все",
     });
-  filtersProject();
+  filtersProjects();
 });
 watch(filters, () => {
-  filtersProject();
+  filtersProjects();
 });
 watch(search, () => {
-  filtersProject();
+  filtersProjects();
+});
+watch(allProjects, () => {
+  filtersProjects();
 });
 </script>
 
 <template>
   <UiTableBase
     v-model:model-value="filters.sortDirection"
-    :v-bind="modelValue"
+    :v-bind="filters.sortDirection"
     :array="directions"
     :name="2"
     width="400px"
@@ -105,9 +119,25 @@ watch(search, () => {
         <UiTableColumn>
           {{ arr.directions.name }}
         </UiTableColumn>
+
+        <UiTableColumn>
+          <div style="display: flex" v-for="team in arr.team" :key="team.id">
+            <p>{{ team.surname }} {{ team.name }};</p>
+          </div>
+        </UiTableColumn>
+        <UiTableColumn> {{ findProfile(arr.user_id) }}</UiTableColumn>
         <UiTableColumn>
           <div class="btn">
-            <button>Изменить</button>
+            <button @click="openLink(arr.tilda_url)">Просмотр</button>
+            <button
+              @click="
+                () => {
+                  openModal('projectUpdate', 'Изменить проект', false, arr);
+                }
+              "
+            >
+              Изменить
+            </button>
             <button>Удалить</button>
           </div>
         </UiTableColumn>

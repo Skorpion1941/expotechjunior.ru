@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from "vue";
+<script lang="ts" setup>
+import { ref, defineProps } from "vue";
 import { allDirections } from "~/util/useDirections";
 
 const props = defineProps(["search"]);
@@ -41,20 +41,23 @@ const indexs = ref([
     image: false,
   },
 ]);
-const filtersProject = () => {
+const filtersDirections = () => {
   directions.value = allDirections.value;
 
   if (search.value != "") {
-    directions.value = Object.values(directions.value).filter((item) => {
+    directions.value = Object.values(directions.value).filter((item: any) => {
       return item.name.lastIndexOf(search.value) != -1;
     });
   }
 };
 onMounted(() => {
-  filtersProject();
+  filtersDirections();
 });
 watch(search, () => {
-  filtersProject();
+  filtersDirections();
+});
+watch(allDirections, () => {
+  filtersDirections();
 });
 </script>
 
@@ -85,6 +88,7 @@ watch(search, () => {
         </UiTableColumn>
         <UiTableColumn>
           <div class="btn">
+            <button>Просмотр</button>
             <button>Изменить</button>
             <button>Удалить</button>
           </div>

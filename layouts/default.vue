@@ -1,17 +1,11 @@
 <script lang="ts" setup>
-import {
-  nameModal,
-  modalShow,
-  titleModal,
-  backShow,
-  nameFromModal,
-  titleFromModal,
-} from "~/components/modal/useModal";
+import { modalValue } from "~/components/modal/useModal";
 import { useAuthStore } from "~/store/auth.store";
 import { allDirections, fetchDirections } from "~/util/useDirections";
 import { allOrganizations, fetchOrganizations } from "~/util/useOrganizations";
 import { fetchProjects } from "~/util/useProjects";
 import { allProfiles, fetchProfiles, fetchProfile } from "~/util/useProfiles";
+import { allSchedules, fetchSchedules } from "~/util/useSchedules";
 
 const store = useAuthStore();
 const supabase = useSupabaseClient();
@@ -62,26 +56,29 @@ onMounted(async () => {
   await fetchDirections();
   await fetchOrganizations();
   await fetchProjects();
+  await fetchSchedules();
   await seeUser();
 });
 </script>
 
 <template>
   <LayoutLoader v-if="isLoadingStore.isLoading"></LayoutLoader>
-  <div v-else style="position: relative">
+  <div v-else>
     <ModalCommon
-      v-if="modalShow"
-      :title="titleModal"
-      :name-form="nameModal"
-      :back-show="backShow"
-      :from-name-modal="nameFromModal"
-      :from-title-modal="titleFromModal"
+      v-if="modalValue.show"
+      :title="modalValue.title"
+      :name-form="modalValue.name"
+      :back-show="modalValue.backShow"
+      :from-name-modal="modalValue.nameFrom"
+      :from-title-modal="modalValue.titleFrom"
     ></ModalCommon>
-    <LayoutHeader></LayoutHeader>
-    <div>
-      <slot></slot>
+    <div style="min-height: 100%; display: flex; flex-direction: column">
+      <LayoutHeader></LayoutHeader>
+      <div style="min-height: 581px">
+        <slot></slot>
+      </div>
+      <LayoutFooter></LayoutFooter>
     </div>
-    <LayoutFooter></LayoutFooter>
   </div>
 </template>
 

@@ -61,7 +61,7 @@ export async function updateProject(projects: Project) {
     const { error } = await supabase
       .from("projects")
       .update(projects as never)
-      .eq("id", projects.id)
+      .eq("id", projects.id as number)
       .single();
 
     if (error) {
@@ -83,7 +83,10 @@ export async function updateProject(projects: Project) {
 async function deleteProject(projects: Project) {
   try {
     const supabase = useSupabaseClient();
-    await supabase.from("projects").delete().eq("id", projects.id);
+    await supabase
+      .from("projects")
+      .delete()
+      .eq("id", projects.id as number);
     console.log("deleted projects", projects.id);
   } catch (error) {
     console.error("error", error);

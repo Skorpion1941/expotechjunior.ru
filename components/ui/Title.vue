@@ -4,10 +4,11 @@ import type { NuxtImg } from "#build/components";
 import { defineProps } from "vue";
 defineProps({
   name: String,
+  width: String,
 });
 </script>
 <template>
-  <div class="title">
+  <div class="title" :style="{ width: width }">
     <div>
       <h1>{{ name }}</h1>
       <hr />
@@ -25,6 +26,7 @@ defineProps({
         padding: 0 30px;
         text-align: center;
         color: $third-color;
+        font-size: 30px;
       }
       hr {
         height: 4px;

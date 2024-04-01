@@ -6,7 +6,7 @@ import type { NuxtImg } from "#build/components";
   <div class="welcome">
     <div class="kvant-img">
       <div></div>
-      <img class="slide-in-fwd-left" src="~/public/welcom.png" />
+      <img class="slide-in-fwd-left" src="~/public/welcome.webp" />
     </div>
     <div class="vector">
       <div class="info">
@@ -34,25 +34,29 @@ import type { NuxtImg } from "#build/components";
         </div>
         <div class="info-welcome">
           <div>
-            <img height="45px" src="~/public/white-logo.png" />
-            <h3>
+            <img height="60px" src="~/public/white-logo.png" />
+            <p>
               ВСЕРОССИЙСКАЯ ЯРМАРКА<br />
               ТЕХНОЛОГИЧЕСКИХ ПРОЕКТОВ
-            </h3>
+            </p>
           </div>
           <h1>Expo-TECH Junior</h1>
           <hr />
           <div>
-            <button>Проекты участников</button>
-            <button>Результаты</button>
-            <NuxtLink to="https://kvantoriumtomsk.ru/"
-              >Страница техопарка
+            <button>
+              <nuxt-link to="projects">Проекты участников</nuxt-link>
+            </button>
+            <button class="btn">
+              <nuxt-link to="schedule">Рассписание</nuxt-link>
+            </button>
+            <a @click="openLink('https://kvantoriumtomsk.ru/')">
+              <strong>Страница техопарка</strong>
               <Icon
                 name="material-symbols:arrow-forward"
                 color="white"
                 size="30px"
-              ></Icon
-            ></NuxtLink>
+              ></Icon>
+            </a>
           </div>
         </div>
       </div>
@@ -134,9 +138,45 @@ import type { NuxtImg } from "#build/components";
         align-items: center;
         width: 100%;
       }
+      p {
+        font-size: 26px;
+      }
+      h1 {
+        font-size: 44px;
+        margin-top: 10px;
+      }
       hr {
         border: 2px solid $first-color;
-        margin: 20px 0;
+        margin: 5px 0 15px 0;
+        &::before {
+          content: "";
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          background-color: $first-color;
+          border-radius: 50px;
+          left: -14px;
+          margin-top: -8px;
+        }
+      }
+      .btn {
+        background: none;
+        border: 3px solid white;
+        margin: 0 10px;
+
+        &:hover {
+          background-color: $second-color;
+          border-color: $second-color;
+        }
+      }
+      a {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      strong {
+        color: white;
+        font-size: 18px;
       }
     }
   }

@@ -8,36 +8,34 @@ const posts = defineProps<MailForm>();
 </script>
 
 <template>
-  <!-- Вход -->
+  <!-- Пользователь -->
   <ModalFormUserLogin v-if="name == 'login'"></ModalFormUserLogin>
-  <!-- Регистрация пользователя -->
   <ModalFormUserRegister
     v-if="name == 'register'"
     role="user"
   ></ModalFormUserRegister>
-  <!-- Регистрация эксперта -->
   <ModalFormUserRegister
     v-if="name == 'registerExpert'"
     role="expert"
   ></ModalFormUserRegister>
-  <!-- Проверка почты -->
   <ModalFormUserRecoverPassword
     v-if="name == 'confirmEmail'"
     :confirm="true"
   ></ModalFormUserRecoverPassword>
-  <!-- Востановление пароля -->
   <ModalFormUserRecoverPassword
     v-if="name == 'recoverPassword'"
     :confirm="false"
-  ></ModalFormUserRecoverPassword>
-  <!-- Добавление проекта -->
-  <ModalFormProjectCreate v-if="name == 'projectCreate'">
-  </ModalFormProjectCreate>
-  <ModalFormUserUpdate v-if="name == 'userUpdate'" role="user">
+  ></ModalFormUserRecoverPassword
+  ><ModalFormUserUpdate v-if="name == 'userUpdate'" role="user">
   </ModalFormUserUpdate>
-
   <ModalFormUserUpdate v-if="name == 'expertUpdate'" role="expert">
   </ModalFormUserUpdate>
+
+  <!-- Проект -->
+  <ModalFormProjectCreate v-if="name == 'projectCreate'">
+  </ModalFormProjectCreate>
+  <ModalFormProjectUpdate v-if="name == 'projectUpdate'">
+  </ModalFormProjectUpdate>
 </template>
 
 <style scoped lang="scss"></style>

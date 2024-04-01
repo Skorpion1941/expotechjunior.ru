@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "@nuxtjs/google-fonts",
     "@formkit/auto-animate/nuxt",
+    "nuxt-swiper",
   ],
   veeValidate: {
     // disable or enable auto imports
@@ -41,6 +42,12 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: "/",
       callback: "/",
+      exclude: [
+        "/schedule",
+        "/projects",
+        "/recover-password",
+        "/registration-expert",
+      ],
     },
   },
   googleFonts: {

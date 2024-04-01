@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from "vue";
+<script lang="ts" setup>
+import { ref, defineProps } from "vue";
 import { allDirections } from "~/util/useDirections";
 import { allOrganizations } from "~/util/useOrganizations";
 
@@ -40,9 +40,11 @@ const filtersOrganizations = () => {
   organizations.value = allOrganizations.value;
 
   if (search.value != "") {
-    organizations.value = Object.values(organizations.value).filter((item) => {
-      return item.name.lastIndexOf(search.value) != -1;
-    });
+    organizations.value = Object.values(organizations.value).filter(
+      (item: any) => {
+        return item.name.lastIndexOf(search.value) != -1;
+      }
+    );
   }
   console.log(organizations.value);
 };
@@ -50,6 +52,9 @@ onMounted(() => {
   filtersOrganizations();
 });
 watch(search, () => {
+  filtersOrganizations();
+});
+watch(allOrganizations, () => {
   filtersOrganizations();
 });
 </script>

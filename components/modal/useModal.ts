@@ -1,23 +1,32 @@
-export const nameModal = ref("");
-export const titleModal = ref("");
-export const modalShow = ref(false);
-
-export const nameFromModal = ref("");
-export const titleFromModal = ref("");
-export const backShow = ref(false);
-export const openModal = (name: string, title: string, back: boolean) => {
-  nameModal.value = name;
-  titleModal.value = title;
-  modalShow.value = true;
-  backShow.value = back;
+export const modalValue = reactive({
+  name: "",
+  title: "",
+  show: false,
+  nameFrom: "",
+  titleFrom: "",
+  backShow: false,
+});
+export const itemValue = ref();
+export const openModal = (
+  name: string,
+  title: string,
+  back: boolean,
+  item?: any
+) => {
+  modalValue.name = name;
+  modalValue.title = title;
+  modalValue.show = true;
+  modalValue.backShow = back;
+  if (item != null) {
+    itemValue.value = item;
+  }
 };
 export const closeModal = () => {
-  modalShow.value = false;
-  console.log(modalShow.value);
+  modalValue.show = false;
 };
 export const fromModal = (name: string, title: string, back: boolean) => {
-  nameFromModal.value = name;
-  titleFromModal.value = title;
-  modalShow.value = true;
-  backShow.value = back;
+  modalValue.nameFrom = name;
+  modalValue.titleFrom = title;
+  modalValue.show = true;
+  modalValue.backShow = back;
 };

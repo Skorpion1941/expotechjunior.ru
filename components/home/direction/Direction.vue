@@ -3,18 +3,23 @@ import { allDirections } from "~/util/useDirections";
 </script>
 
 <template>
-  <div class="direction">
-    <UiTitle name="ПРОЕКТЫ ПО НАПРАВЛЕНИЯМ"></UiTitle>
+  <section>
+    <div class="direction">
+      <UiTitle name="ПРОЕКТЫ ПО НАПРАВЛЕНИЯМ"></UiTitle>
 
-    <div class="list">
-      <HomeDirectionList :direction="allDirections"></HomeDirectionList>
+      <div class="list">
+        <HomeDirectionList :direction="allDirections"></HomeDirectionList>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 <style lang="scss" scoped>
+section {
+  width: 100%;
+}
 .direction {
   width: 80%;
-  margin: 50px auto;
+  margin: 100px auto;
   display: flex;
 
   flex-direction: column;
