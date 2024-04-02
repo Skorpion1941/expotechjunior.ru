@@ -77,6 +77,9 @@ onMounted(() => {
 watch(filters, () => {
   filtersProject();
 });
+watch(allProjects, () => {
+  userProject();
+});
 </script>
 
 <template>

@@ -1,5 +1,11 @@
 <script setup>
-const props = defineProps(["modelValue", "head", "columnTemplates"]);
+const props = defineProps([
+  "modelValue",
+  "head",
+  "columnTemplates",
+  "color",
+  "size",
+]);
 
 const isListVisible = ref(false);
 const { modelValue, head, columnTemplates } = toRefs(props);
@@ -20,8 +26,15 @@ const addOption = (item) => {
         class="table-head"
         :style="{ 'grid-template-columns': columnTemplates }"
       >
-        <div class="table-head__name" v-for="(element, i) of head" :key="i">
-          <h2 class="name">{{ element.name }}</h2>
+        <div
+          class="table-head__name"
+          :style="{ color: props.color }"
+          v-for="(element, i) of head"
+          :key="i"
+        >
+          <h2 class="name" :style="{ fontSize: props.size }">
+            {{ element.name }}
+          </h2>
         </div>
       </div>
       <slot></slot>
@@ -30,25 +43,37 @@ const addOption = (item) => {
 </template>
 <style lang="scss" scoped>
 .table {
-  background-color: #fff;
   width: 100%;
+  overflow: auto;
   margin-bottom: 20px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: white;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $first-color;
+    border-radius: 20px;
+  }
   &-wrapper {
     display: flex;
     justify-content: center;
   }
   &-head {
+    width: 100%;
     padding-bottom: 10px;
-    border-bottom: 3px solid $third-color;
+
     display: grid;
     align-items: center;
-    background: #fff;
     &__name {
       width: 100%;
       height: 100%;
+      border-bottom: 3px solid;
       .name {
-        text-align: center;
-        color: $third-color;
+        text-align: start;
+        margin-left: 5px;
       }
     }
     @media screen and (max-width: 767px) {

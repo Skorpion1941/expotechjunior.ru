@@ -27,8 +27,6 @@ const props = defineProps({
 <style lang="scss" scoped>
 .table-column {
   position: relative;
-  color: $third-color;
-  font-size: 20px;
   padding: 5px 10px;
   &-image {
     max-width: 100%;

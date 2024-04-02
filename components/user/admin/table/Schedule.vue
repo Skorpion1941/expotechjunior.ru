@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
+import type { openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 import { allSchedules } from "~/util/useSchedules";
 

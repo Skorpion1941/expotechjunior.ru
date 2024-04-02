@@ -78,6 +78,7 @@ onMounted(() => {
       color: "Все",
     });
   filtersProjects();
+  console.log(allProjects.value);
 });
 watch(filters, () => {
   filtersProjects();

@@ -12,7 +12,7 @@ const tableHeads = [
   { name: "Выступающий" },
 ];
 
-const tableSizeColumns = "150px 350px 350px 350px";
+const tableSizeColumns = "80px 300px 227px 230px";
 
 const directions = ref();
 const schedules = ref();
@@ -28,7 +28,7 @@ const findDirection = (id: number) => {
 };
 const filterSchedules = () => {
   schedules.value = Object.values(allSchedules.value).filter(
-    (item: any) => item.date == day.value.name
+    (item: any) => item.date == day.value.day.data
   );
 };
 
@@ -44,22 +44,22 @@ watch(day, () => {
 </script>
 
 <template>
-  <ScheduleTableBase
-    v-model:model-value="filters.sortDirection"
-    :v-bind="filters.sortDirection"
-    :head="tableHeads"
-    :columnTemplates="tableSizeColumns"
-    size="30px"
-    color="#3b61a8"
-  >
-    <div class="tables">
+  <div class="tables">
+    <ScheduleTableBase
+      v-model:model-value="filters.sortDirection"
+      :v-bind="filters.sortDirection"
+      :head="tableHeads"
+      :columnTemplates="tableSizeColumns"
+      size="22px"
+      color="white"
+    >
       <ScheduleTableRow
         v-for="arr in schedules"
         :key="arr.id"
         :columnTemplates="tableSizeColumns"
         bgRow="black"
-        color="#3b61a8"
-        size="20px"
+        color="white"
+        size="16px"
       >
         <ScheduleTableColumn>
           {{ arr.time.slice(0, -3) }}
@@ -80,15 +80,11 @@ watch(day, () => {
           </div>
         </ScheduleTableColumn>
       </ScheduleTableRow>
-    </div>
-  </ScheduleTableBase>
+    </ScheduleTableBase>
+  </div>
 </template>
 <style scoped lang="scss">
 .tables {
-  width: 100%;
-}
-.btn {
-  display: flex;
-  gap: 10px;
+  color: wheat;
 }
 </style>

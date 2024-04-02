@@ -8,6 +8,14 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  color: {
+    type: String,
+    required: false,
+  },
+  size: {
+    type: String,
+    required: false,
+  },
 });
 </script>
 <template>
@@ -15,6 +23,8 @@ const props = defineProps({
     class="table-row"
     :style="{
       'grid-template-columns': columnTemplates,
+      fontSize: props.size,
+      color: props.color,
     }"
   >
     <slot></slot>
@@ -23,10 +33,9 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .table-row {
-  border-bottom: 3px solid $third-color;
+  border-bottom: 3px solid;
   position: relative;
   display: grid;
-  background-color: white;
   align-items: center;
   @media screen and (max-width: 767px) {
     display: block;

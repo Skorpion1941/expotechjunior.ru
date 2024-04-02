@@ -1,6 +1,9 @@
 import type { imgProps } from '@nuxt/image/dist/runtime/components/nuxt-img';
 <script setup lang="ts">
 import type { NuxtImg } from "#build/components";
+const openLink = (link: string) => {
+  window.open(link);
+};
 </script>
 <template>
   <div class="welcome">

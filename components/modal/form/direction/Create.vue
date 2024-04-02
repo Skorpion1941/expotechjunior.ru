@@ -1,8 +1,7 @@
 <script setup>
 import { reactive, ref, onMounted } from "vue";
 import * as Yup from "yup";
-import { defineProps } from "vue";
-import { closeModal, itemValue } from "../../useModal";
+import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
 import { allProjects, fetchProjects } from "~/util/useProjects";
 const { user } = useAuthStore();
@@ -12,39 +11,39 @@ const errorMessage = reactive({
   direction: "",
   team: "",
 });
-
-const updateProjectValue = reactive({
-  name: itemValue.value.name,
-  title_photo: itemValue.value.title_photo,
-  tilda_url: itemValue.value.tilda_url,
-  team: itemValue.value.team,
-  direction: [],
+const createDirectionValue = reactive({
+  name: "",
+  short_name: "",
+  description: "",
+  color: "",
+  photo: "default.png",
 });
-console.log(updateProjectValue);
-console.log(itemValue.value.team);
+
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
-  tilda_url: Yup.string().url().required("Это поле обязательно"),
+  short_name: Yup.string().required("Это поле обязательно"),
+  description: Yup.string().required("Это поле обязательно"),
+  color: Yup.string().required("Это поле обязательно"),
 });
 
 const createProject = async () => {
   errorMessage.direction = "";
-  if (updateProjectValue.direction.length == 0) {
+  if (createProjectValue.direction.length == 0) {
     errorMessage.direction = "Это поле обязательно";
     return;
   }
-  if (updateProjectValue.team.length == 0) {
+  if (createProjectValue.team.length == 0) {
     errorMessage.team = "Это поле обязательно";
     return;
   }
   try {
     loading.value = true;
     const { error } = await supabase.from("projects").insert({
-      name: updateProjectValue.name,
-      title_photo: updateProjectValue.title_photo,
-      tilda_url: updateProjectValue.tilda_url,
-      team: updateProjectValue.team,
-      direction_id: updateProjectValue.direction[0],
+      name: createProjectValue.name,
+      title_photo: createProjectValue.title_photo,
+      tilda_url: createProjectValue.tilda_url,
+      team: createProjectValue.team,
+      direction_id: createProjectValue.direction[0],
       user_id: user.id,
     });
     await fetchProjects();
@@ -69,7 +68,7 @@ const createProject = async () => {
     >
       <div class="photo">
         <UiPhoto
-          v-model:path="updateProjectValue.title_photo"
+          v-model:path="createDirectionValue.photo"
           width="100%"
           height="400px"
           :update="true"
@@ -78,36 +77,38 @@ const createProject = async () => {
       </div>
 
       <UiInput
-        label="Название проекта:"
+        label="Название направления:"
         name="name"
         type="text"
-        placeholder="Введите название"
-        v-model:model-value="updateProjectValue.name"
+        placeholder="Введите направлнеие"
+        v-model:model-value="createDirectionValue.name"
         :errors="errors.name"
-      ></UiInput
-      ><UiSelect
-        v-model:model-value="updateProjectValue.direction"
-        :array="allDirections"
-        label="Напрвление проекта"
-        :name="4"
-        placeholder="Выберите направление"
-      ></UiSelect>
-
-      <p>{{ errorMessage.direction }}</p>
-      <ModalFormProjectTeam
-        v-model:model-value="updateProjectValue.team"
-        label="Команда проекта"
-      ></ModalFormProjectTeam>
-      <p>{{ errorMessage.team }}</p>
+      ></UiInput>
       <UiInput
-        label="Сылка на проект:"
-        name="tilda_url"
-        type="url"
-        placeholder="https://"
-        v-model:model-value="updateProjectValue.tilda_url"
-        :errors="errors.tilda_url"
+        label="Аббревиатура:"
+        name="short_name"
+        type="text"
+        placeholder="Введите аббревиатуру"
+        v-model:model-value="createDirectionValue.short_name"
+        :errors="errors.short_name"
+      ></UiInput>
+      <UiInput
+        label="Описание направления:"
+        name="description"
+        type="text"
+        placeholder="Введите описание"
+        v-model:model-value="createDirectionValue.description"
+        :errors="errors.description"
       ></UiInput>
 
+      <UiInput
+        label="Цвет направления:"
+        name="color"
+        type="text"
+        placeholder="Выбирите цвет"
+        v-model:model-value="createDirectionValue.color"
+        :errors="errors.color"
+      ></UiInput>
       <div>
         <button type="submit" :disabled="loading">
           {{ loading ? "Загрузка..." : "Добавить" }}

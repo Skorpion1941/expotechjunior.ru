@@ -9,9 +9,13 @@ import { openModal } from "../../useModal";
 const props = defineProps({
   role: String,
 });
+const { user } = useAuthStore();
 const supabase = useSupabaseClient();
 const signIn = ref(false);
 const loading = ref(false);
+const roles = ref([{ name: "user" }, { name: "expert" }, { name: "admin" }]);
+const role = ref();
+role.value = { name: [props.role] };
 const errorMessage = reactive({
   directions: "",
   organization: "",
@@ -48,7 +52,7 @@ const signUp = async () => {
     errorMessage.organization = "Это поле обязательно";
     return;
   }
-  if (registerValue.directions.length == 0 && props.role == "expert") {
+  if (registerValue.directions.length == 0 && role.value == "expert") {
     errorMessage.directions = "Это поле обязательно";
     return;
   }
@@ -70,7 +74,7 @@ const signUp = async () => {
           about_me: registerValue.about_me,
           directions: directionsJson,
           organization_id: registerValue.organization[0],
-          role: props.role,
+          role: role.value.name[0],
         },
       },
     });
@@ -93,6 +97,13 @@ const signUp = async () => {
 <template>
   <div v-if="!signIn" class="form">
     <Form @submit="signUp()" :validation-schema="schema" v-slot="{ errors }">
+      <UiSelect
+        v-if="user.role == 'admin'"
+        v-model:model-value="role.name"
+        :array="roles"
+        label="Роль"
+        :name="0"
+      ></UiSelect>
       <div class="avatar-fio">
         <div class="avatar">
           <UiAvatar
@@ -131,7 +142,7 @@ const signUp = async () => {
       </div>
 
       <UiSelectMultiple
-        v-if="props.role == 'expert'"
+        v-if="role.name == 'expert'"
         v-model:model-value="registerValue.directions"
         :array="allDirections"
         style="z-index: 5"
@@ -189,7 +200,7 @@ const signUp = async () => {
       </div>
     </Form>
   </div>
-  <div v-if="signIn && role == 'expert'" class="notification">
+  <div v-if="signIn && role.name == 'expert'" class="notification">
     <h3>
       Вам на почту {{ registerValue.email }} было отправленно письмо для
       подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>

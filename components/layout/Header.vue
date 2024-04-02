@@ -7,9 +7,7 @@ const { user } = useAuthStore();
 <template>
   <header>
     <div class="logo">
-      <nuxt-link to="/">
-        <NuxtImg src="/logo.svg" width="55px"></NuxtImg
-      ></nuxt-link>
+      <nuxt-link to="/"> <img src="/logo.png" width="55px" /></nuxt-link>
     </div>
     <ul>
       <nuxt-link

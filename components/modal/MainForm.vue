@@ -36,6 +36,14 @@ const posts = defineProps<MailForm>();
   </ModalFormProjectCreate>
   <ModalFormProjectUpdate v-if="name == 'projectUpdate'">
   </ModalFormProjectUpdate>
+  <ModalFormScheduleCreate
+    v-if="name == 'scheduleCreate'"
+  ></ModalFormScheduleCreate>
+  <ModalFormDirectionCreate
+    v-if="name == 'directionCreate'"
+  ></ModalFormDirectionCreate>
+  <ModalFormOrganizationCreate v-if="name == 'organizationCreate'">
+  </ModalFormOrganizationCreate>
 </template>
 
 <style scoped lang="scss"></style>

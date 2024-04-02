@@ -26,6 +26,7 @@ onMounted(async () => await downloadImage());
 <style lang="scss" scoped>
 .card {
   width: 550px;
+  height: 123px;
   display: flex;
   align-items: center;
   color: $third-color;

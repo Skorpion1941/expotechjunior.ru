@@ -11,7 +11,7 @@ export async function fetchSchedules() {
     const { data: schedules, error } = await supabase
       .from("schedules")
       .select("*, projects(*)")
-      .order("id");
+      .order("time");
 
     if (error) {
       console.log("error", error);

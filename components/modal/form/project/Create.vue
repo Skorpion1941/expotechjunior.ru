@@ -97,7 +97,7 @@ const createProject = async () => {
       ></ModalFormProjectTeam>
       <p>{{ errorMessage.team }}</p>
       <UiInput
-        label="Сылка на проект:"
+        label="Сылка на проект Tilda:"
         name="tilda_url"
         type="url"
         placeholder="https://"

@@ -132,6 +132,6 @@ main {
 }
 .table {
   width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto;
 }
 </style>
