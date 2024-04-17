@@ -2,14 +2,12 @@
 import { object, string, type InferType } from "yup";
 import { openModal, closeModal, fromModal } from "../../useModal";
 import { useAuthStore } from "~/store/auth.store";
-import { allOrganizations } from "~/util/useOrganizations";
 import { allProfiles } from "~/util/useProfiles";
 
 const supabase = useSupabaseClient();
 const authStore = useAuthStore();
 const loading = ref(false);
 const errorMassage = ref("");
-const organization = ref();
 const myProfile = ref();
 const authValue = reactive({
   email: "",
@@ -20,11 +18,6 @@ const schema = object({
   password: string().required("Это поле обязательно").min(6, "Миним 6"),
 });
 
-const fetchMyOrganization = (id: number) => {
-  organization.value = Object.values(allOrganizations.value).find(
-    (item: any) => item.id === id
-  );
-};
 const signIn = async () => {
   try {
     loading.value = true;
@@ -37,7 +30,6 @@ const signIn = async () => {
       myProfile.value = Object.values(allProfiles.value).find(
         (profile: any) => profile.id == user.user?.id
       );
-      await fetchMyOrganization(user.user?.user_metadata.organization_id);
       authStore.set({
         id: myProfile.value.id,
         email: user.user?.email,
@@ -48,7 +40,8 @@ const signIn = async () => {
         post: myProfile.value.post,
         about_me: myProfile.value.about_me,
         directions: myProfile.value.directions,
-        organization: organization.value,
+        organization: myProfile.value.organization,
+        city: myProfile.value.city,
         role: myProfile.value.role,
         status: true,
       });
@@ -100,7 +93,7 @@ const signIn = async () => {
       href="#"
       @click="
         () => {
-          openModal('confirmEmail', 'Востановление пароля', true);
+          openModal('confirmEmail', 'Восстановдение пароля', true);
           fromModal('login', 'Вход', true);
         }
       "
@@ -108,7 +101,7 @@ const signIn = async () => {
     >
     <div>
       <button type="submit" :disabled="loading">
-        {{ loading ? "Загрузка..." : "Войти" }}
+        <h3>{{ loading ? "Загрузка..." : "Войти" }}</h3>
       </button>
       <p style="text-align: center">{{ errorMassage }}</p>
     </div>
@@ -137,11 +130,11 @@ form {
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
+    p {
+      color: red;
+    }
   }
-  p {
-    font-size: 16px;
-    color: red;
-  }
+
   a {
     text-decoration: underline;
     color: #02c9af;

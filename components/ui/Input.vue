@@ -39,15 +39,11 @@ const emit = defineEmits(["update:modelValue"]);
 </template>
 
 <style scoped lang="scss">
-label {
-  font-size: 20px;
-}
-
 input {
   padding: 10px 20px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  font-size: 16px;
+  color: $third-color;
 }
 p {
   color: red;

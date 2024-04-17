@@ -11,19 +11,14 @@ const errorMessage = reactive({
   direction: "",
   team: "",
 });
-const createDirectionValue = reactive({
+const createProjectValue = reactive({
   name: "",
-  short_name: "",
-  description: "",
-  color: "black",
-  photo: "default.png",
+  direction: [],
 });
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
-  short_name: Yup.string().required("Это поле обязательно"),
-  description: Yup.string().required("Это поле обязательно"),
-  color: Yup.string().required("Это поле обязательно"),
+  tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
 
 const createProject = async () => {
@@ -58,7 +53,6 @@ const createProject = async () => {
     loading.value = false;
   }
 };
-watch(createDirectionValue, () => console.log(createDirectionValue.color));
 </script>
 <template>
   <div>
@@ -67,60 +61,26 @@ watch(createDirectionValue, () => console.log(createDirectionValue.color));
       :validation-schema="schema"
       v-slot="{ errors }"
     >
-      <div class="photo">
-        <UiPhoto
-          v-model:path="createDirectionValue.photo"
-          width="100%"
-          height="400px"
-          :update="true"
-        >
-        </UiPhoto>
-      </div>
-
       <UiInput
-        label="Название направления:"
+        label="Название формы:"
         name="name"
         type="text"
-        placeholder="Введите направлнеие"
-        v-model:model-value="createDirectionValue.name"
+        placeholder="Введите название"
+        v-model:model-value="createProjectValue.name"
         :errors="errors.name"
-      ></UiInput>
-      <UiInput
-        label="Аббревиатура:"
-        name="short_name"
-        type="text"
-        placeholder="Введите аббревиатуру"
-        v-model:model-value="createDirectionValue.short_name"
-        :errors="errors.short_name"
-      ></UiInput>
-      <UiInput
-        label="Описание направления:"
-        name="description"
-        type="text"
-        placeholder="Введите описание"
-        v-model:model-value="createDirectionValue.description"
-        :errors="errors.description"
-      ></UiInput>
-      <div class="flex full-w">
-        <UiInput
-          label="Цвет направления:"
-          name="color"
-          type="text"
-          placeholder="Выбирите цвет"
-          v-model:model-value="createDirectionValue.color"
-          :errors="errors.color"
-        ></UiInput>
-        <div
-          class="color"
-          :style="{
-            background: createDirectionValue.color,
-          }"
-        ></div>
-      </div>
+      ></UiInput
+      ><UiSelect
+        v-model:model-value="createProjectValue.direction"
+        :array="allDirections"
+        label="Напрвление проекта"
+        :name="4"
+        placeholder="Выберите направление"
+      ></UiSelect>
+      <ModalFormQuestion></ModalFormQuestion>
 
       <div>
         <button type="submit" :disabled="loading">
-          <h3>{{ loading ? "Загрузка..." : "Добавить" }}</h3>
+          {{ loading ? "Загрузка..." : "Добавить" }}
         </button>
       </div>
     </Form>
@@ -144,14 +104,13 @@ form {
     margin: 5px 0;
     flex-direction: column;
 
+    label {
+    }
+
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;
       border-radius: 20px;
-    }
-    .color {
-      width: 100px;
-      height: 100px;
     }
   }
 

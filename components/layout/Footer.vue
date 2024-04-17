@@ -15,13 +15,11 @@ const openLink = (link: string) => {
       <nav>
         <div>
           <ul>
-            <nuxt-link
-              class="link"
-              v-for="item in HEADER_DATA"
-              :key="item.name"
-              :to="item.url"
-              ><span>{{ item.name }}</span></nuxt-link
-            >
+            <li v-for="item in HEADER_DATA" :key="item.name">
+              <nuxt-link :to="item.url"
+                ><h5>{{ item.name }}</h5></nuxt-link
+              >
+            </li>
           </ul>
           <h3>8-960-970-9374<br />todoo.hobbycenter@yandex.ru</h3>
         </div>
@@ -78,15 +76,14 @@ ul {
   display: flex;
   justify-content: space-around;
 
-  .link {
+  li {
+    list-style-type: none;
+  }
+  a {
+    color: white;
     text-transform: uppercase;
     text-decoration: none;
     padding: 10px;
-    transition: all 0.4s ease 0s;
-    span {
-      color: white;
-      font-size: 24px;
-    }
   }
 }
 .icon {

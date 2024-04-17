@@ -88,9 +88,9 @@ watch(allDirections, () => {
         </UiTableColumn>
         <UiTableColumn>
           <div class="btn">
-            <button>Просмотр</button>
-            <button>Изменить</button>
-            <button>Удалить</button>
+            <button><h3>Просмотр</h3></button>
+            <button><h3>Изменить</h3></button>
+            <button><h3>Удалить</h3></button>
           </div>
         </UiTableColumn>
       </UiTableRow>

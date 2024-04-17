@@ -16,7 +16,7 @@
 
 <style scoped lang="scss">
 .modal {
-  max-width: 40%;
+  max-width: 35%;
   min-width: 500px;
   margin: 100px auto;
   border: 2px solid $second-color;

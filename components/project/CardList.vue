@@ -1,4 +1,7 @@
 <script setup>
+import { openModal } from "../modal/useModal";
+import { openComment } from "../drawer/useDrawer";
+
 const props = defineProps({
   array: Array,
   role: String,
@@ -14,6 +17,8 @@ const props = defineProps({
     :tilda_url="item.tilda_url"
     :direction="item.directions"
     :role="role"
+    :on-click-card="() => openModal('project', 'Карта проекта', false, item)"
+    :on-click-comment="() => openComment(item)"
   ></ProjectCard>
 </template>
 <style lang="scss" scoped></style>

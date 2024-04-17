@@ -18,7 +18,6 @@ const role = ref();
 role.value = { name: [props.role] };
 const errorMessage = reactive({
   directions: "",
-  organization: "",
 });
 const registerValue = reactive({
   name: "",
@@ -31,7 +30,8 @@ const registerValue = reactive({
   post: "",
   about_me: "",
   directions: [],
-  organization: [],
+  organization: "",
+  city: "",
 });
 const schema = Yup.object().shape({
   email: Yup.string().required("Это поле обязательно").email("@"),
@@ -39,6 +39,8 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   surname: Yup.string().required("Это поле обязательно"),
   patronymic: Yup.string().required("Это поле обязательно"),
+  organization: Yup.string().required("Это поле обязательно"),
+  city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
   password_repeat: Yup.string()
     .oneOf([Yup.ref("password")], "Неверный пароль")
@@ -47,11 +49,6 @@ const schema = Yup.object().shape({
 
 const signUp = async () => {
   errorMessage.directions = "";
-  errorMessage.organization = "";
-  if (registerValue.organization.length == 0) {
-    errorMessage.organization = "Это поле обязательно";
-    return;
-  }
   if (registerValue.directions.length == 0 && role.value == "expert") {
     errorMessage.directions = "Это поле обязательно";
     return;
@@ -59,7 +56,6 @@ const signUp = async () => {
   try {
     loading.value = true;
     const directionsJson = JSON.stringify(registerValue.directions);
-    console.log(directionsJson);
     const { error } = await supabase.auth.signUp({
       email: registerValue.email,
       password: registerValue.password,
@@ -73,7 +69,8 @@ const signUp = async () => {
           post: registerValue.post,
           about_me: registerValue.about_me,
           directions: directionsJson,
-          organization_id: registerValue.organization[0],
+          organization: registerValue.organization,
+          city: registerValue.city,
           role: role.value.name[0],
         },
       },
@@ -141,28 +138,6 @@ const signUp = async () => {
         </div>
       </div>
 
-      <UiSelectMultiple
-        v-if="role.name == 'expert'"
-        v-model:model-value="registerValue.directions"
-        :array="allDirections"
-        style="z-index: 5"
-      ></UiSelectMultiple>
-      <p>{{ errorMessage.directions }}</p>
-      <UiSelect
-        v-model:model-value="registerValue.organization"
-        :array="allOrganizations"
-        label="Организация"
-        :name="2"
-      ></UiSelect>
-      <p>{{ errorMessage.organization }}</p>
-      <UiInput
-        label="Должность:"
-        name="post"
-        type="text"
-        placeholder="Введите должность"
-        v-model:model-value="registerValue.post"
-        :errors="errors.post"
-      ></UiInput>
       <UiInput
         label="Email:"
         name="email"
@@ -170,7 +145,40 @@ const signUp = async () => {
         placeholder="Введите Email"
         v-model:model-value="registerValue.email"
         :errors="errors.email"
+      ></UiInput
+      ><UiInput
+        label="Город:"
+        name="city"
+        type="text"
+        placeholder="Введите город"
+        v-model:model-value="registerValue.city"
+        :errors="errors.city"
       ></UiInput>
+      <UiInput
+        label="Организация:"
+        name="organization"
+        type="text"
+        placeholder="Введите организацию"
+        v-model:model-value="registerValue.organization"
+        :errors="errors.organization"
+      ></UiInput>
+
+      <UiInput
+        label="Должность:"
+        name="post"
+        type="text"
+        placeholder="Введите должность"
+        v-model:model-value="registerValue.post"
+        :errors="errors.post"
+      ></UiInput
+      ><UiSelectMultiple
+        v-if="role.name == 'expert'"
+        v-model:model-value="registerValue.directions"
+        :array="allDirections"
+        style="z-index: 5"
+      ></UiSelectMultiple>
+      <p>{{ errorMessage.directions }}</p>
+
       <UiInput
         label="Пароль:"
         name="password"
@@ -195,7 +203,7 @@ const signUp = async () => {
 
       <div>
         <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Зарегистрироваться" }}
+          <h3>{{ loading ? "Загрузка..." : "Зарегистрироваться" }}</h3>
         </button>
       </div>
     </Form>
@@ -220,12 +228,12 @@ form {
     display: flex;
     flex-direction: row;
     .avatar {
-      width: 50%;
+      width: 350px;
+      min-width: 150px;
     }
     .fio {
-      width: 50%;
+      width: 100%;
       height: 100%;
-      align-self: center;
     }
   }
   div {
@@ -234,21 +242,15 @@ form {
     margin: 5px 0;
     flex-direction: column;
 
-    label {
-      font-size: 20px;
-    }
-
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;
       border-radius: 20px;
     }
   }
-
   p {
     color: red;
     margin: 0px;
-    font-size: 16px;
   }
   a {
     text-decoration: underline;

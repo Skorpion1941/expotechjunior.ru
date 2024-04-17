@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { defineProps } from "vue";
 import { allOrganizations } from "~/util/useOrganizations";
 import { updateProfile } from "~/util/useProfiles";
+import { closeModal } from "../../useModal";
 const user = useSupabaseUser();
 
 const props = defineProps({
@@ -22,19 +23,21 @@ const updateValue = reactive({
   about_me: authStore.user.about_me,
   directions: authStore.user.directions,
   organization: authStore.user.organization,
+  city: authStore.user.city,
 });
+const directionsJson = ref([]);
 const schema = Yup.object().shape({
   password: Yup.string().required("Это поле обязательно").min(6, "Миним 6"),
   name: Yup.string().required("Это поле обязательно"),
   surname: Yup.string().required("Это поле обязательно"),
   patronymic: Yup.string().required("Это поле обязательно"),
+  organization: Yup.string().required("Это поле обязательно"),
+  city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
 });
 
 const updateUser = async () => {
   try {
-    const directionsJson = JSON.stringify(updateValue.directions);
-
     const { data, error } = await supabase.auth.updateUser({
       data: {
         name: updateValue.name,
@@ -43,8 +46,9 @@ const updateUser = async () => {
         avatar_url: updateValue.avatar_url,
         post: updateValue.post,
         about_me: updateValue.about_me,
-        directions: directionsJson,
-        organization_id: updateValue.organization[0],
+        directions: updateValue.directions,
+        organization: updateValue.organization,
+        city: updateValue.city,
       },
     });
     updateProfile({
@@ -55,8 +59,9 @@ const updateUser = async () => {
       avatar_url: updateValue.avatar_url,
       post: updateValue.post,
       about_me: updateValue.about_me,
-      directions: directionsJson,
-      organization_id: updateValue.organization[0],
+      directions: updateValue.directions,
+      organization: updateValue.organization,
+      city: updateValue.city,
     });
     authStore.set({
       id: authStore.user.id,
@@ -67,8 +72,9 @@ const updateUser = async () => {
       avatar_url: updateValue.avatar_url,
       post: updateValue.post,
       about_me: updateValue.about_me,
-      directions: directionsJson,
-      organization: updateValue.directions,
+      directions: updateValue.directions,
+      organization: updateValue.organization,
+      city: updateValue.city,
       role: authStore.user.role,
       status: true,
     });
@@ -80,6 +86,7 @@ const updateUser = async () => {
     }
   } finally {
     loading.value = false;
+    closeModal();
   }
 };
 </script>
@@ -122,18 +129,22 @@ const updateUser = async () => {
           ></UiInput>
         </div>
       </div>
-
-      <UiSelectMultiple
-        v-if="props.role == 'expert'"
-        v-model:model-value="updateValue.directions"
-        array=""
-      ></UiSelectMultiple>
-      <UiSelect
+      <UiInput
+        label="Город:"
+        name="city"
+        type="text"
+        placeholder="Введите город"
+        v-model:model-value="updateValue.city"
+        :errors="errors.city"
+      ></UiInput>
+      <UiInput
+        label="Организация:"
+        name="organization"
+        type="text"
+        placeholder="Введите организацию"
         v-model:model-value="updateValue.organization"
-        :array="allOrganizations"
-        label="Организация"
-        :name="2"
-      ></UiSelect>
+        :errors="errors.organization"
+      ></UiInput>
       <UiInput
         label="Должность:"
         name="post"
@@ -142,6 +153,11 @@ const updateUser = async () => {
         v-model:model-value="updateValue.post"
         :errors="errors.post"
       ></UiInput>
+      <UiSelectMultiple
+        v-if="user.role == 'expert'"
+        v-model:model-value="updateValue.directions"
+        array=""
+      ></UiSelectMultiple>
 
       <div>
         <label>О себе:</label>
@@ -150,7 +166,7 @@ const updateUser = async () => {
 
       <div>
         <button @click="updateUser()" type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Обнавить" }}
+          <h3>{{ loading ? "Загрузка..." : "Обнавить" }}</h3>
         </button>
       </div>
     </Form>
@@ -182,7 +198,6 @@ form {
     flex-direction: column;
 
     label {
-      font-size: 20px;
     }
 
     input {
@@ -197,7 +212,6 @@ form {
   }
 
   p {
-    font-size: 16px;
   }
   a {
     text-decoration: underline;
@@ -208,7 +222,6 @@ form {
     min-height: 50px;
     padding: 10px;
     border-radius: 20px;
-    font-size: 14px;
   }
   textarea::-webkit-scrollbar {
     width: 12px;

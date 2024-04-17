@@ -27,7 +27,6 @@ export interface Project {
   title_photo: string;
   direction_id: number;
   user_id: string;
-  result_evaluation?: any;
 }
 export interface Direction {
   id?: number;
@@ -48,4 +47,14 @@ export interface Schedule {
   createdAt?: string;
   date: string;
   time: string;
+}
+export interface Assessment {
+  id?: number;
+  createdAt?: string;
+  response: any;
+  score: number;
+  score_max: number;
+  comment: string;
+  project: string;
+  fio_expert: string;
 }

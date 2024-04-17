@@ -20,7 +20,7 @@ onMounted(async () => await downloadImage());
 <template>
   <div class="card">
     <img class="scale-img" :src="src" />
-    <p>{{ name.toUpperCase() }}</p>
+    <h5>{{ name.toUpperCase() }}</h5>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -35,7 +35,6 @@ onMounted(async () => await downloadImage());
     width: 120px;
   }
   p {
-    font-size: 24px;
   }
 }
 </style>

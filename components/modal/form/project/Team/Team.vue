@@ -11,7 +11,7 @@ const props = defineProps(["modelValue", "label"]);
 const isListVisible = ref(false);
 const { modelValue } = toRefs(props);
 const array = ref<Team[]>([]);
-
+array.value = modelValue.value;
 const team = ref<Team>({ id: 0, surname: "", name: "" });
 const teamId = ref(0);
 const emit = defineEmits(["update:modelValue"]);
@@ -35,8 +35,8 @@ const addTeam = () => {
   }
   array.value.push({
     id: generateId(),
-    surname: team.value.surname,
-    name: team.value.name,
+    surname: team.value.surname.trim(),
+    name: team.value.name.trim(),
   });
   emit("update:modelValue", array.value);
 };

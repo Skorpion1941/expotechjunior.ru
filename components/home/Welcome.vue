@@ -6,14 +6,14 @@ const openLink = (link: string) => {
 };
 </script>
 <template>
-  <div class="welcome">
-    <div class="kvant-img">
-      <div></div>
-      <img class="slide-in-fwd-left" src="~/public/welcome.webp" />
+  <div class="welcome full-w">
+    <div class="kvant-img full-w">
+      <div class="full-wh"></div>
+      <img class="slide-in-fwd-left full-wh" src="/welcome.webp" />
     </div>
-    <div class="vector">
-      <div class="info">
-        <div class="info-img">
+    <div class="vector full-wh">
+      <div class="info full-wh flex flex-column">
+        <div class="info-img flex full-w">
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3261-3862-4135-a662-663334613663/-/resize/108x/-/format/webp/pgrants_logo_gp-vert.png"
             width="100px"
@@ -36,16 +36,16 @@ const openLink = (link: string) => {
           ></NuxtImg>
         </div>
         <div class="info-welcome">
-          <div>
-            <img height="60px" src="~/public/white-logo.png" />
-            <p>
+          <div class="full-w flex">
+            <img height="60px" src="/white-logo.png" />
+            <h5>
               ВСЕРОССИЙСКАЯ ЯРМАРКА<br />
               ТЕХНОЛОГИЧЕСКИХ ПРОЕКТОВ
-            </p>
+            </h5>
           </div>
           <h1>Expo-TECH Junior</h1>
           <hr />
-          <div>
+          <div class="full-w flex">
             <button>
               <nuxt-link to="projects">Проекты участников</nuxt-link>
             </button>
@@ -68,31 +68,22 @@ const openLink = (link: string) => {
 </template>
 <style lang="scss" scoped>
 .welcome {
-  width: 100%;
   height: 650px;
   display: grid;
   grid-template-columns: 60% 40%;
   .kvant-img {
-    width: 100%;
     position: relative;
     img {
-      width: 100%;
-      height: 100%;
-
       z-index: 1;
     }
     div {
       position: absolute;
       z-index: 2;
-      width: 100%;
       background: black;
       opacity: 0.3;
-      height: 100%;
     }
   }
   .vector {
-    width: 100%;
-    height: 100%;
     background-color: $first-color;
     background: linear-gradient(0deg, $second-color 0%, $third-color 100%);
     position: relative;
@@ -122,30 +113,18 @@ const openLink = (link: string) => {
   .info {
     position: relative;
     z-index: 1;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
     color: white;
     .info-img {
-      display: flex;
-      width: 100%;
       align-items: center;
       gap: 20px;
     }
     .info-welcome {
       margin: 100px 0 0 0;
       div {
-        display: flex;
         gap: 5px;
         align-items: center;
-        width: 100%;
-      }
-      p {
-        font-size: 26px;
       }
       h1 {
-        font-size: 44px;
         margin-top: 10px;
       }
       hr {
@@ -154,6 +133,7 @@ const openLink = (link: string) => {
         &::before {
           content: "";
           position: absolute;
+          z-index: 10px;
           width: 16px;
           height: 16px;
           background-color: $first-color;
@@ -179,12 +159,14 @@ const openLink = (link: string) => {
       }
       strong {
         color: white;
-        font-size: 18px;
       }
     }
   }
 }
-
+@media screen and (max-width: 1280px) {
+  div {
+  }
+}
 // @media screen and (width <= 1280px) {
 //   img {
 //     width: 70%;

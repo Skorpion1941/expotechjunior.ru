@@ -10,13 +10,11 @@ const { user } = useAuthStore();
       <nuxt-link to="/"> <img src="/logo.png" width="55px" /></nuxt-link>
     </div>
     <ul>
-      <nuxt-link
-        class="link"
-        v-for="item in HEADER_DATA"
-        :key="item.name"
-        :to="item.url"
-        ><span>{{ item.name }}</span></nuxt-link
-      >
+      <li v-for="item in HEADER_DATA" :key="item.name">
+        <nuxt-link class="link" :to="item.url"
+          ><h5>{{ item.name }}</h5></nuxt-link
+        >
+      </li>
     </ul>
     <div class="btn-entry">
       <div class="user-info" v-if="user.status == true">
@@ -33,7 +31,7 @@ const { user } = useAuthStore();
         ></NuxtLink>
       </div>
       <button v-else @click="openModal('login', 'Вход', false)">
-        <b>ВХОД</b>
+        <h3>ВХОД</h3>
       </button>
     </div>
   </header>
@@ -42,11 +40,9 @@ const { user } = useAuthStore();
 header {
   width: 100%;
   height: 70px;
-  font-size: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0;
   border-bottom: 2px solid $second-color;
   position: sticky;
   top: 0;
@@ -59,15 +55,14 @@ header {
     width: 40%;
     display: flex;
     justify-content: space-around;
-    .link {
+    li {
+      list-style-type: none;
+    }
+    a {
+      color: $third-color;
       text-transform: uppercase;
       text-decoration: none;
-      padding: 10px;
       transition: all 0.4s ease 0s;
-      span {
-        color: $third-color;
-        font-size: 24px;
-      }
     }
   }
   .btn-entry {
@@ -83,4 +78,3 @@ header {
   }
 }
 </style>
-./nav.data

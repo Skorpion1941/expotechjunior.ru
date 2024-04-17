@@ -41,7 +41,7 @@ onMounted(() => {
     <div class="user-block">
       <div class="icon">
         <button
-          @click="openModal('userUpdate', 'Обнавление', false)"
+          @click="openModal('userUpdate', 'Обновление', false)"
           style="background: none !important"
         >
           <Icon name="fa-solid:user-edit" color="white" size="30px"></Icon>
@@ -67,10 +67,10 @@ onMounted(() => {
             <h3 class="">{{ authStore.user.email }}</h3>
           </div>
           <div class="info" style="gap: 5px !important">
-            <h1>Организация</h1>
+            <h2>Организация</h2>
             <h3 style="padding-top: 10px">
-              {{ authStore.user.organization.name }},
-              {{ authStore.user.organization.city }}
+              {{ authStore.user.organization }},
+              {{ authStore.user.city }}
             </h3>
             <h3>
               {{
@@ -80,7 +80,7 @@ onMounted(() => {
             </h3>
           </div>
           <div class="direction" v-if="authStore.user.role == 'expert'">
-            <h1>Направления интересов</h1>
+            <h2>Направления интересов</h2>
             <div>
               <UiSelectCheckedList :array="array"></UiSelectCheckedList>
             </div>
@@ -122,7 +122,7 @@ onMounted(() => {
       .info {
         display: flex;
         flex-direction: column;
-        gap: 60px;
+        gap: 30px;
       }
     }
     .direction {

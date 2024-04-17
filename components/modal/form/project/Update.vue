@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
 import { closeModal, itemValue } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
-import { allProjects, fetchProjects } from "~/util/useProjects";
+import { allProjects, fetchProjects, updateProject } from "~/util/useProjects";
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
@@ -12,22 +12,34 @@ const errorMessage = reactive({
   direction: "",
   team: "",
 });
+const direction = ref();
+const directionMain = ref([itemValue.value.direction_id, "", "", "", ""]);
 
 const updateProjectValue = reactive({
   name: itemValue.value.name,
   title_photo: itemValue.value.title_photo,
   tilda_url: itemValue.value.tilda_url,
   team: itemValue.value.team,
-  direction: [],
+  direction: directionMain.value,
 });
-console.log(updateProjectValue);
-console.log(itemValue.value.team);
+
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
-
-const createProject = async () => {
+const findDirection = () => {
+  direction.value = Object.values(allDirections.value).find(
+    (item: any) => item.id == itemValue.value.direction_id
+  );
+  directionMain.value = [
+    direction.value.id,
+    direction.value.created_at,
+    direction.value.short_name,
+    direction.value.description,
+    direction.value.name,
+  ];
+};
+const update = async () => {
   errorMessage.direction = "";
   if (updateProjectValue.direction.length == 0) {
     errorMessage.direction = "Это поле обязательно";
@@ -39,16 +51,16 @@ const createProject = async () => {
   }
   try {
     loading.value = true;
-    const { error } = await supabase.from("projects").insert({
+    updateProject({
+      id: itemValue.value.id,
       name: updateProjectValue.name,
-      title_photo: updateProjectValue.title_photo,
-      tilda_url: updateProjectValue.tilda_url,
       team: updateProjectValue.team,
+      tilda_url: updateProjectValue.tilda_url,
+      title_photo: updateProjectValue.title_photo,
       direction_id: updateProjectValue.direction[0],
-      user_id: user.id,
+      user_id: itemValue.value.user_id,
     });
     await fetchProjects();
-    if (error) throw error;
     closeModal();
   } catch (error) {
     if (error instanceof Error) {
@@ -59,14 +71,17 @@ const createProject = async () => {
     loading.value = false;
   }
 };
+onMounted(() => {
+  findDirection();
+  console.log(directionMain.value);
+});
+watch(updateProjectValue, () => {
+  console.log(updateProjectValue);
+});
 </script>
 <template>
   <div>
-    <Form
-      @submit="createProject()"
-      :validation-schema="schema"
-      v-slot="{ errors }"
-    >
+    <Form @submit="update()" :validation-schema="schema" v-slot="{ errors }">
       <div class="photo">
         <UiPhoto
           v-model:path="updateProjectValue.title_photo"
@@ -110,7 +125,7 @@ const createProject = async () => {
 
       <div>
         <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Добавить" }}
+          <h3>{{ loading ? "Загрузка..." : "Добавить" }}</h3>
         </button>
       </div>
     </Form>
@@ -135,7 +150,6 @@ form {
     flex-direction: column;
 
     label {
-      font-size: 20px;
     }
 
     input {
@@ -148,7 +162,6 @@ form {
   p {
     color: red;
     margin: 0px;
-    font-size: 16px;
   }
   a {
     text-decoration: underline;

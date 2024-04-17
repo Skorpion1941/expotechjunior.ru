@@ -30,9 +30,9 @@ const props = defineProps<Modal>();
         <button class="close" @click="closeModal">
           <Icon name="akar-icons:cross" color="white" size="35px"></Icon>
         </button>
-        <h1>
+        <h2>
           <b>{{ title }}</b>
-        </h1>
+        </h2>
       </div>
       <div class="form" v-auto-animate>
         <ModalMainForm :name="nameForm"></ModalMainForm>
@@ -45,8 +45,6 @@ const props = defineProps<Modal>();
 .modal {
   position: fixed;
   z-index: 5;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
   .modals {
@@ -98,7 +96,6 @@ const props = defineProps<Modal>();
   h1,
   h2 {
     margin: 0px;
-    font-size: 28px;
     padding: 20px 0;
     color: $text-color;
   }

@@ -129,7 +129,7 @@ watch(allProjects, () => {
         <UiTableColumn> {{ findProfile(arr.user_id) }}</UiTableColumn>
         <UiTableColumn>
           <div class="btn">
-            <button @click="openLink(arr.tilda_url)">Просмотр</button>
+            <button @click="openLink(arr.tilda_url)"><h3>Просмотр</h3></button>
             <button
               @click="
                 () => {
@@ -137,9 +137,9 @@ watch(allProjects, () => {
                 }
               "
             >
-              Изменить
+              <h3>Изменить</h3>
             </button>
-            <button>Удалить</button>
+            <button><h3>Удалить</h3></button>
           </div>
         </UiTableColumn>
       </UiTableRow>

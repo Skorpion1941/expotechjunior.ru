@@ -11,14 +11,12 @@ const recoverValue = reactive({
 });
 const schema = object({
   email: string().required("Это поле обязательно").email("@"),
-  password: string().required("Это поле обязательно").min(6, "Миним 6"),
 });
 const recoverPassword = async () => {
   try {
     loading.value = true;
     const { error } = await supabase.auth.updateUser({
       email: recoverValue.email,
-      password: recoverValue.password,
     });
     if (error) throw error;
   } catch (error) {
@@ -32,11 +30,7 @@ const recoverPassword = async () => {
 };
 </script>
 <template>
-  <Form
-    @submit="recoverPassword()"
-    :validation-schema="schema"
-    v-slot="{ errors }"
-  >
+  <Form :validation-schema="schema" v-slot="{ errors }">
     <UiInput
       label="Email :"
       name="email"
@@ -45,17 +39,10 @@ const recoverPassword = async () => {
       v-model:model-value="recoverValue.email"
       :errors="errors.email"
     ></UiInput>
-    <UiInput
-      label="Пароль :"
-      name="password"
-      type="password"
-      placeholder="Введите пароль"
-      v-model:model-value="recoverValue.password"
-      :errors="errors.password"
-    ></UiInput>
+
     <div>
       <button type="submit" :disabled="loading">
-        {{ loading ? "Загрузка..." : "Востановить" }}
+        <h3>{{ loading ? "Загрузка..." : "Востановить" }}</h3>
       </button>
       <p style="text-align: center">{{ errorMassage }}</p>
     </div>

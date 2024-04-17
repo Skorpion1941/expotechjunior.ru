@@ -96,11 +96,9 @@ section {
     text-align: justify;
     margin-left: 200px;
     h1 {
-      font-size: 30px;
       margin-bottom: 25px;
     }
     h3 {
-      font-size: 24px;
       max-width: 800px;
       min-width: 400px;
       margin-top: 10px;

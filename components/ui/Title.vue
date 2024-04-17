@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="title" :style="{ width: width }">
     <div>
-      <h1>{{ name }}</h1>
+      <h2>{{ name }}</h2>
       <hr />
     </div>
     <div></div>
@@ -22,11 +22,9 @@ defineProps({
   div {
     &:first-child {
       position: relative;
-      h1 {
-        padding: 0 30px;
+      h2 {
+        padding: 0 20px;
         text-align: center;
-        color: $third-color;
-        font-size: 30px;
       }
       hr {
         height: 4px;

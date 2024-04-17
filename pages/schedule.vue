@@ -88,7 +88,6 @@ main {
     justify-content: center;
   }
   h4 {
-    font-size: 18px;
   }
 }
 .slider {
@@ -98,7 +97,6 @@ main {
   text-align: center;
   h2 {
     color: $third-color;
-    font-size: 30px;
   }
   .btn {
     margin: 10px 0;
@@ -126,7 +124,6 @@ main {
     h1 {
       color: $third-color;
       align-self: center;
-      font-size: 40px;
     }
   }
 }

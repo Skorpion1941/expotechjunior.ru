@@ -46,7 +46,7 @@ const confirmEmail = async () => {
     ></UiInput>
     <div>
       <button type="submit" :disabled="loading">
-        {{ loading ? "Загрузка..." : "Подтвердить" }}
+        <h3>{{ loading ? "Загрузка..." : "Подтвердить" }}</h3>
       </button>
       <p style="text-align: center">{{ errorMassage }}</p>
     </div>

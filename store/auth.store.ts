@@ -9,6 +9,7 @@ interface IAuthStore {
   about_me: any | undefined;
   directions: any | undefined;
   organization: any;
+  city: any | undefined;
   role: any;
   status: boolean;
 }
@@ -23,7 +24,8 @@ const defineValue: { user: IAuthStore } = {
     post: "",
     about_me: "",
     directions: {},
-    organization: {},
+    organization: "",
+    city: "",
     role: "",
     status: false,
   },

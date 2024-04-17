@@ -22,8 +22,8 @@ const addOption = (item) => {
     <div class="selector" :class="{ select_show: isListVisible }">
       <div class="select-fields">
         <div>
-          <label v-if="modelValue != ''">{{ modelValue[props.name] }}</label>
-          <label class="placeholder" v-else>{{ props.placeholder }}</label>
+          <h4 v-if="modelValue != ''">{{ modelValue[props.name] }}</h4>
+          <h4 class="placeholder" v-else>{{ props.placeholder }}</h4>
         </div>
         <div>
           <span
@@ -49,9 +49,6 @@ const addOption = (item) => {
 <style scoped lang="scss">
 .multi-selector {
   position: relative;
-  .title {
-    font-size: 20px;
-  }
 }
 .selector {
   width: 100%;
@@ -59,11 +56,12 @@ const addOption = (item) => {
   overflow: hidden;
   border-radius: 20px;
   min-width: 300px;
+  height: 42px;
   .select-fields {
     width: 100%;
     display: flex;
     padding: 0 !important;
-    label {
+    h4 {
       padding: 10px 20px;
     }
     .placeholder {
@@ -78,6 +76,7 @@ const addOption = (item) => {
       &:last-child {
         border-left: 1px solid #ccc;
         width: 40px;
+        height: 42px;
         .down-arrow {
           font-size: 1.5rem;
           margin: 5px 0 0 5px;

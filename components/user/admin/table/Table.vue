@@ -30,13 +30,6 @@ const TABLE_DATA = ref<TableData[]>([
     titleCreateModal: "Добавить напрваление",
   },
   {
-    name: "Организации",
-    table: "organization",
-    select: false,
-    nameCreateModal: "organizationCreate",
-    titleCreateModal: "Добавить организацию",
-  },
-  {
     name: "Рассписание",
     table: "schedule",
     select: false,
@@ -47,8 +40,8 @@ const TABLE_DATA = ref<TableData[]>([
     name: "Формы оценивания",
     table: "profile",
     select: false,
-    nameCreateModal: "projectCreate",
-    titleCreateModal: "Добавить проект",
+    nameCreateModal: "questionCreate",
+    titleCreateModal: "Добавить ",
   },
 ]);
 const table = ref();
@@ -90,7 +83,7 @@ const selectTable = (item: any) => {
           )
         "
       >
-        Добавить
+        <h3>Добавить</h3>
       </button>
       <UiInput
         name="search"
@@ -108,10 +101,6 @@ const selectTable = (item: any) => {
     v-if="modelValue.table == 'profile'"
     :search="filters.searchQuery"
   ></UserAdminTableProfile>
-  <UserAdminTableOrganization
-    v-if="modelValue.table == 'organization'"
-    :search="filters.searchQuery"
-  ></UserAdminTableOrganization>
   <UserAdminTableDirection
     v-if="modelValue.table == 'direction'"
     :search="filters.searchQuery"

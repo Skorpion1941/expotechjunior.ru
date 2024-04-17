@@ -140,9 +140,9 @@ watch(allSchedules, () => {
                 }
               "
             >
-              Изменить
+              <h3>Изменить</h3>
             </button>
-            <button>Удалить</button>
+            <button><h3>Удалить</h3></button>
           </div>
         </UiTableColumn>
       </UiTableRow>

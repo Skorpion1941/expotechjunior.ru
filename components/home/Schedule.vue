@@ -92,14 +92,16 @@ const openLink = (link: string) => {
 
     <div class="schedule">
       <div class="calendar">
-        <h1>МАЙ 2024</h1>
+        <h2>МАЙ 2024</h2>
         <div class="days">
-          <div v-for="day in days" :key="day">{{ day }}</div>
+          <div v-for="day in days" :key="day">
+            <h5>{{ day }}</h5>
+          </div>
         </div>
         <div class="numbers">
           <div v-for="number in numbers" :key="number.id">
             <button class="btn">
-              <p
+              <h5
                 v-if="number.canSelect"
                 @click="onSelectDay(number.id)"
                 :style="{
@@ -108,17 +110,17 @@ const openLink = (link: string) => {
                 :class="{ can_select: number.canSelect }"
               >
                 {{ number.id }}
-              </p>
-              <p v-else>
+              </h5>
+              <h5 v-else>
                 {{ number.id }}
-              </p>
+              </h5>
             </button>
           </div>
         </div>
       </div>
       <div class="schedule-table">
         <div class="title">
-          <h1>{{ activeDay.day.name }}</h1>
+          <h2>{{ activeDay.day.name }}</h2>
           <a @click="openLink('https://www.youtube.com/@kvantorium_tomsk')">
             <strong>Переходите на трансляцию</strong>
             <Icon
@@ -153,17 +155,12 @@ section {
   width: 40%;
   min-width: 500px;
   text-align: center;
-  h1 {
-    color: $third-color;
-  }
   .days {
     display: flex;
     justify-content: space-around;
     border-bottom: 2px solid #ccc;
     div {
-      font-size: 24px;
       padding: 20px;
-      color: $third-color;
     }
   }
   .numbers {
@@ -171,7 +168,7 @@ section {
     justify-content: flex-start;
     flex-wrap: wrap;
     div {
-      width: 14.2857142857142857%; /* это ограничит количество элементов в строке до 7 */
+      width: 14.2857142857142857%;
       border: none;
       .btn {
         color: $third-color;
@@ -180,7 +177,7 @@ section {
         border-radius: 0;
 
         cursor: auto;
-        p {
+        h5 {
           padding: 20px;
         }
         .can_select {
@@ -204,7 +201,6 @@ section {
     display: flex;
     justify-content: space-between;
     a {
-      font-size: 20px;
       cursor: pointer;
     }
   }

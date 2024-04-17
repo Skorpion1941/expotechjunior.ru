@@ -67,7 +67,7 @@ const createProject = async () => {
 
       <div>
         <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Добавить" }}
+          <h3>{{ loading ? "Загрузка..." : "Добавить" }}</h3>
         </button>
       </div>
     </Form>
@@ -91,10 +91,6 @@ form {
     margin: 5px 0;
     flex-direction: column;
 
-    label {
-      font-size: 20px;
-    }
-
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;
@@ -105,7 +101,6 @@ form {
   p {
     color: red;
     margin: 0px;
-    font-size: 16px;
   }
   a {
     text-decoration: underline;

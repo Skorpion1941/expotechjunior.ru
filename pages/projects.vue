@@ -62,7 +62,7 @@ watch(filters, () => {
       </div>
     </div>
     <div class="container" v-auto-animate>
-      <ProjectCardList :array="projects"></ProjectCardList>
+      <ProjectCardList :array="projects" role="user"></ProjectCardList>
     </div>
   </div>
 </template>
