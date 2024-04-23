@@ -208,4 +208,30 @@ section {
     height: 100%;
   }
 }
+@media screen and (max-width: 1280px) {
+  h5 {
+    padding: 10px;
+  }
+  .calendar {
+    min-width: 400px;
+    .days {
+      div {
+        padding: 10px;
+      }
+    }
+
+    .numbers {
+      div {
+        .btn {
+          h5 {
+            padding: 15px;
+          }
+        }
+      }
+    }
+  }
+  .schedule-table {
+    height: 400px;
+  }
+}
 </style>

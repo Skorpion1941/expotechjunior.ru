@@ -9,34 +9,30 @@ const openLink = (link: string) => {
 <template>
   <footer>
     <div class="foot">
-      <nuxt-link to="/">
-        <img height="60px" src="~/public/white-logo.png"
+      <nuxt-link to="/" class="logo">
+        <img src="~/public/white-logo.png"
       /></nuxt-link>
       <nav>
-        <div>
-          <ul>
-            <li v-for="item in HEADER_DATA" :key="item.name">
-              <nuxt-link :to="item.url"
-                ><h5>{{ item.name }}</h5></nuxt-link
-              >
-            </li>
-          </ul>
-          <h3>8-960-970-9374<br />todoo.hobbycenter@yandex.ru</h3>
-        </div>
+        <ul>
+          <li v-for="item in HEADER_DATA" :key="item.name">
+            <nuxt-link :to="item.url"
+              ><h5>{{ item.name }}</h5></nuxt-link
+            >
+          </li>
+        </ul>
+        <h3>8-960-970-9374<br />todoo.hobbycenter@yandex.ru</h3>
       </nav>
       <div class="icon">
         <Icon
           class="img"
           @click="openLink('https://vk.com/hobby_center_tomsk')"
           name="entypo-social:vk-with-circle"
-          size="45px"
           color="white"
         ></Icon>
         <Icon
           class="img"
           @click="openLink('https://t.me/kvantoriumtomsk')"
           name="simple-icons:telegram"
-          size="45px"
           color="white"
         ></Icon>
       </div>
@@ -56,6 +52,11 @@ footer {
   display: flex;
   justify-content: space-between;
   padding: 40px 0 0 0;
+  .logo {
+    img {
+      height: 60px;
+    }
+  }
 }
 img {
   align-self: center;
@@ -65,8 +66,11 @@ nav {
   width: 50%;
   height: 100%;
   align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   h3 {
-    margin-top: 40px;
     color: white;
     text-align: center;
     width: 100%;
@@ -83,7 +87,6 @@ ul {
     color: white;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 10px;
   }
 }
 .icon {
@@ -94,6 +97,25 @@ ul {
   margin-right: 10px;
   .img {
     cursor: pointer;
+    width: 60px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  footer {
+    height: 150px;
+  }
+  .foot {
+    .logo {
+      img {
+        height: 40px;
+      }
+    }
+  }
+
+  .icon {
+    .img {
+      width: 40px;
+    }
   }
 }
 </style>

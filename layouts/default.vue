@@ -86,9 +86,11 @@ div {
   width: 100%;
   max-width: 1920px;
   margin: auto;
+  overflow: hidden;
 }
 @media screen and (max-width: 1280px) {
   div {
+    max-width: 1280px;
   }
 }
 </style>

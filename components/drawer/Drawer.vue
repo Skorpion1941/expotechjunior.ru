@@ -3,7 +3,6 @@ import { allAssessments, fetchAssessments } from "~/util/useAssessments";
 import { commentValue, closeComment } from "./useDrawer";
 
 const cardAssessments = ref({});
-const fio = ref([]);
 const findAssessment = () => {
   console.log(allAssessments.value);
   cardAssessments.value = Object.values(allAssessments.value).filter(
@@ -45,7 +44,7 @@ onMounted(async () => {
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
@@ -62,7 +61,6 @@ onMounted(async () => {
       display: flex;
       gap: 10px;
       .back {
-        color: $third-color;
         align-self: center;
         cursor: pointer;
       }

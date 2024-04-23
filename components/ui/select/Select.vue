@@ -122,4 +122,24 @@ const addOption = (item) => {
 .rotate180 {
   transform: rotate(-60deg);
 }
+@media screen and (max-width: 1280px) {
+  .selector {
+    height: 28px;
+    .select-fields {
+      h4 {
+        padding: 7px 7px;
+      }
+      div {
+        &:last-child {
+          width: 30px;
+          height: 28px;
+          .down-arrow {
+            margin-top: 0;
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

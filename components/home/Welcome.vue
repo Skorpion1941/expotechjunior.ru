@@ -16,28 +16,24 @@ const openLink = (link: string) => {
         <div class="info-img flex full-w">
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3261-3862-4135-a662-663334613663/-/resize/108x/-/format/webp/pgrants_logo_gp-vert.png"
-            width="100px"
             class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3234-3830-4236-a463-633365363132/-/resize/84x/-/format/webp/Blue_Brush_White.png"
-            width="70px"
             class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild6262-3963-4133-a432-363035623766/-/resize/84x/-/format/webp/noroot.png"
-            width="50px"
             class="scale-img"
           ></NuxtImg>
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3930-6636-4439-b033-373638663265/-/resize/211x/-/format/webp/gorizontalny_bely.png"
-            height="45px"
             class="scale-img"
           ></NuxtImg>
         </div>
         <div class="info-welcome">
           <div class="full-w flex">
-            <img height="60px" src="/white-logo.png" />
+            <img src="/white-logo.png" />
             <h5>
               ВСЕРОССИЙСКАЯ ЯРМАРКА<br />
               ТЕХНОЛОГИЧЕСКИХ ПРОЕКТОВ
@@ -101,13 +97,11 @@ const openLink = (link: string) => {
       transform: skewX(20deg);
     }
     &::after {
-      content: "";
-      right: 0px;
+      content: url("/public/triangle.png");
+      right: 163px;
       position: absolute;
-      width: 0;
-      height: 0;
-      border-top: 400px solid $second-color;
-      border-left: 845px solid transparent;
+      margin-top: -2px;
+      width: 90%;
     }
   }
   .info {
@@ -117,9 +111,21 @@ const openLink = (link: string) => {
     .info-img {
       align-items: center;
       gap: 20px;
+      img {
+        &:first-child {
+          width: 120px;
+        }
+        &:last-child {
+          width: 200px;
+        }
+        width: 80px;
+      }
     }
     .info-welcome {
-      margin: 100px 0 0 0;
+      margin-top: 100px;
+      img {
+        height: 60px;
+      }
       div {
         gap: 5px;
         align-items: center;
@@ -164,7 +170,42 @@ const openLink = (link: string) => {
   }
 }
 @media screen and (max-width: 1280px) {
-  div {
+  .welcome {
+    height: 400px;
+    .vector {
+      &::after {
+        right: 180px;
+        width: 90%;
+      }
+    }
+    .info {
+      .info-welcome {
+        margin-top: 50px;
+        img {
+          height: 40px;
+        }
+        hr {
+          border: 1.5px solid $first-color;
+          &::before {
+            width: 10px;
+            height: 10px;
+            left: -9px;
+            margin-top: -5px;
+          }
+        }
+      }
+      .info-img {
+        img {
+          &:first-child {
+            width: 80px;
+          }
+          &:last-child {
+            width: 150px;
+          }
+          width: 50px;
+        }
+      }
+    }
   }
 }
 // @media screen and (width <= 1280px) {

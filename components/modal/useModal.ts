@@ -6,6 +6,10 @@ export const modalValue = reactive({
   titleFrom: "",
   backShow: false,
 });
+export const itemDeleteValue = reactive({
+  table: "",
+  text: "",
+});
 export const itemValue = ref();
 export const openModal = (
   name: string,
@@ -20,6 +24,10 @@ export const openModal = (
   if (item != null) {
     itemValue.value = item;
   }
+};
+export const openDelete = (table: string, text: string) => {
+  itemDeleteValue.table = table;
+  itemDeleteValue.text = text;
 };
 export const closeModal = () => {
   modalValue.show = false;

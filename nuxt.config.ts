@@ -47,6 +47,7 @@ export default defineNuxtConfig({
         "/projects",
         "/recover-password",
         "/registration-expert",
+        "/project/*",
       ],
     },
   },

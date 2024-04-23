@@ -15,7 +15,8 @@ const createProjectValue = reactive({
   name: "",
   title_photo: "default.png",
   tilda_url: "",
-  team: [],
+  description: "",
+  team: null,
   direction: [],
 });
 
@@ -40,6 +41,7 @@ const createProject = async () => {
       name: createProjectValue.name,
       title_photo: createProjectValue.title_photo,
       tilda_url: createProjectValue.tilda_url,
+      description: createProjectValue.description,
       team: createProjectValue.team,
       direction_id: createProjectValue.direction[0],
       user_id: user.id,
@@ -68,7 +70,7 @@ const createProject = async () => {
         <UiPhoto
           v-model:path="createProjectValue.title_photo"
           width="100%"
-          height="400px"
+          height="100%"
           :update="true"
         >
         </UiPhoto>
@@ -81,8 +83,12 @@ const createProject = async () => {
         placeholder="Введите название"
         v-model:model-value="createProjectValue.name"
         :errors="errors.name"
-      ></UiInput
-      ><UiSelect
+      ></UiInput>
+      <div>
+        <label>О себе:</label>
+        <textarea v-model="createProjectValue.description"></textarea>
+      </div>
+      <UiSelect
         v-model:model-value="createProjectValue.direction"
         :array="allDirections"
         label="Напрвление проекта"
@@ -122,6 +128,7 @@ form {
   }
   .photo {
     width: 100%;
+    height: 400px;
     display: flex;
     justify-content: center;
   }
@@ -130,10 +137,6 @@ form {
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
-
-    label {
-    }
-
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;
@@ -148,6 +151,33 @@ form {
   a {
     text-decoration: underline;
     color: #02c9af;
+  }
+  textarea {
+    max-width: 96%;
+    min-width: 96%;
+    min-height: 60px;
+    max-height: 300px;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: $second-color;
+      border-radius: 0 20px 20px 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first-color;
+      border-radius: 20px;
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  form {
+    .photo {
+      height: 300px;
+    }
   }
 }
 </style>

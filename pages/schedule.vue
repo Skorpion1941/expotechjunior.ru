@@ -53,12 +53,12 @@ const onSlideChange = (swiper: any) => {
       </Swiper>
       <h2>МАЯ</h2>
       <div class="btn">
-        <button @click="slideTo(6)">17 мая</button>
-        <button @click="slideTo(5)">18 мая</button>
-        <button @click="slideTo(4)">19 мая</button>
-        <button @click="slideTo(3)">20 мая</button>
-        <button @click="slideTo(2)">21 мая</button>
-        <button @click="slideTo(1)">22 мая</button>
+        <button @click="slideTo(6)"><h1>17 мая</h1></button>
+        <button @click="slideTo(5)"><h1>18 мая</h1></button>
+        <button @click="slideTo(4)"><h1>19 мая</h1></button>
+        <button @click="slideTo(3)"><h1>20 мая</h1></button>
+        <button @click="slideTo(2)"><h1>21 мая</h1></button>
+        <button @click="slideTo(1)"><h1>22 мая</h1></button>
       </div>
     </section>
     <div class="table">
@@ -106,7 +106,6 @@ main {
     button {
       background: none !important;
       border: none !important;
-      font-size: 40px;
       color: $third-color;
     }
   }
@@ -130,5 +129,15 @@ main {
 .table {
   width: 1200px;
   margin: 100px auto;
+}
+@media screen and (max-width: 1280px) {
+  .swiper {
+    margin-top: 50px;
+  }
+  .table {
+    width: 900px;
+
+    margin: 50px auto;
+  }
 }
 </style>

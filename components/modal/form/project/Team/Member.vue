@@ -14,10 +14,10 @@ const props = defineProps({
     </div>
     <div>
       <Icon
+        class="icon"
         style="cursor: pointer"
         @click="onClickMinus"
         name="tabler:minus"
-        color="black"
         size="30px"
       ></Icon>
     </div>
@@ -41,6 +41,11 @@ const props = defineProps({
       border-left: 1px solid #ccc;
       background: #f5f5f5;
     }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .icon {
+    width: 25px;
   }
 }
 </style>

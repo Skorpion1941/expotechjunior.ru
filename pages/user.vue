@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import { openModal } from "../components/modal/useModal";
 import { allProjects } from "~/util/useProjects";
 import { fetchRoles } from "~/util/useRoles";
+import { fetchForms } from "~/util/useForm";
 const { user } = useAuthStore();
 const myProjects = ref();
 const filterProjects = ref();
@@ -51,14 +52,14 @@ const filtersProject = () => {
 
 onMounted(() => {
   filterProjects.value = myProjects.value;
-
-  console.log(allProjects.value);
+  fetchForms();
   if (user.role == "user") {
     userProject();
     return;
   }
   if (user.role == "expert") {
     expertProject();
+
     selectDirection.value = Object.values(user.directions);
     if (selectDirection.value[0].name != "Все") {
       selectDirection.value.unshift({
@@ -109,12 +110,14 @@ watch(allProjects, () => {
           ></UiInput>
         </div>
       </div>
-      <div class="container" v-auto-animate>
-        <ProjectCardList
-          v-if="user.role != 'admin'"
-          :array="filterProjects"
-          :role="user.role"
-        ></ProjectCardList>
+      <div class="card" v-auto-animate>
+        <div class="container" v-auto-animate>
+          <ProjectCardList
+            v-if="user.role != 'admin'"
+            :array="filterProjects"
+            :role="user.role"
+          ></ProjectCardList>
+        </div>
       </div>
     </div>
     <div v-else><UserAdmin></UserAdmin></div>
@@ -124,18 +127,21 @@ watch(allProjects, () => {
 <style scoped lang="scss">
 .my-project {
   width: 80%;
-  margin: 200px auto;
+  margin: 100px auto;
   .title {
     display: flex;
     justify-content: space-between;
   }
-  .container {
+  .card {
     margin: 100px 0;
+    min-height: 500px;
+  }
+  .container {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, minmax(30%, 1fr));
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 200px;
-    justify-content: flex-start;
+    gap: 50px;
   }
   .filter {
     display: flex;

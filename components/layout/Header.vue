@@ -7,7 +7,7 @@ const { user } = useAuthStore();
 <template>
   <header>
     <div class="logo">
-      <nuxt-link to="/"> <img src="/logo.png" width="55px" /></nuxt-link>
+      <nuxt-link to="/"> <img src="/logo.png" /></nuxt-link>
     </div>
     <ul>
       <li v-for="item in HEADER_DATA" :key="item.name">
@@ -23,12 +23,14 @@ const { user } = useAuthStore();
             {{ user.surname }} {{ user.name.slice(0, 1) }}.
             {{ user.patronymic.slice(0, 1) }}.
           </h3>
-          <UiAvatar
-            :path="user.avatar_url"
-            width="55px"
-            height="55px"
-          ></UiAvatar
-        ></NuxtLink>
+          <div class="avatar">
+            <UiAvatar
+              :path="user.avatar_url"
+              width="100%"
+              height="100%"
+            ></UiAvatar>
+          </div>
+        </NuxtLink>
       </div>
       <button v-else @click="openModal('login', 'Вход', false)">
         <h3>ВХОД</h3>
@@ -49,7 +51,11 @@ header {
   z-index: 1000;
   background: white;
   .logo {
+    margin-top: 5px;
     margin-left: 10px;
+    img {
+      width: 55px;
+    }
   }
   ul {
     width: 40%;
@@ -73,6 +79,30 @@ header {
         gap: 10px;
         align-items: center;
         color: $first-color;
+      }
+      .avatar {
+        width: 55px;
+        height: 55px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  header {
+    height: 50px;
+    .logo {
+      margin-top: 5px;
+      img {
+        width: 40px;
+      }
+    }
+
+    .btn-entry {
+      .user-info {
+        .avatar {
+          width: 40px;
+          height: 40px;
+        }
       }
     }
   }

@@ -23,10 +23,11 @@ export interface Project {
   createdAt?: string;
   name: string;
   team: any;
+  description: string;
   tilda_url: string;
   title_photo: string;
   direction_id: number;
-  user_id: string;
+  user_id?: string;
 }
 export interface Direction {
   id?: number;
@@ -57,4 +58,10 @@ export interface Assessment {
   comment: string;
   project: string;
   fio_expert: string;
+}
+export interface Form {
+  id?: number;
+  createdAt?: string;
+  direction_id: number;
+  url_form: string;
 }

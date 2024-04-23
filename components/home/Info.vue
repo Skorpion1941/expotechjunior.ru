@@ -114,4 +114,13 @@ section {
     }
   }
 }
+@media screen and (max-width: 1280px) {
+  .info {
+    height: 300px;
+    .swiper {
+      width: 450px;
+      height: 300px;
+    }
+  }
+}
 </style>

@@ -49,4 +49,9 @@ p {
   color: red;
   margin: 0px;
 }
+@media screen and (max-width: 1280px) {
+  input {
+    padding: 7px 7px;
+  }
+}
 </style>

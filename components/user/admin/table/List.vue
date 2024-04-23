@@ -48,4 +48,11 @@ table {
     border: none;
   }
 }
+@media screen and (max-width: 1280px) {
+  table {
+    th {
+      height: 50px;
+    }
+  }
+}
 </style>

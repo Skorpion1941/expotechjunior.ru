@@ -36,8 +36,7 @@ export async function addSchedule(
     const supabase = useSupabaseClient();
     const { data, error } = await supabase
       .from("schedules")
-      .insert(schedule as never)
-      .single();
+      .insert(schedule as never);
 
     if (error) {
       alert(error.message);
@@ -63,16 +62,13 @@ export async function updateSchedule(schedule: Schedule) {
     const { error } = await supabase
       .from("schedules")
       .update(schedule as never)
-      .eq("id", schedule.id as number)
-      .single();
+      .eq("id", schedule.id as number);
 
     if (error) {
       alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
-
-    console.log("Updated task", schedule.id);
   } catch (err) {
     alert("Error");
     console.error("Unknown problem updating record", err);

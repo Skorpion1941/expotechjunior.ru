@@ -3,23 +3,16 @@ const supabase = useSupabaseClient();
 
 const props = defineProps(["name", "imgUrl"]);
 const { name, imgUrl } = toRefs(props);
-const src = ref("");
-const downloadImage = async () => {
-  try {
-    const { data, error } = await supabase.storage
-      .from("directions_photo")
-      .download(imgUrl.value);
-    if (error) throw error;
-    src.value = URL.createObjectURL(data);
-  } catch (error) {
-    console.error("Error downloading image: ", error.message);
-  }
-};
-onMounted(async () => await downloadImage());
 </script>
 <template>
   <div class="card">
-    <img class="scale-img" :src="src" />
+    <div class="scale-img">
+      <UiDirectionPhoto
+        :path="imgUrl"
+        width="100%"
+        height="100%"
+      ></UiDirectionPhoto>
+    </div>
     <h5>{{ name.toUpperCase() }}</h5>
   </div>
 </template>
@@ -31,10 +24,18 @@ onMounted(async () => await downloadImage());
   align-items: center;
   color: $third-color;
   gap: 10px;
-  img {
-    width: 120px;
+  .scale-img {
+    min-width: 120px;
+    height: 120px;
   }
-  p {
+}
+@media screen and (max-width: 1280px) {
+  .card {
+    width: 400px;
+    .scale-img {
+      min-width: 80px;
+      height: 80px;
+    }
   }
 }
 </style>

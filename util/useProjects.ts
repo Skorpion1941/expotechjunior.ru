@@ -61,8 +61,7 @@ export async function updateProject(projects: Project) {
     const { error } = await supabase
       .from("projects")
       .update(projects as never)
-      .eq("id", projects.id as number)
-      .single();
+      .eq("id", projects.id as number);
 
     if (error) {
       alert(error.message);

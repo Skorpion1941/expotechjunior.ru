@@ -14,10 +14,9 @@ const tableHeads = [
   { name: "Направление", select: false },
   { name: "Роли", select: true },
   { name: "O себе", select: false },
-  { name: "", select: false },
 ];
 
-const tableSizeColumns = "120px 300px 300px 350px 250px 300px 240px 240px";
+const tableSizeColumns = "120px 320px 350px 200px 355px 150px 400px";
 
 const modelValue = ref(["Все", "Все", "Все", "Все"]);
 const role = ref();
@@ -81,70 +80,46 @@ watch(allProfiles, () => {
     :v-bind="modelValue"
     :array="role"
     :name="2"
-    width="250px"
+    width="300px"
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >
-    <div class="tables">
-      <UiTableRow
-        v-for="item in profiles"
-        :key="item.id"
-        :columnTemplates="tableSizeColumns"
-        bgRow="black"
-      >
-        <UiTableColumn>
-          <UiAvatar
-            style="margin: 10px 0"
-            :path="item.avatar_url"
-            width="100px"
-            height="100px"
-          ></UiAvatar>
-        </UiTableColumn>
-        <UiTableColumn>
-          {{ item.surname }} {{ item.name }} {{ item.patronymic }}
-        </UiTableColumn>
-        <UiTableColumn> {{ item.organization }}</UiTableColumn>
+    <UiTableRow
+      v-for="item in profiles"
+      :key="item.id"
+      :columnTemplates="tableSizeColumns"
+      bgRow="black"
+    >
+      <UiTableColumn>
+        <UiAvatar
+          style="margin: 10px 0"
+          :path="item.avatar_url"
+          width="100px"
+          height="100px"
+        ></UiAvatar>
+      </UiTableColumn>
+      <UiTableColumn>
+        {{ item.surname }} {{ item.name }} {{ item.patronymic }}
+      </UiTableColumn>
+      <UiTableColumn> {{ item.organization }}</UiTableColumn>
 
-        <UiTableColumn> {{ item.city }}</UiTableColumn>
+      <UiTableColumn> {{ item.city }}</UiTableColumn>
 
-        <UiTableColumn>
-          <div
-            style="display: flex"
-            v-for="direction in item.directions"
-            :key="direction.id"
-          >
-            <p>{{ direction.name }};</p>
-          </div>
-        </UiTableColumn>
-        <UiTableColumn> {{ findRoles(item.role) }}</UiTableColumn>
-        <UiTableColumn> {{ item.about_me }}</UiTableColumn>
-        <UiTableColumn>
-          <div class="btn">
-            <button><h3>Изменить</h3></button>
-            <button><h3>Удалить</h3></button>
-          </div>
-        </UiTableColumn>
-      </UiTableRow>
-    </div>
+      <UiTableColumn>
+        <div
+          style="display: flex"
+          v-for="direction in item.directions"
+          :key="direction.id"
+        >
+          <p>{{ direction.name }};</p>
+        </div>
+      </UiTableColumn>
+      <UiTableColumn> {{ findRoles(item.role) }}</UiTableColumn>
+      <UiTableColumn> {{ item.about_me }}</UiTableColumn>
+    </UiTableRow>
   </UiTableBase>
 </template>
 <style scoped lang="scss">
-.tables {
-  width: 100%;
-  max-height: 900px;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-  &::-webkit-scrollbar-track {
-    background: white;
-    border-radius: 0 0 20px 0;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: $first-color;
-    border-radius: 20px;
-  }
-}
 .btn {
   display: flex;
   gap: 10px;

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
+import { openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 
 const props = defineProps(["search"]);
@@ -13,7 +14,7 @@ const tableHeads = [
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 300px 300px 400px 110px 240px ";
+const tableSizeColumns = "60px 500px 300px 585px 120px 340px ";
 
 const modelValue = ref(["Все", "Все", "Все", "Все", "Все"]);
 const directions = ref();
@@ -67,34 +68,44 @@ watch(allDirections, () => {
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >
-    <div class="tables">
-      <UiTableRow
-        v-for="arr in directions"
-        :key="arr.id"
-        :columnTemplates="tableSizeColumns"
-        bgRow="black"
+    <UiTableRow
+      v-for="arr in directions"
+      :key="arr.id"
+      :columnTemplates="tableSizeColumns"
+      bgRow="black"
+    >
+      <UiTableColumn
+        v-for="index in indexs"
+        :key="index.id"
+        :columnTitle="index.name"
+        :image="index.image"
+        :src-image="arr.photo"
       >
-        <UiTableColumn
-          v-for="index in indexs"
-          :key="index.id"
-          :columnTitle="index.name"
-          :image="index.image"
-          :src-image="arr.photo"
-        >
-          {{ arr[`${index.name}`] }}
-        </UiTableColumn>
-        <UiTableColumn>
-          <div class="block-color" :style="{ background: arr.color }"></div>
-        </UiTableColumn>
-        <UiTableColumn>
-          <div class="btn">
-            <button><h3>Просмотр</h3></button>
-            <button><h3>Изменить</h3></button>
-            <button><h3>Удалить</h3></button>
-          </div>
-        </UiTableColumn>
-      </UiTableRow>
-    </div>
+        {{ arr[`${index.name}`] }}
+      </UiTableColumn>
+      <UiTableColumn>
+        <div class="block-color" :style="{ background: arr.color }"></div>
+      </UiTableColumn>
+      <UiTableColumn>
+        <div class="btn">
+          <button
+            @click="
+              () => {
+                openModal(
+                  'directionUpdate',
+                  'Изменить направление',
+                  false,
+                  arr
+                );
+              }
+            "
+          >
+            <h3>Изменить</h3>
+          </button>
+          <button><h3>Удалить</h3></button>
+        </div>
+      </UiTableColumn>
+    </UiTableRow>
   </UiTableBase>
 </template>
 <style scoped lang="scss">

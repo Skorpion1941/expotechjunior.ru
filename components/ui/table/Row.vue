@@ -23,6 +23,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .table-row {
+  width: 100%;
   border-bottom: 2px solid #eeeff4;
   position: relative;
   display: grid;

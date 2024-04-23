@@ -1,43 +1,40 @@
-import type { Organization } from "~/types/global.types";
+import type { Form } from "~/types/global.types";
 
-export const allOrganizations = ref<Organization[]>([]);
+export const allForms = ref<Form[]>([]);
 
 /**
  * Retrieve all todo for the signed in user
  */
-export async function fetchOrganizations() {
+export async function fetchForms() {
   try {
     const supabase = useSupabaseClient();
-    const { data: organizations, error } = await supabase
-      .from("organizations")
-      .select()
+    const { data: forms, error } = await supabase
+      .from("forms")
+      .select("*, directions(*)")
       .order("id");
 
     if (error) {
       console.log("error", error);
       return;
     }
-    if (organizations === null) {
-      allOrganizations.value = [];
+    if (forms === null) {
+      allForms.value = [];
       return;
     }
-    allOrganizations.value = organizations;
+    allForms.value = forms;
   } catch (err) {
-    console.error("Ошибька", err);
+    console.error("Ошибка", err);
   }
 }
-
 /**
  *  Add a new todo to supabase
  */
-export async function addOrganization(
-  organization: Organization[]
-): Promise<Organization | null> {
+export async function addForm(form: Form[]) {
   try {
     const supabase = useSupabaseClient();
     const { data, error } = await supabase
-      .from("organizations")
-      .insert(organization as never)
+      .from("forms")
+      .insert(form as never)
       .single();
 
     if (error) {
@@ -46,8 +43,7 @@ export async function addOrganization(
       return null;
     }
 
-    console.log("created a new organization");
-    return data;
+    console.log("created a new form");
   } catch (err) {
     alert("Error");
     console.error("Unknown problem inserting to db", err);
@@ -58,13 +54,13 @@ export async function addOrganization(
 /**
  * Targets a specific todo via its record id and updates the is_completed attribute.
  */
-export async function updateOrganization(organization: Organization) {
+export async function updateForm(form: Form) {
   try {
     const supabase = useSupabaseClient();
     const { error } = await supabase
-      .from("organizations")
-      .update(organization as never)
-      .eq("id", organization.id as number)
+      .from("forms")
+      .update(form as never)
+      .eq("id", form.id as number)
       .single();
 
     if (error) {
@@ -72,8 +68,6 @@ export async function updateOrganization(organization: Organization) {
       console.error("There was an error updating", error);
       return;
     }
-
-    console.log("Updated task", organization.id);
   } catch (err) {
     alert("Error");
     console.error("Unknown problem updating record", err);
@@ -83,14 +77,14 @@ export async function updateOrganization(organization: Organization) {
 /**
  *  Deletes a todo via its id
  */
-async function deleteTodo(organization: Organization) {
+async function deleteForm(form: Form) {
   try {
     const supabase = useSupabaseClient();
     await supabase
-      .from("organizations")
+      .from("forms")
       .delete()
-      .eq("id", organization.id as number);
-    console.log("deleted organization", organization.id);
+      .eq("id", form.id as number);
+    console.log("deleted form", form.id);
   } catch (error) {
     console.error("error", error);
   }

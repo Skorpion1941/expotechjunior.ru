@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { allAssessments, fetchAssessments } from "~/util/useAssessments";
-import { allProfiles } from "~/util/useProfiles";
-import { closeModal, itemValue } from "../../useModal";
+import { itemValue } from "../../useModal";
 
 const openLink = (link: string) => {
   window.open(link);

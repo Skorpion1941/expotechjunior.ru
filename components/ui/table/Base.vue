@@ -28,7 +28,7 @@ const addOption = (item) => {
         :style="{ 'grid-template-columns': columnTemplates }"
       >
         <div class="table-head__name" v-for="(element, i) of head" :key="i">
-          <div v-if="element.select">
+          <div v-if="element.select" class="select">
             <div style="display: flex; justify-content: space-between">
               <p class="name">
                 {{ element.name }} ({{ modelValue[props.name] }})
@@ -66,8 +66,21 @@ const addOption = (item) => {
 .table {
   background-color: #fff;
   width: 100%;
+  overflow: auto;
   margin-bottom: 40px;
   margin-top: 15px;
+  min-height: 300px;
+  border: 2px solid #eeeff4;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: white;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $first-color;
+    border-radius: 20px;
+  }
   &-wrapper {
     display: flex;
     justify-content: center;
@@ -75,14 +88,14 @@ const addOption = (item) => {
   &-head {
     display: grid;
     align-items: center;
-    border: 2px solid #eeeff4;
+
     background: #fff;
     &__name {
       width: 100%;
       height: 100%;
       align-items: center;
-      color: #461818;
-      border-right: 2px solid #eeeff4;
+      border-bottom: 2px solid #eeeff4;
+      border-left: 2px solid #eeeff4;
     }
     @media screen and (max-width: 767px) {
       display: none;
@@ -92,6 +105,9 @@ const addOption = (item) => {
 .name {
   margin: 10px 5px;
 }
+.select {
+  position: relative;
+}
 .down-arrow {
   font-size: 1.5rem;
   margin: 5px 0 0 5px;
@@ -99,6 +115,7 @@ const addOption = (item) => {
   cursor: pointer;
   transition: 0.2s linear;
 }
+
 .list {
   max-height: 150px;
   overflow: auto;

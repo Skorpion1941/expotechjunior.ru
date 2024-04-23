@@ -32,9 +32,9 @@ const addOption = (item) => {
           v-for="(element, i) of head"
           :key="i"
         >
-          <h2 class="name" :style="{ fontSize: props.size }">
+          <h3 class="name">
             {{ element.name }}
-          </h2>
+          </h3>
         </div>
       </div>
       <slot></slot>
@@ -64,7 +64,6 @@ const addOption = (item) => {
   &-head {
     width: 100%;
     padding-bottom: 10px;
-
     display: grid;
     align-items: center;
     &__name {

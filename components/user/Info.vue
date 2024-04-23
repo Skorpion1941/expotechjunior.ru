@@ -44,19 +44,15 @@ onMounted(() => {
           @click="openModal('userUpdate', 'Обновление', false)"
           style="background: none !important"
         >
-          <Icon name="fa-solid:user-edit" color="white" size="30px"></Icon>
+          <Icon name="fa-solid:user-edit" class="img" color="white"></Icon>
         </button>
         <button @click="signOut" style="background: none !important">
-          <Icon name="icomoon-free:exit" color="white" size="30px"></Icon>
+          <Icon name="icomoon-free:exit" class="img" color="white"></Icon>
         </button>
       </div>
       <div class="info-avatar">
         <div class="avatar">
-          <UiAvatar
-            :path="authStore.user.avatar_url"
-            width="200px"
-            height="200px"
-          ></UiAvatar>
+          <UiAvatar :path="authStore.user.avatar_url"></UiAvatar>
         </div>
         <div class="info">
           <div>
@@ -102,15 +98,20 @@ onMounted(() => {
   background-color: #1572b5;
   color: white;
   .user-block {
-    max-width: 40%;
+    max-width: 50%;
     min-width: 20%;
     margin: auto;
     padding: 30px;
     .icon {
       display: flex;
       justify-content: flex-end;
+      padding-right: 20px;
       button {
         border: none !important;
+        .img {
+          width: 30px;
+          height: 30px;
+        }
       }
     }
 
@@ -119,6 +120,10 @@ onMounted(() => {
       display: flex;
       justify-content: center;
       gap: 20px;
+      .avatar {
+        width: 200px;
+        height: 200px;
+      }
       .info {
         display: flex;
         flex-direction: column;
@@ -127,9 +132,30 @@ onMounted(() => {
     }
     .direction {
       div {
-        padding: 10px;
+        padding: 10px 0 0 10px;
         display: flex;
         gap: 10px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .user-info {
+    .user-block {
+      .icon {
+        button {
+          .img {
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+
+      .info-avatar {
+        .avatar {
+          width: 150px;
+          height: 150px;
+        }
       }
     }
   }

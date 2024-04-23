@@ -20,7 +20,6 @@ const props = defineProps({
     background: $second-color;
   }
   label {
-    font-size: 18px;
     align-items: center;
     padding: 10px;
     user-select: none;

@@ -41,16 +41,26 @@ const posts = defineProps<MailForm>();
   <ModalFormScheduleCreate
     v-if="name == 'scheduleCreate'"
   ></ModalFormScheduleCreate>
+  <ModalFormScheduleUpdate
+    v-if="name == 'scheduleUpdate'"
+  ></ModalFormScheduleUpdate>
   <!-- Проект -->
   <ModalFormDirectionCreate
     v-if="name == 'directionCreate'"
-  ></ModalFormDirectionCreate>
+  ></ModalFormDirectionCreate
+  ><ModalFormDirectionUpdate
+    v-if="name == 'directionUpdate'"
+  ></ModalFormDirectionUpdate>
   <!-- Проект -->
-  <ModalFormOrganizationCreate v-if="name == 'organizationCreate'">
-  </ModalFormOrganizationCreate>
+  <ModalFormYandexformCreate v-if="name == 'formCreate'">
+  </ModalFormYandexformCreate
+  ><ModalFormYandexformUpdate
+    v-if="name == 'formUpdate'"
+  ></ModalFormYandexformUpdate>
   <!-- Проект -->
   <ModalFormQuestionCreate v-if="name == 'questionCreate'">
   </ModalFormQuestionCreate>
+  <ModalFormDelete v-if="name == 'delete'"> </ModalFormDelete>
 </template>
 
 <style scoped lang="scss"></style>

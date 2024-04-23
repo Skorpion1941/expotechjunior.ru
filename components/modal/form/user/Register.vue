@@ -218,7 +218,7 @@ const signUp = async () => {
 <style scoped lang="scss">
 form {
   width: 80%;
-  margin: 40px auto;
+  margin: 20px auto;
   button {
     margin-top: 10px;
   }
@@ -228,11 +228,10 @@ form {
     display: flex;
     flex-direction: row;
     .avatar {
-      width: 350px;
-      min-width: 150px;
+      width: 400px;
     }
     .fio {
-      width: 100%;
+      width: 550px;
       height: 100%;
     }
   }
@@ -258,21 +257,23 @@ form {
   }
   textarea {
     max-width: 96%;
-    min-height: 50px;
+    min-width: 96%;
+    min-height: 60px;
+    max-height: 200px;
     padding: 10px;
     border-radius: 20px;
     font-size: 14px;
-  }
-  textarea::-webkit-scrollbar {
-    width: 12px;
-  }
-  textarea::-webkit-scrollbar-track {
-    background: $second-color;
-    border-radius: 0 20px 20px 0;
-  }
-  textarea::-webkit-scrollbar-thumb {
-    background-color: $first-color;
-    border-radius: 20px;
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: $second-color;
+      border-radius: 0 20px 20px 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first-color;
+      border-radius: 20px;
+    }
   }
 }
 .notification {
@@ -280,6 +281,17 @@ form {
   h3 {
     margin: 30px 50px;
     text-align: center;
+  }
+}
+@media screen and (max-width: 1280px) {
+  form {
+    .avatar-fio {
+      .avatar {
+        width: 250px;
+        min-width: 150px;
+        height: 230px;
+      }
+    }
   }
 }
 </style>

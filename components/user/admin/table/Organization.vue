@@ -14,9 +14,6 @@ const tableHeads = [
 
 const tableSizeColumns = "60px 400px 300px 240px";
 
-const directions = ref();
-directions.value = allDirections.value;
-
 const organizations = ref();
 organizations.value = allOrganizations.value;
 const indexs = ref([
@@ -61,34 +58,31 @@ watch(allOrganizations, () => {
 
 <template>
   <UiTableBase
-    :array="directions"
     width="400px"
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >
-    <div class="tables">
-      <UiTableRow
-        v-for="arr in organizations"
-        :key="arr.id"
-        :columnTemplates="tableSizeColumns"
+    <UiTableRow
+      v-for="arr in organizations"
+      :key="arr.id"
+      :columnTemplates="tableSizeColumns"
+    >
+      <UiTableColumn
+        v-for="index in indexs"
+        :key="index.id"
+        :columnTitle="index.name"
+        :image="index.image"
       >
-        <UiTableColumn
-          v-for="index in indexs"
-          :key="index.id"
-          :columnTitle="index.name"
-          :image="index.image"
-        >
-          {{ arr[`${index.name}`] }}
-        </UiTableColumn>
+        {{ arr[`${index.name}`] }}
+      </UiTableColumn>
 
-        <UiTableColumn>
-          <div class="btn">
-            <button>Изменить</button>
-            <button>Удалить</button>
-          </div>
-        </UiTableColumn>
-      </UiTableRow>
-    </div>
+      <UiTableColumn>
+        <div class="btn">
+          <button>Изменить</button>
+          <button>Удалить</button>
+        </div>
+      </UiTableColumn>
+    </UiTableRow>
   </UiTableBase>
 </template>
 <style scoped lang="scss">

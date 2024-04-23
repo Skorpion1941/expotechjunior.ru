@@ -3,45 +3,34 @@ import { reactive, ref, onMounted } from "vue";
 import * as Yup from "yup";
 import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
-import { allProjects, fetchProjects } from "~/util/useProjects";
-const { user } = useAuthStore();
+import { fetchForms } from "~/util/useForm";
 const supabase = useSupabaseClient();
 const loading = ref(false);
 const errorMessage = reactive({
   direction: "",
-  team: "",
 });
-const createProjectValue = reactive({
-  name: "",
+const createFormValue = reactive({
+  url_form: "",
   direction: [],
 });
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("Это поле обязательно"),
-  tilda_url: Yup.string().url().required("Это поле обязательно"),
+  url_form: Yup.string().url().required("Это поле обязательно"),
 });
 
-const createProject = async () => {
+const createForm = async () => {
   errorMessage.direction = "";
-  if (createProjectValue.direction.length == 0) {
+  if (createFormValue.direction.length == 0) {
     errorMessage.direction = "Это поле обязательно";
-    return;
-  }
-  if (createProjectValue.team.length == 0) {
-    errorMessage.team = "Это поле обязательно";
     return;
   }
   try {
     loading.value = true;
-    const { error } = await supabase.from("projects").insert({
-      name: createProjectValue.name,
-      title_photo: createProjectValue.title_photo,
-      tilda_url: createProjectValue.tilda_url,
-      team: createProjectValue.team,
-      direction_id: createProjectValue.direction[0],
-      user_id: user.id,
+    const { error } = await supabase.from("forms").insert({
+      direction_id: createFormValue.direction[0],
+      url_form: createFormValue.url_form,
     });
-    await fetchProjects();
+    await fetchForms();
     if (error) throw error;
     closeModal();
   } catch (error) {
@@ -56,31 +45,29 @@ const createProject = async () => {
 </script>
 <template>
   <div>
-    <Form
-      @submit="createProject()"
-      :validation-schema="schema"
-      v-slot="{ errors }"
-    >
-      <UiInput
-        label="Название формы:"
-        name="name"
-        type="text"
-        placeholder="Введите название"
-        v-model:model-value="createProjectValue.name"
-        :errors="errors.name"
-      ></UiInput
+    <Form @submit="createForm()" :validation-schema="schema" v-slot="{ errors }"
       ><UiSelect
-        v-model:model-value="createProjectValue.direction"
+        v-model:model-value="createFormValue.direction"
         :array="allDirections"
         label="Напрвление проекта"
         :name="4"
         placeholder="Выберите направление"
       ></UiSelect>
-      <ModalFormQuestion></ModalFormQuestion>
+
+      <p>{{ errorMessage.direction }}</p>
+
+      <UiInput
+        label="Сылка на YandexForm:"
+        name="url_form"
+        type="url"
+        placeholder="https://"
+        v-model:model-value="createFormValue.url_form"
+        :errors="errors.url_form"
+      ></UiInput>
 
       <div>
         <button type="submit" :disabled="loading">
-          {{ loading ? "Загрузка..." : "Добавить" }}
+          <h3>{{ loading ? "Загрузка..." : "Добавить" }}</h3>
         </button>
       </div>
     </Form>
@@ -89,7 +76,7 @@ const createProject = async () => {
 <style scoped lang="scss">
 form {
   width: 80%;
-  margin: 20px auto;
+  margin: 40px auto;
   button {
     margin-top: 10px;
   }
@@ -103,6 +90,10 @@ form {
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
+
+    label {
+    }
+
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;

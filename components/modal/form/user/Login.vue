@@ -124,7 +124,7 @@ const signIn = async () => {
 <style scoped lang="scss">
 form {
   width: 60%;
-  margin: 40px auto;
+  margin: 20px auto;
   div {
     display: flex;
     gap: 5px;

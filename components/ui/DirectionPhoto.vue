@@ -14,7 +14,7 @@ const files = ref();
 const downloadImage = async () => {
   try {
     const { data, error } = await supabase.storage
-      .from("avatars")
+      .from("directions_photo")
       .download(path.value);
     if (error) throw error;
     src.value = URL.createObjectURL(data);
@@ -36,7 +36,7 @@ const uploadAvatar = async (evt) => {
     const filePath = `${Math.random()}.${fileExt}`;
 
     let { error: uploadError } = await supabase.storage
-      .from("avatars")
+      .from("directions_photo")
       .upload(filePath, file);
 
     if (uploadError) throw uploadError;
@@ -76,8 +76,8 @@ onMounted(async () => {
         :style="{ height: height, width: width }"
       ></div>
     </div>
-    <div class="avatar-btn button" v-if="update == true">
-      <label for="single">
+    <div class="avatar-btn" v-if="update == true">
+      <label class="button" for="single">
         {{ uploading ? "Загрузка ..." : "Загрузить фото" }}
       </label>
       <input
@@ -97,9 +97,6 @@ onMounted(async () => {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 50%;
     img {
       width: 100%;
       height: 100%;
@@ -107,10 +104,11 @@ onMounted(async () => {
   }
   .avatar-btn {
     margin: 15px auto;
+    position: relative;
+    input {
+      left: 0;
+    }
   }
-}
-.no-image {
-  border-radius: 50%;
 }
 .button {
   padding: 10px 20px;
@@ -120,13 +118,9 @@ onMounted(async () => {
   background-color: #02c9af;
   transition: background-color 0.5s ease-in-out;
   cursor: pointer;
+
   &:hover {
     background-color: $second-color;
-  }
-}
-@media screen and (max-width: 1280px) {
-  .button {
-    padding: 6px 12px;
   }
 }
 </style>

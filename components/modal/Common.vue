@@ -22,13 +22,19 @@ const props = defineProps<Modal>();
           class="back"
         >
           <Icon
+            class="icon"
             name="fluent:arrow-left-28-filled"
             color="white"
             size="35px"
           ></Icon>
         </button>
         <button class="close" @click="closeModal">
-          <Icon name="akar-icons:cross" color="white" size="35px"></Icon>
+          <Icon
+            class="icon"
+            name="akar-icons:cross"
+            color="white"
+            size="35px"
+          ></Icon>
         </button>
         <h2>
           <b>{{ title }}</b>
@@ -44,17 +50,18 @@ const props = defineProps<Modal>();
 <style scoped lang="scss">
 .modal {
   position: fixed;
-  z-index: 5;
+  z-index: 10;
   width: 100%;
   height: 100%;
   .modals {
     position: relative;
     background-color: #fefefe;
-    margin: 5% auto;
+    margin: 50px auto;
     border: 1px solid #888;
     width: 550px;
     min-height: 100px;
     border-radius: 20px;
+    overflow: hidden;
 
     .form {
       max-height: 700px;
@@ -98,6 +105,17 @@ const props = defineProps<Modal>();
     margin: 0px;
     padding: 20px 0;
     color: $text-color;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .modal {
+    .modals {
+      margin: 20px auto;
+      width: 400px;
+      .form {
+        max-height: 480px;
+      }
+    }
   }
 }
 </style>

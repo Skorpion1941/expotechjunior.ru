@@ -175,7 +175,7 @@ const updateUser = async () => {
 <style scoped lang="scss">
 form {
   width: 80%;
-  margin: 40px auto;
+  margin: 20px auto;
   button {
     margin-top: 10px;
   }
@@ -186,6 +186,7 @@ form {
     flex-direction: row;
     .avatar {
       width: 50%;
+      height: 290px;
     }
     .fio {
       width: 50%;
@@ -196,10 +197,6 @@ form {
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
-
-    label {
-    }
-
     input {
       padding: 12px 20px;
       border: 1px solid #ccc;
@@ -210,29 +207,30 @@ form {
       margin: 0px;
     }
   }
-
-  p {
-  }
   a {
     text-decoration: underline;
     color: #02c9af;
   }
   textarea {
     max-width: 96%;
-    min-height: 50px;
+    min-width: 96%;
+    min-height: 60px;
+    max-height: 200px;
     padding: 10px;
     border-radius: 20px;
-  }
-  textarea::-webkit-scrollbar {
-    width: 12px;
-  }
-  textarea::-webkit-scrollbar-track {
-    background: $second-color;
-    border-radius: 0 20px 20px 0;
-  }
-  textarea::-webkit-scrollbar-thumb {
-    background-color: $first-color;
-    border-radius: 20px;
+    font-size: 14px;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: $second-color;
+      border-radius: 0 20px 20px 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first-color;
+      border-radius: 20px;
+    }
   }
 }
 .notification {
@@ -240,6 +238,17 @@ form {
   h3 {
     margin: 30px 50px;
     text-align: center;
+  }
+}
+@media screen and (max-width: 1280px) {
+  form {
+    .avatar-fio {
+      .avatar {
+        width: 230px;
+        min-width: 150px;
+        height: 210px;
+      }
+    }
   }
 }
 </style>

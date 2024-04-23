@@ -1,19 +1,22 @@
 <script setup>
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal } from "../../useModal";
+import { closeModal, itemValue } from "../../useModal";
 import { allProjects } from "~/util/useProjects";
-import { fetchSchedules } from "~/util/useSchedules";
-const { user } = useAuthStore();
-const supabase = useSupabaseClient();
+import { fetchSchedules, updateSchedule } from "~/util/useSchedules";
 const loading = ref(false);
 const errorMessage = reactive({
   project: "",
 });
-const createScheduleValue = reactive({
-  project: [],
-  date: "",
-  time: "",
+const project = ref();
+project.value = Object.values(allProjects.value).find(
+  (item) => item.id == itemValue.value.project_id
+);
+const projectMain = ref([itemValue.value.project_id, "", project.value?.name]);
+const updateProjectValue = reactive({
+  project: projectMain.value,
+  date: itemValue.value.date,
+  time: itemValue.value.time,
 });
 
 const schema = Yup.object().shape({
@@ -21,21 +24,21 @@ const schema = Yup.object().shape({
   time: Yup.string().required("Это поле обязательно"),
 });
 
-const createSchedule = async () => {
+const update = async () => {
   errorMessage.project = "";
-  if (createScheduleValue.project.length == 0) {
+  if (updateProjectValue.project.length == 0) {
     errorMessage.project = "Это поле обязательно";
     return;
   }
   try {
     loading.value = true;
-    const { error } = await supabase.from("schedules").insert({
-      date: createScheduleValue.date,
-      time: createScheduleValue.time,
-      project_id: createScheduleValue.project[0],
+    await updateSchedule({
+      id: itemValue.value.id,
+      date: updateProjectValue.date,
+      time: updateProjectValue.time,
+      project_id: updateProjectValue.project[0],
     });
     await fetchSchedules();
-    if (error) throw error;
     closeModal();
   } catch (error) {
     if (error instanceof Error) {
@@ -49,13 +52,9 @@ const createSchedule = async () => {
 </script>
 <template>
   <div>
-    <Form
-      @submit="createSchedule()"
-      :validation-schema="schema"
-      v-slot="{ errors }"
-    >
+    <Form @submit="update()" :validation-schema="schema" v-slot="{ errors }">
       <UiSelect
-        v-model:model-value="createScheduleValue.project"
+        v-model:model-value="updateProjectValue.project"
         :array="allProjects"
         label="Проект"
         :name="2"
@@ -67,19 +66,19 @@ const createSchedule = async () => {
         <Field
           type="date"
           name="date"
-          v-model="createScheduleValue.date"
+          v-model="updateProjectValue.date"
           min="2024-05-17"
           max="2024-05-22"
         />
         <p v-if="errors">{{ errors.date }}</p>
         <label for="">Время</label>
-        <Field type="time" name="time" v-model="createScheduleValue.time" />
+        <Field type="time" name="time" v-model="updateProjectValue.time" />
         <p v-if="errors">{{ errors.time }}</p>
       </div>
 
       <div>
         <button type="submit" :disabled="loading">
-          <h3>{{ loading ? "Загрузка..." : "Добавить" }}</h3>
+          <h3>{{ loading ? "Загрузка..." : "Изменить" }}</h3>
         </button>
       </div>
     </Form>
@@ -88,7 +87,7 @@ const createSchedule = async () => {
 <style scoped lang="scss">
 form {
   width: 80%;
-  margin: 40px auto;
+  margin: 20px auto;
   button {
     margin-top: 10px;
   }

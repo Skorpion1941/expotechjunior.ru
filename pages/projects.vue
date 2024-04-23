@@ -8,6 +8,7 @@ const filters = reactive({
   searchQuery: "",
 });
 const selectDirection = ref();
+const count = ref(0);
 const filtersProject = () => {
   projects.value = allProjects.value;
 
@@ -25,6 +26,7 @@ const filtersProject = () => {
 
 onMounted(async () => {
   projects.value = allProjects.value;
+  count.value = projects.value.length;
   selectDirection.value = Object.values(allDirections.value);
   if (selectDirection.value[0].name != "Все") {
     selectDirection.value.unshift({
@@ -39,6 +41,7 @@ onMounted(async () => {
 });
 watch(filters, () => {
   filtersProject();
+  count.value = projects.value.length;
 });
 </script>
 
@@ -61,8 +64,14 @@ watch(filters, () => {
         ></UiInput>
       </div>
     </div>
-    <div class="container" v-auto-animate>
-      <ProjectCardList :array="projects" role="user"></ProjectCardList>
+    <div class="card" v-auto-animate>
+      <div class="container" v-auto-animate v-if="count > 0">
+        <ProjectCardList :array="projects" role="user"></ProjectCardList>
+      </div>
+      <div v-else class="empty">
+        <h2>Ничего не найдено</h2>
+        <h5>Попробуйте изменить критерии поиска</h5>
+      </div>
     </div>
   </div>
 </template>
@@ -70,7 +79,7 @@ watch(filters, () => {
 <style scoped lang="scss">
 .my-project {
   width: 80%;
-  margin: 200px auto;
+  margin: 100px auto;
   .title {
     display: flex;
     justify-content: space-between;
@@ -79,15 +88,20 @@ watch(filters, () => {
     display: flex;
     gap: 15px;
   }
-  .container {
+  .card {
     margin: 100px 0;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    min-height: 500px;
+  }
+  .container {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, minmax(30%, 1fr));
     width: 100%;
-    row-gap: 100px;
-    column-gap: 200px;
+    gap: 50px;
+  }
+  .empty {
+    margin-top: 200px;
+    text-align: center;
   }
 }
 </style>

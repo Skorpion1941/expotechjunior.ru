@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
 import { defineProps, defineEmits, ref } from "vue";
 
 interface Team {
@@ -11,7 +10,7 @@ const props = defineProps(["modelValue", "label"]);
 const isListVisible = ref(false);
 const { modelValue } = toRefs(props);
 const array = ref<Team[]>([]);
-array.value = modelValue.value;
+array.value = modelValue?.value;
 const team = ref<Team>({ id: 0, surname: "", name: "" });
 const teamId = ref(0);
 const emit = defineEmits(["update:modelValue"]);
@@ -21,7 +20,9 @@ const generateId = () => {
   return teamId.value;
 };
 
-const toggleList = () => {};
+if (modelValue?.value != null) {
+  isListVisible.value = true;
+}
 const addTeam = () => {
   errorMassage.value = "";
   if (team.value.surname == "" || team.value.name == "") {
@@ -45,25 +46,31 @@ const removeTeam = (item: any) => {
 };
 </script>
 <template>
-  <div class="multi-selector">
+  <div>
     <label class="title" v-if="label">{{ label }}</label>
-    <div class="selector" :class="{ select_show: isListVisible }">
+    <div class="selector">
       <div class="select-fields">
         <div>
-          <input v-model="team.surname" placeholder="Фамилия" type="text" />
+          <input
+            style="border-radius: 20px 0 0 20px"
+            :class="{ input_show: isListVisible }"
+            v-model="team.surname"
+            placeholder="Фамилия"
+            type="text"
+          />
           <input v-model="team.name" placeholder="Имя" type="text" />
         </div>
         <div>
           <Icon
+            class="icon"
             @click="addTeam"
             name="pajamas:plus"
-            color="black"
             size="25px"
           ></Icon>
         </div>
       </div>
 
-      <div class="list" v-if="array.length > 0">
+      <div class="list" v-if="array?.length > 0">
         <ModalFormProjectTeamList
           :array="array"
           @remove-team="removeTeam"
@@ -74,15 +81,11 @@ const removeTeam = (item: any) => {
   </div>
 </template>
 <style scoped lang="scss">
-.multi-selector {
-  .title {
-    font-size: 20px;
-  }
-}
 .selector {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 20px;
+  overflow: hidden;
   .select-fields {
     width: 100%;
     display: flex;
@@ -90,12 +93,13 @@ const removeTeam = (item: any) => {
     input {
       padding: 10px 20px;
       max-width: 157px;
-      font-size: 16px;
       border: none;
       &:first-child {
-        border-radius: 20px 0 0 20px;
         border-right: 1px solid #ccc;
       }
+    }
+    .icon {
+      width: 30px;
     }
     div {
       &:first-child {
@@ -112,7 +116,9 @@ const removeTeam = (item: any) => {
     }
   }
 }
-
+.input_show {
+  border-radius: 20px 0 0 0 !important;
+}
 p {
   color: red;
   margin: 0px;
@@ -128,13 +134,22 @@ p {
   border: 1px solid #ccc;
   border-radius: 0 0 20px 20px;
 }
-.select_show {
-  border-radius: 20px 20px 0 0;
-}
-.show {
-  display: none;
-}
-.rotate180 {
-  transform: rotate(-60deg);
+@media screen and (max-width: 1280px) {
+  .selector {
+    .select-fields {
+      input {
+        padding: 7px 7px;
+        max-width: 128px;
+        &:first-child {
+          border-right: 1px solid #ccc;
+        }
+      }
+      .icon {
+        width: 20px;
+
+        margin-top: -6px;
+      }
+    }
+  }
 }
 </style>

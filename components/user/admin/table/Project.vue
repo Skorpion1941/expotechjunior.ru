@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
-import { openModal } from "~/components/modal/useModal";
+import { openDelete, openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 import { allProfiles } from "~/util/useProfiles";
 import { allProjects } from "~/util/useProjects";
@@ -9,15 +9,16 @@ const props = defineProps(["search"]);
 const { search } = toRefs(props);
 const tableHeads = [
   { name: "№", select: false },
-  { name: "Название", select: false },
   { name: "Фото", select: false },
+  { name: "Название", select: false },
+  { name: "Описание", select: false },
   { name: "Направление", select: true },
   { name: "Команда", select: false },
   { name: "Пользователь", select: false },
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 250px 192px 350px 300px 260px 380px";
+const tableSizeColumns = "60px 192px 250px 380px 350px 300px 260px 405px";
 
 const directions = ref();
 
@@ -30,14 +31,19 @@ const indexs = ref([
     image: false,
   },
   {
+    id: 2,
+    name: "title_photo",
+    image: true,
+  },
+  {
     id: 1,
     name: "name",
     image: false,
   },
   {
-    id: 2,
-    name: "title_photo",
-    image: true,
+    id: 1,
+    name: "description",
+    image: false,
   },
 ]);
 const filters = reactive({
@@ -97,53 +103,60 @@ watch(allProjects, () => {
     :v-bind="filters.sortDirection"
     :array="directions"
     :name="2"
-    width="400px"
+    width="350px"
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >
-    <div class="tables">
-      <UiTableRow
-        v-for="arr in projects"
-        :key="arr.id"
-        :columnTemplates="tableSizeColumns"
-        bgRow="black"
+    <UiTableRow
+      v-for="arr in projects"
+      :key="arr.id"
+      :columnTemplates="tableSizeColumns"
+      bgRow="black"
+    >
+      <UiTableColumn
+        v-for="index in indexs"
+        :key="index.id"
+        :columnTitle="index.name"
+        :image="index.image"
+        :src-image="arr.title_photo"
       >
-        <UiTableColumn
-          v-for="index in indexs"
-          :key="index.id"
-          :columnTitle="index.name"
-          :image="index.image"
-          :src-image="arr.title_photo"
-        >
-          {{ arr[`${index.name}`] }}
-        </UiTableColumn>
-        <UiTableColumn>
-          {{ arr.directions.name }}
-        </UiTableColumn>
+        {{ arr[`${index.name}`] }}
+      </UiTableColumn>
+      <UiTableColumn>
+        {{ arr.directions.name }}
+      </UiTableColumn>
 
-        <UiTableColumn>
-          <div style="display: flex" v-for="team in arr.team" :key="team.id">
-            <p>{{ team.surname }} {{ team.name }};</p>
-          </div>
-        </UiTableColumn>
-        <UiTableColumn> {{ findProfile(arr.user_id) }}</UiTableColumn>
-        <UiTableColumn>
-          <div class="btn">
-            <button @click="openLink(arr.tilda_url)"><h3>Просмотр</h3></button>
-            <button
-              @click="
-                () => {
-                  openModal('projectUpdate', 'Изменить проект', false, arr);
-                }
-              "
-            >
-              <h3>Изменить</h3>
-            </button>
-            <button><h3>Удалить</h3></button>
-          </div>
-        </UiTableColumn>
-      </UiTableRow>
-    </div>
+      <UiTableColumn>
+        <div style="display: flex" v-for="team in arr.team" :key="team.id">
+          <p>{{ team.surname }} {{ team.name }};</p>
+        </div>
+      </UiTableColumn>
+      <UiTableColumn> {{ findProfile(arr.user_id) }}</UiTableColumn>
+      <UiTableColumn>
+        <div class="btn">
+          <button @click="openLink(arr.tilda_url)"><h3>Просмотр</h3></button>
+          <button
+            @click="
+              () => {
+                openModal('projectUpdate', 'Изменить проект', false, arr);
+              }
+            "
+          >
+            <h3>Изменить</h3>
+          </button>
+          <button
+            @click="
+              () => {
+                openModal('delete', 'Удалить проект', false, arr);
+                openDelete('projects', 'проект');
+              }
+            "
+          >
+            <h3>Удалить</h3>
+          </button>
+        </div>
+      </UiTableColumn>
+    </UiTableRow>
   </UiTableBase>
 </template>
 <style scoped lang="scss">
