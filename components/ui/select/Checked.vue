@@ -16,8 +16,13 @@ const props = defineProps({
 <style scoped lang="scss">
 .checked {
   padding: 5px 10px;
-  border-radius: 20px;
+  border-radius: 15px;
   text-align: center;
   align-self: center;
+}
+@media screen and (max-width: 800px) {
+  .checked {
+    padding: 4px 6px;
+  }
 }
 </style>

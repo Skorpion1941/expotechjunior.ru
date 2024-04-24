@@ -88,7 +88,7 @@ const openLink = (link: string) => {
 
 <template>
   <section>
-    <UiTitle name="РАСПИСАНИЕ ЗАШИТ НА ЯРМАРКЕ"></UiTitle>
+    <UiTitle name="РАСПИСАНИЕ ЗАЩИТ ПРОЕКТОВ"></UiTitle>
 
     <div class="schedule">
       <div class="calendar">
@@ -122,11 +122,11 @@ const openLink = (link: string) => {
         <div class="title">
           <h2>{{ activeDay.day.name }}</h2>
           <a @click="openLink('https://www.youtube.com/@kvantorium_tomsk')">
-            <strong>Переходите на трансляцию</strong>
+            <h4>Переходите на трансляцию</h4>
             <Icon
+              class="img"
               name="material-symbols:arrow-forward"
               color="white"
-              size="30px"
             ></Icon>
           </a>
         </div>
@@ -191,17 +191,25 @@ section {
 }
 .schedule-table {
   width: 55%;
-  min-width: 500px;
+  min-width: 400px;
   height: 600px;
   background: $second-color;
   border-radius: 20px;
   color: white;
+  overflow: hidden;
   .title {
     margin: 20px;
     display: flex;
     justify-content: space-between;
     a {
       cursor: pointer;
+      display: flex;
+      h4 {
+        align-self: center;
+      }
+      .img {
+        font-size: 30px;
+      }
     }
   }
   .table {
@@ -213,7 +221,8 @@ section {
     padding: 10px;
   }
   .calendar {
-    min-width: 400px;
+    min-width: 300px;
+
     .days {
       div {
         padding: 10px;
@@ -231,7 +240,72 @@ section {
     }
   }
   .schedule-table {
+    width: 50%;
     height: 400px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  section {
+    margin: 70px auto;
+  }
+  h5 {
+    padding: 8px;
+  }
+  .calendar {
+    min-width: 280px;
+    .days {
+      div {
+        padding: 6px;
+      }
+    }
+
+    .numbers {
+      div {
+        .btn {
+          h5 {
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }
+  .schedule-table {
+    width: 40%;
+    height: 300px;
+    min-width: 300px;
+    .title {
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+      a {
+        cursor: pointer;
+        display: flex;
+        h4 {
+          align-self: center;
+        }
+        .img {
+          font-size: 20px;
+          align-self: center;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  section {
+    margin: 50px auto;
+  }
+  .schedule-table {
+    width: 30%;
+    height: 270px;
+    .title {
+      a {
+        .img {
+          font-size: 20px;
+          align-self: center;
+        }
+      }
+    }
   }
 }
 </style>

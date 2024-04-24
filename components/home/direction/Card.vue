@@ -38,4 +38,14 @@ const { name, imgUrl } = toRefs(props);
     }
   }
 }
+@media screen and (max-width: 800px) {
+  .card {
+    width: 270px;
+    height: 83px;
+    .scale-img {
+      min-width: 60px;
+      height: 60px;
+    }
+  }
+}
 </style>

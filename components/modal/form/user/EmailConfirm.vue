@@ -9,7 +9,9 @@ const confirmValue = reactive({
   email: "",
 });
 const schema = object({
-  email: string().required("Это поле обязательно").email("@"),
+  email: string()
+    .required("Это поле обязательно")
+    .email("Введите существующий адрес эл. почты"),
 });
 
 const confirmEmail = async () => {
@@ -62,7 +64,10 @@ const confirmEmail = async () => {
 <style scoped lang="scss">
 form {
   width: 60%;
-  margin: 40px auto;
+  margin: 20px auto;
+  button {
+    margin-top: 10px;
+  }
   div {
     display: flex;
     gap: 5px;

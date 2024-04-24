@@ -14,7 +14,9 @@ const authValue = reactive({
   password: "",
 });
 const schema = object({
-  email: string().required("Это поле обязательно").email("@"),
+  email: string()
+    .required("Это поле обязательно")
+    .email("Введите существующий адрес эл. почты"),
   password: string().required("Это поле обязательно").min(6, "Миним 6"),
 });
 
@@ -54,13 +56,13 @@ const signIn = async () => {
     if (error instanceof Error) {
       switch (error.status) {
         case 400:
-          errorMassage.value = "Неверный email или пароль";
+          errorMassage.value = "Неправильно указан логин и/или пароль";
           break;
         case 500:
           errorMassage.value = "Ошибка сервера";
           break;
         default:
-          errorMassage.value = "Неизвестная ошибка";
+          errorMassage.value = "Неправильно указан логин и/или пароль";
           break;
       }
     }
@@ -89,16 +91,6 @@ const signIn = async () => {
       :errors="errors.password"
     ></UiInput>
 
-    <a
-      href="#"
-      @click="
-        () => {
-          openModal('confirmEmail', 'Восстановдение пароля', true);
-          fromModal('login', 'Вход', true);
-        }
-      "
-      >Востановить пароль</a
-    >
     <div>
       <button type="submit" :disabled="loading">
         <h3>{{ loading ? "Загрузка..." : "Войти" }}</h3>
@@ -106,8 +98,8 @@ const signIn = async () => {
       <p style="text-align: center">{{ errorMassage }}</p>
     </div>
     <p>
-      Нет акаунта?
-      <a
+      Забыли пароль?
+      <!-- <a
         href="#"
         @click="
           () => {
@@ -116,6 +108,16 @@ const signIn = async () => {
           }
         "
         >Зарегистрироваться</a
+      >  -->
+      <a
+        href="#"
+        @click="
+          () => {
+            openModal('confirmEmail', 'Восстановдение пароля', true);
+            fromModal('login', 'Вход', true);
+          }
+        "
+        >Востановить пароль</a
       >
     </p>
   </Form>
@@ -125,13 +127,18 @@ const signIn = async () => {
 form {
   width: 60%;
   margin: 20px auto;
+  button {
+    margin-top: 10px;
+  }
   div {
     display: flex;
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
     p {
+      width: 100%;
       color: red;
+      text-align: center;
     }
   }
 

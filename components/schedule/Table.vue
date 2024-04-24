@@ -9,7 +9,7 @@ const tableHeads = [
   { name: "Время" },
   { name: "Название проекта" },
   { name: "Направление" },
-  { name: "Выступающий" },
+  { name: "Докладчик(и)" },
 ];
 
 const tableSizeColumns = "150px 350px 350px 350px";

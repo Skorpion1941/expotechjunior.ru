@@ -63,11 +63,17 @@ onMounted(() => {
       <div class="info">
         <div class="direction flex">
           <h3>Рейтинг: {{ rating }}</h3>
-          <div>
-            <UiSelectChecked
-              :name="project?.directions?.short_name"
-              :color="project?.directions?.color"
-            ></UiSelectChecked>
+          <div class="btn">
+            <button @click="openLink(project?.tilda_url)">
+              <h4>Лендинг проекта</h4>
+            </button>
+
+            <div style="align-self: center">
+              <UiSelectChecked
+                :name="project?.directions?.short_name"
+                :color="project?.directions?.color"
+              ></UiSelectChecked>
+            </div>
           </div>
         </div>
         <div>
@@ -117,6 +123,11 @@ onMounted(() => {
     }
     .direction {
       justify-content: space-between;
+      .btn {
+        width: 310px;
+        display: flex;
+        gap: 10px;
+      }
       div {
         width: 100px;
       }
@@ -158,6 +169,11 @@ onMounted(() => {
     &-info {
       .direction {
         justify-content: space-between;
+        .btn {
+          width: 240px;
+          display: flex;
+          gap: 10px;
+        }
         div {
           width: 100px;
           margin-right: 10px;

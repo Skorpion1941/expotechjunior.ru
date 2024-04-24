@@ -10,7 +10,7 @@ const props = defineProps(["modelValue", "label"]);
 const isListVisible = ref(false);
 const { modelValue } = toRefs(props);
 const array = ref<Team[]>([]);
-array.value = modelValue?.value;
+
 const team = ref<Team>({ id: 0, surname: "", name: "" });
 const teamId = ref(0);
 const emit = defineEmits(["update:modelValue"]);
@@ -22,24 +22,27 @@ const generateId = () => {
 
 if (modelValue?.value != null) {
   isListVisible.value = true;
+  array.value = modelValue?.value;
 }
 const addTeam = () => {
   errorMassage.value = "";
   if (team.value.surname == "" || team.value.name == "") {
     errorMassage.value =
-      "Для добавления нового члена команда заполните поля фамилии и имени";
+      "Для добавления нового члена команды заполните поле фамилия и/или имя";
     return;
   }
-  if (array.value.length > 4) {
-    errorMassage.value = "Максимальное число сленов команда 5 человек";
+  if (array.value?.length > 4) {
+    errorMassage.value = "Максимальное число членов команды 5 человек";
     return;
   }
-  array.value.push({
+  array.value?.push({
     id: generateId(),
     surname: team.value.surname.trim(),
     name: team.value.name.trim(),
   });
   emit("update:modelValue", array.value);
+  team.value.name = "";
+  team.value.surname = "";
 };
 const removeTeam = (item: any) => {
   array.value.splice(array.value.indexOf(item), 1);
@@ -122,7 +125,6 @@ const removeTeam = (item: any) => {
 p {
   color: red;
   margin: 0px;
-  font-size: 16px;
 }
 .list {
   width: 100%;

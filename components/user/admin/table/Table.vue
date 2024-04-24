@@ -30,7 +30,7 @@ const TABLE_DATA = ref<TableData[]>([
     titleCreateModal: "Добавить напрваление",
   },
   {
-    name: "Рассписание",
+    name: "Расписание",
     table: "schedule",
     select: false,
     nameCreateModal: "scheduleCreate",

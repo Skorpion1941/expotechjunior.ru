@@ -54,19 +54,19 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <h2>Коментарии ({{ commentsProject?.length }}):</h2>
-  <div
-    style="position: relative; height: 800px"
-    class="full-w flex flex-column"
-  >
-    <div class="comments scroll">
+  <h2>Комментарии к проекту ({{ commentsProject?.length }}):</h2>
+  <div class="full-w flex flex-column project">
+    <div class="comments scroll" v-if="commentsProject?.length > 0">
       <ProjectComment
         v-for="assessment in commentsProject"
         :key="assessment.id"
         :comment="assessment"
       ></ProjectComment>
     </div>
-    <div class="add flex">
+    <div v-else style="text-align: center" class="full-wh">
+      <h5 style="margin-top: 200px">Комментариев нет</h5>
+    </div>
+    <div class="add flex" v-if="user.role == 'expert'">
       <textarea wrap="soft" class="scroll" v-model="textComment"></textarea>
       <button @click="addComment()"><h3>Отправить</h3></button>
     </div>
@@ -75,6 +75,10 @@ onMounted(async () => {
 <style scoped lang="scss">
 h2 {
   margin-top: 40px;
+}
+.project {
+  position: relative;
+  height: 800px;
 }
 .comments {
   height: 600px;
@@ -106,11 +110,33 @@ h2 {
   }
 }
 @media screen and (max-width: 1280px) {
+  .project {
+    position: relative;
+    height: 600px;
+  }
   .add {
     width: 400px;
     textarea {
       min-width: 400px;
       max-width: 400px;
+      min-height: 50px;
+      max-height: 100px;
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .comments {
+    height: 300px;
+  }
+  .project {
+    position: relative;
+    height: 600px;
+  }
+  .add {
+    width: 250px;
+    textarea {
+      min-width: 250px;
+      max-width: 250px;
       min-height: 50px;
       max-height: 100px;
     }

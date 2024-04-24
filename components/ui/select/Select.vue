@@ -54,7 +54,7 @@ const addOption = (item) => {
   width: 100%;
   border: 1px solid #ccc;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 15px;
   min-width: 300px;
   height: 42px;
   .select-fields {
@@ -128,6 +128,26 @@ const addOption = (item) => {
     .select-fields {
       h4 {
         padding: 7px 7px;
+      }
+      div {
+        &:last-child {
+          width: 30px;
+          height: 28px;
+          .down-arrow {
+            margin-top: 0;
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .selector {
+    height: 24px;
+    .select-fields {
+      h4 {
+        padding: 5px 7px;
       }
       div {
         &:last-child {

@@ -30,9 +30,9 @@ const addOption = (item) => {
         <div class="table-head__name" v-for="(element, i) of head" :key="i">
           <div v-if="element.select" class="select">
             <div style="display: flex; justify-content: space-between">
-              <p class="name">
+              <h5 class="name">
                 {{ element.name }} ({{ modelValue[props.name] }})
-              </p>
+              </h5>
 
               <div>
                 <span
@@ -55,7 +55,9 @@ const addOption = (item) => {
               ></UiSelectOptionList>
             </div>
           </div>
-          <div class="name" v-else>{{ element.name }}</div>
+          <div class="name" v-else>
+            <h5>{{ element.name }}</h5>
+          </div>
         </div>
       </div>
       <slot></slot>
@@ -109,8 +111,8 @@ const addOption = (item) => {
   position: relative;
 }
 .down-arrow {
-  font-size: 1.5rem;
-  margin: 5px 0 0 5px;
+  font-size: 2rem;
+  margin: 7px 0 0 5px;
   display: inline-block;
   cursor: pointer;
   transition: 0.2s linear;
@@ -147,5 +149,12 @@ const addOption = (item) => {
 }
 .rotate180 {
   transform: rotate(-60deg);
+}
+
+@media screen and (max-width: 1280px) {
+  .down-arrow {
+    font-size: 1.5rem;
+    margin: 5px 0 0 0;
+  }
 }
 </style>

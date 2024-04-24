@@ -42,7 +42,7 @@ const emit = defineEmits(["update:modelValue"]);
 input {
   padding: 10px 20px;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 15px;
   color: $third-color;
 }
 p {
@@ -52,6 +52,7 @@ p {
 @media screen and (max-width: 1280px) {
   input {
     padding: 7px 7px;
+    border-radius: 10px;
   }
 }
 </style>

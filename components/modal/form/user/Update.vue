@@ -1,9 +1,7 @@
 <script setup>
-import { onMounted } from "vue";
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
-import { allOrganizations } from "~/util/useOrganizations";
 import { updateProfile } from "~/util/useProfiles";
 import { closeModal } from "../../useModal";
 const user = useSupabaseUser();
@@ -25,9 +23,7 @@ const updateValue = reactive({
   organization: authStore.user.organization,
   city: authStore.user.city,
 });
-const directionsJson = ref([]);
 const schema = Yup.object().shape({
-  password: Yup.string().required("Это поле обязательно").min(6, "Миним 6"),
   name: Yup.string().required("Это поле обязательно"),
   surname: Yup.string().required("Это поле обязательно"),
   patronymic: Yup.string().required("Это поле обязательно"),
@@ -38,6 +34,7 @@ const schema = Yup.object().shape({
 
 const updateUser = async () => {
   try {
+    loading.value = true;
     const { data, error } = await supabase.auth.updateUser({
       data: {
         name: updateValue.name,
@@ -92,7 +89,11 @@ const updateUser = async () => {
 </script>
 <template>
   <div>
-    <Form :validation-schema="schema" v-slot="{ errors }">
+    <Form
+      @submit="updateUser()"
+      :validation-schema="schema"
+      v-slot="{ errors }"
+    >
       <div class="avatar-fio">
         <div class="avatar">
           <UiAvatar
@@ -165,8 +166,8 @@ const updateUser = async () => {
       </div>
 
       <div>
-        <button @click="updateUser()" type="submit" :disabled="loading">
-          <h3>{{ loading ? "Загрузка..." : "Обнавить" }}</h3>
+        <button type="submit" :disabled="loading">
+          <h3>{{ loading ? "Загрузка..." : "Изменить" }}</h3>
         </button>
       </div>
     </Form>

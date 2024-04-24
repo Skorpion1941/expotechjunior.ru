@@ -12,11 +12,11 @@ const tableHeads = [
   { name: "Организация", select: false },
   { name: "Город", select: false },
   { name: "Направление", select: false },
-  { name: "Роли", select: true },
+  { name: "Роль", select: true },
   { name: "O себе", select: false },
 ];
 
-const tableSizeColumns = "120px 320px 350px 200px 355px 150px 400px";
+const tableSizeColumns = "120px 320px 350px 200px 355px 280px 400px";
 
 const modelValue = ref(["Все", "Все", "Все", "Все"]);
 const role = ref();
@@ -80,7 +80,7 @@ watch(allProfiles, () => {
     :v-bind="modelValue"
     :array="role"
     :name="2"
-    width="300px"
+    width="280px"
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >

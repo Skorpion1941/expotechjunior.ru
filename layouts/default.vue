@@ -52,7 +52,6 @@ const seeUser = async () => {
 onMounted(async () => {
   await fetchProfiles();
   await fetchDirections();
-  await fetchOrganizations();
   await fetchProjects();
   await fetchAssessments();
   await fetchSchedules();

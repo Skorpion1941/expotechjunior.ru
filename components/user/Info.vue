@@ -41,7 +41,7 @@ onMounted(() => {
     <div class="user-block">
       <div class="icon">
         <button
-          @click="openModal('userUpdate', 'Обновление', false)"
+          @click="openModal('userUpdate', 'Изменить учетную запись', false)"
           style="background: none !important"
         >
           <Icon name="fa-solid:user-edit" class="img" color="white"></Icon>

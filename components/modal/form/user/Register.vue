@@ -34,8 +34,13 @@ const registerValue = reactive({
   city: "",
 });
 const schema = Yup.object().shape({
-  email: Yup.string().required("Это поле обязательно").email("@"),
-  password: Yup.string().required("Это поле обязательно").min(6, "Миним 6"),
+  email: Yup.string()
+    .required("Это поле обязательно")
+    .email("Введите существующий адрес эл. почты"),
+  password: Yup.string()
+    .required("Это поле обязательно")
+    .min(6, "Минимум 6 символов")
+    .max(20, "Максимум 20 символов"),
   name: Yup.string().required("Это поле обязательно"),
   surname: Yup.string().required("Это поле обязательно"),
   patronymic: Yup.string().required("Это поле обязательно"),
@@ -43,7 +48,7 @@ const schema = Yup.object().shape({
   city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
   password_repeat: Yup.string()
-    .oneOf([Yup.ref("password")], "Неверный пароль")
+    .oneOf([Yup.ref("password")], "Пароль в обоих полях должен совпадать")
     .required("Это поле обязательно"),
 });
 

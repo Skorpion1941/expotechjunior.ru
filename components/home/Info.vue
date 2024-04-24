@@ -31,10 +31,10 @@ const SWIPER_URL = ref<SwiperSlide[]>([
   <section>
     <div class="info">
       <div class="text">
-        <h1>ЯРМАРКА В Г. ТОМСК</h1>
+        <h1>ЯРМАРКА ПРОЕКТОВ В ТОМСКЕ</h1>
         <h3>
-          С 17 по 23 мая в на базе Детского технопарка в Томске состоялись
-          защиты проектов участников Всероссийской Ярмарки.
+          С 17 по 23 мая на базе Детского технопарка в Томске состоится защита
+          проектов учасников Всероссийской Ярмарки.
         </h3>
         <h3>
           В защите примут участие ребята из г. Томска, Томской области и других
@@ -117,9 +117,30 @@ section {
 @media screen and (max-width: 1280px) {
   .info {
     height: 300px;
+    .text {
+      margin-left: 120px;
+    }
     .swiper {
       width: 450px;
       height: 300px;
+      .img {
+        height: 300px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .info {
+    height: 200px;
+    .text {
+      margin-left: 70px;
+    }
+    .swiper {
+      width: 450px;
+      height: 200px;
+      .img {
+        height: 200px;
+      }
     }
   }
 }

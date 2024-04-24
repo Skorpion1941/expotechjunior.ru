@@ -31,8 +31,8 @@ const createForm = async () => {
       url_form: createFormValue.url_form,
     });
     await fetchForms();
-    if (error) throw error;
     closeModal();
+    if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);

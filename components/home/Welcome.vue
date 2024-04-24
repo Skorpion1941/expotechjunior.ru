@@ -41,19 +41,19 @@ const openLink = (link: string) => {
           </div>
           <h1>Expo-TECH Junior</h1>
           <hr />
-          <div class="full-w flex">
+          <div style="gap: 10px" class="full-w flex">
             <button>
-              <nuxt-link to="projects">Проекты участников</nuxt-link>
+              <nuxt-link to="projects"><h3>Проекты участников</h3></nuxt-link>
             </button>
             <button class="btn">
-              <nuxt-link to="schedule">Рассписание</nuxt-link>
+              <nuxt-link to="schedule"><h3>Расписание</h3> </nuxt-link>
             </button>
             <a @click="openLink('https://kvantoriumtomsk.ru/')">
               <strong>Страница техопарка</strong>
               <Icon
                 name="material-symbols:arrow-forward"
                 color="white"
-                size="30px"
+                size="25px"
               ></Icon>
             </a>
           </div>
@@ -130,9 +130,6 @@ const openLink = (link: string) => {
         gap: 5px;
         align-items: center;
       }
-      h1 {
-        margin-top: 10px;
-      }
       hr {
         border: 2px solid $first-color;
         margin: 5px 0 15px 0;
@@ -151,7 +148,6 @@ const openLink = (link: string) => {
       .btn {
         background: none;
         border: 3px solid white;
-        margin: 0 10px;
 
         &:hover {
           background-color: $second-color;
@@ -196,18 +192,83 @@ const openLink = (link: string) => {
       }
       .info-img {
         img {
+          width: 50px;
           &:first-child {
             width: 80px;
           }
           &:last-child {
             width: 150px;
           }
-          width: 50px;
         }
       }
     }
   }
 }
+@media screen and (max-width: 1024px) {
+  .welcome {
+    height: 400px;
+    grid-template-columns: 55% 45%;
+    .vector {
+      &::before {
+        left: -102px;
+        width: 200px;
+      }
+      &::after {
+        right: 78px;
+        width: 90%;
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .welcome {
+    height: 280px;
+    .vector {
+      &::after {
+        right: 90px;
+        width: 90%;
+      }
+    }
+    .info {
+      .info-welcome {
+        margin-top: 50px;
+        img {
+          height: 30px;
+        }
+        hr {
+          border: 1.5px solid $first-color;
+          margin: 5px 0 5px 0;
+          &::before {
+            width: 10px;
+            height: 10px;
+            left: -9px;
+            margin-top: -5px;
+          }
+        }
+        button {
+          a {
+            margin-top: 0;
+          }
+        }
+        .btn {
+          border: 2px solid white;
+        }
+      }
+      .info-img {
+        img {
+          &:first-child {
+            width: 45px;
+          }
+          &:last-child {
+            width: 120px;
+          }
+          width: 40px;
+        }
+      }
+    }
+  }
+}
+
 // @media screen and (width <= 1280px) {
 //   img {
 //     width: 70%;

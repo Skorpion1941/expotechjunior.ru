@@ -104,4 +104,9 @@ watch(filters, () => {
     text-align: center;
   }
 }
+@media screen and (max-width: 800px) {
+  .title {
+    width: 700px;
+  }
+}
 </style>

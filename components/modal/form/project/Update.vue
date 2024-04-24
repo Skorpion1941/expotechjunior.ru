@@ -129,7 +129,7 @@ const update = async () => {
 <style scoped lang="scss">
 form {
   width: 80%;
-  margin: 40px auto;
+  margin: 20px auto;
   button {
     margin-top: 10px;
   }

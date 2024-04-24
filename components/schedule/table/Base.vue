@@ -51,7 +51,7 @@ const addOption = (item) => {
     width: 12px;
   }
   &::-webkit-scrollbar-track {
-    background: white;
+    background: none;
   }
   &::-webkit-scrollbar-thumb {
     background-color: $first-color;

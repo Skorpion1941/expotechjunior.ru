@@ -12,11 +12,11 @@ const tableHeads = [
   { name: "Время", select: false },
   { name: "Название проекта", select: false },
   { name: "Направление проекта", select: true },
-  { name: "Комагда проекта", select: false },
+  { name: "Команда проекта", select: false },
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 250px 192px 350px 300px 360px 385px";
+const tableSizeColumns = "60px 250px 192px 350px 400px 300px 345px";
 
 const directions = ref();
 
@@ -92,7 +92,7 @@ watch(allSchedules, () => {
     :v-bind="filters.sortDirection"
     :array="directions"
     :name="2"
-    width="300px"
+    width="400px"
     :head="tableHeads"
     :columnTemplates="tableSizeColumns"
   >

@@ -118,4 +118,9 @@ ul {
     }
   }
 }
+@media screen and (max-width: 800px) {
+  footer {
+    margin-top: 50px;
+  }
+}
 </style>
