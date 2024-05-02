@@ -90,10 +90,10 @@ const toggleList = () => {
   position: absolute;
   flex-direction: column;
   border: 1px solid #ccc;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 15px 15px;
 }
 .select_show {
-  border-radius: 20px 20px 0 0;
+  border-radius: 15px 15px 0 0;
 }
 .show {
   display: none;

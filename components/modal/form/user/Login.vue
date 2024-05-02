@@ -5,7 +5,8 @@ import { useAuthStore } from "~/store/auth.store";
 import { allProfiles } from "~/util/useProfiles";
 
 const supabase = useSupabaseClient();
-const authStore = useAuthStore();
+const { set } = useAuthStore();
+const modalStore = useModalStore();
 const loading = ref(false);
 const errorMassage = ref("");
 const myProfile = ref();
@@ -27,31 +28,31 @@ const signIn = async () => {
       email: authValue.email,
       password: authValue.password,
     });
-
-    if (user != null) {
-      myProfile.value = Object.values(allProfiles.value).find(
-        (profile: any) => profile.id == user.user?.id
-      );
-      authStore.set({
-        id: myProfile.value.id,
-        email: user.user?.email,
-        name: myProfile.value.name,
-        surname: myProfile.value.surname,
-        patronymic: myProfile.value.patronymic,
-        avatar_url: myProfile.value.avatar_url,
-        post: myProfile.value.post,
-        about_me: myProfile.value.about_me,
-        directions: myProfile.value.directions,
-        organization: myProfile.value.organization,
-        city: myProfile.value.city,
-        role: myProfile.value.role,
-        status: true,
-      });
+    if (!user) {
+      return;
     }
+    myProfile.value = Object.values(allProfiles.value).find(
+      (profile: any) => profile.id == user.user?.id
+    );
+    set({
+      id: myProfile.value.id,
+      email: user.user?.email,
+      name: myProfile.value.name,
+      surname: myProfile.value.surname,
+      patronymic: myProfile.value.patronymic,
+      avatar_url: myProfile.value.avatar_url,
+      post: myProfile.value.post,
+      about_me: myProfile.value.about_me,
+      directions: myProfile.value.directions,
+      organization: myProfile.value.organization,
+      city: myProfile.value.city,
+      role: myProfile.value.role,
+      status: true,
+    });
     if (error) {
       throw error;
     }
-    closeModal();
+    modalStore.close;
   } catch (error) {
     if (error instanceof Error) {
       switch (error.status) {
@@ -90,7 +91,6 @@ const signIn = async () => {
       v-model:model-value="authValue.password"
       :errors="errors.password"
     ></UiInput>
-
     <div>
       <button type="submit" :disabled="loading">
         <h3>{{ loading ? "Загрузка..." : "Войти" }}</h3>
@@ -107,18 +107,23 @@ const signIn = async () => {
             fromModal('login', 'Вход', true);
           }
         "
-        >Зарегистрироваться</a
-      >  -->
+        >Зарегистрироваться</a>  -->
       <a
         href="#"
         @click="
           () => {
-            openModal('confirmEmail', 'Восстановдение пароля', true);
-            fromModal('login', 'Вход', true);
+            modalStore.open({
+              name: 'confirmEmail',
+              title: 'Восстановить пароль',
+              backShow: true,
+              nameFrom: 'login',
+              titleFrom: 'Вход',
+            });
           }
         "
-        >Востановить пароль</a
       >
+        Востановить пароль
+      </a>
     </p>
   </Form>
 </template>
@@ -141,7 +146,6 @@ form {
       text-align: center;
     }
   }
-
   a {
     text-decoration: underline;
     color: #02c9af;

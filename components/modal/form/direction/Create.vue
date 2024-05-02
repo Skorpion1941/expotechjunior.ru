@@ -1,8 +1,9 @@
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { fetchDirections } from "~/util/useDirections";
-import { closeModal } from "../../useModal";
+
+const { close } = useModalStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
 const createDirectionValue = reactive({
@@ -32,7 +33,7 @@ const createDirection = async () => {
     });
     await fetchDirections();
     if (error) throw error;
-    closeModal();
+    close();
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
@@ -84,7 +85,7 @@ const createDirection = async () => {
         v-model:model-value="createDirectionValue.description"
         :errors="errors.description"
       ></UiInput>
-      <div class="flex full-w">
+      <div class="color">
         <UiInput
           label="Цвет направления:"
           name="color"
@@ -121,6 +122,10 @@ form {
     display: flex;
     justify-content: center;
   }
+  .color {
+    display: flex;
+    flex-direction: row;
+  }
   div {
     display: flex;
     gap: 5px;
@@ -136,11 +141,6 @@ form {
       width: 100px;
       height: 100px;
     }
-  }
-
-  p {
-    color: red;
-    margin: 0px;
   }
   a {
     text-decoration: underline;

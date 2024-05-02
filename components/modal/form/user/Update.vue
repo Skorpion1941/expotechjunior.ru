@@ -4,24 +4,24 @@ import * as Yup from "yup";
 import { defineProps } from "vue";
 import { updateProfile } from "~/util/useProfiles";
 import { closeModal } from "../../useModal";
-const user = useSupabaseUser();
 
 const props = defineProps({
   role: String,
 });
 const supabase = useSupabaseClient();
-const authStore = useAuthStore();
+const { user, set } = useAuthStore();
+const { close } = useModalStore();
 const loading = ref(false);
 const updateValue = reactive({
-  name: authStore.user.name,
-  surname: authStore.user.surname,
-  patronymic: authStore.user.patronymic,
-  avatar_url: authStore.user.avatar_url,
-  post: authStore.user.post,
-  about_me: authStore.user.about_me,
-  directions: authStore.user.directions,
-  organization: authStore.user.organization,
-  city: authStore.user.city,
+  name: user.name,
+  surname: user.surname,
+  patronymic: user.patronymic,
+  avatar_url: user.avatar_url,
+  post: user.post,
+  about_me: user.about_me,
+  directions: user.directions,
+  organization: user.organization,
+  city: user.city,
 });
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
@@ -49,7 +49,7 @@ const updateUser = async () => {
       },
     });
     updateProfile({
-      id: authStore.user.id,
+      id: user.id,
       name: updateValue.name,
       surname: updateValue.surname,
       patronymic: updateValue.patronymic,
@@ -60,9 +60,9 @@ const updateUser = async () => {
       organization: updateValue.organization,
       city: updateValue.city,
     });
-    authStore.set({
-      id: authStore.user.id,
-      email: authStore.user.email,
+    set({
+      id: user.id,
+      email: user.email,
       name: updateValue.name,
       surname: updateValue.surname,
       patronymic: updateValue.patronymic,
@@ -72,18 +72,17 @@ const updateUser = async () => {
       directions: updateValue.directions,
       organization: updateValue.organization,
       city: updateValue.city,
-      role: authStore.user.role,
+      role: user.role,
       status: true,
     });
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
       console.log(error);
     }
   } finally {
     loading.value = false;
-    closeModal();
+    close();
   }
 };
 </script>

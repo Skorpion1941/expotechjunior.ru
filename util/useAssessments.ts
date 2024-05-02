@@ -40,7 +40,6 @@ export async function addAssessment(
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
@@ -67,14 +66,12 @@ export async function updateAssessment(assessment: Assessment) {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
 
     console.log("Updated task", assessment.id);
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

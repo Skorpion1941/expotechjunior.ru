@@ -10,8 +10,24 @@ defineProps({
 <template>
   <div class="title" :style="{ width: width }">
     <div>
-      <h2>{{ name }}</h2>
-      <hr />
+      <h2 data-aos="fade-up" data-aos-offset="0" data-aos-duration="500">
+        {{ name }}
+      </h2>
+      <div class="line">
+        <div
+          class="circle"
+          data-aos="fade-left"
+          data-aos-offset="0"
+          data-aos-duration="1000"
+        ></div>
+        <hr data-aos="zoom-in" data-aos-offset="0" data-aos-duration="1000" />
+        <div
+          class="circle"
+          data-aos="fade-right"
+          data-aos-offset="0"
+          data-aos-duration="1000"
+        ></div>
+      </div>
     </div>
     <div></div>
   </div>
@@ -26,27 +42,20 @@ defineProps({
         padding: 0 20px 5px 20px;
         text-align: center;
       }
-      hr {
-        height: 4px;
-        width: 100%;
-        background: $second-color;
-        border: none;
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
+      .line {
+        display: flex;
+        align-items: center;
+        .circle {
           width: 12px;
           height: 12px;
-          border: 4px solid $second-color;
+          border: 3px solid $second-color;
           border-radius: 50px;
         }
-        &::after {
-          right: -18px;
-          margin-top: -8px;
-        }
-        &::before {
-          left: -18px;
-          margin-top: -8px;
+        hr {
+          height: 4px;
+          width: 100%;
+          background: $second-color;
+          border: none;
         }
       }
     }

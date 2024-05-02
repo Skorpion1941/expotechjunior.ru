@@ -41,7 +41,6 @@ export async function addDirection(
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
@@ -49,7 +48,6 @@ export async function addDirection(
     console.log("created a new direction");
     return data;
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem inserting to db", err);
     return null;
   }
@@ -67,12 +65,10 @@ export async function updateDirection(direction: Direction) {
       .eq("id", direction.id as number);
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

@@ -23,7 +23,7 @@ const confirmEmail = async () => {
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      console.log(error.message);
     }
   } finally {
     loading.value = false;

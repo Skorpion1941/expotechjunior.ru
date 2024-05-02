@@ -40,9 +40,11 @@ const countingRating = () => {
     rating.value = 0;
     return;
   }
-  rating.value = (score.value / (16 * countAssessments.value)) * 10;
+  rating.value =
+    10 /
+    ((cardAssessments.value[0]?.score_max * countAssessments.value) /
+      score.value);
   rating.value = parseFloat(rating.value.toFixed(1));
-  console.log(score);
 };
 const openLink = (link: string) => {
   window.open(link);

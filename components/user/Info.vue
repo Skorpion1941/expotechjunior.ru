@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { openModal } from "../modal/useModal";
-
-const authStore = useAuthStore();
+const { open } = useModalStore();
+const { user, clear } = useAuthStore();
 const router = useRouter();
 const supabase = useSupabaseClient();
 const array = ref([]);
@@ -9,8 +8,8 @@ const signOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
 
-    authStore.clear();
-    authStore.user.status = false;
+    clear();
+    user.status = false;
     if (error) throw error;
   } catch (error) {
     console.log(error);
@@ -18,21 +17,9 @@ const signOut = async () => {
     router.push("/");
   }
 };
-const updateMyUser = async () => {
-  try {
-    const { error } = await supabase.auth.signOut();
 
-    authStore.clear();
-    authStore.user.status = false;
-    if (error) throw error;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    router.push("/");
-  }
-};
 onMounted(() => {
-  array.value = authStore.user.directions;
+  array.value = user.directions;
 });
 </script>
 
@@ -41,7 +28,12 @@ onMounted(() => {
     <div class="user-block">
       <div class="icon">
         <button
-          @click="openModal('userUpdate', 'Изменить учетную запись', false)"
+          @click="
+            open({
+              name: 'userUpdate',
+              title: 'Изменить учетную запись',
+            })
+          "
           style="background: none !important"
         >
           <Icon name="fa-solid:user-edit" class="img" color="white"></Icon>
@@ -52,39 +44,36 @@ onMounted(() => {
       </div>
       <div class="info-avatar">
         <div class="avatar">
-          <UiAvatar :path="authStore.user.avatar_url"></UiAvatar>
+          <UiAvatar :path="user.avatar_url"></UiAvatar>
         </div>
         <div class="info">
           <div>
             <h1>
-              {{ authStore.user.surname }} {{ authStore.user.name }}
-              {{ authStore.user.patronymic }}
+              {{ user.surname }} {{ user.name }}
+              {{ user.patronymic }}
             </h1>
-            <h3 class="">{{ authStore.user.email }}</h3>
+            <h3 class="">{{ user.email }}</h3>
           </div>
           <div class="info" style="gap: 5px !important">
             <h2>Организация</h2>
             <h3 style="padding-top: 10px">
-              {{ authStore.user.organization }},
-              {{ authStore.user.city }}
+              {{ user.organization }},
+              {{ user.city }}
             </h3>
             <h3>
-              {{
-                authStore.user.post.charAt(0).toUpperCase() +
-                authStore.user.post.substr(1)
-              }}
+              {{ user.post.charAt(0).toUpperCase() + user.post.substr(1) }}
             </h3>
           </div>
-          <div class="direction" v-if="authStore.user.role == 'expert'">
+          <div class="direction" v-if="user.role == 'expert'">
             <h2>Направления интересов</h2>
             <div>
               <UiSelectCheckedList :array="array"></UiSelectCheckedList>
             </div>
           </div>
 
-          <div v-if="authStore.user.about_me">
+          <div v-if="user.about_me">
             <h2 style="padding-top: 10px">О себе</h2>
-            <h4>{{ authStore.user.about_me }}</h4>
+            <h4>{{ user.about_me }}</h4>
           </div>
         </div>
       </div>

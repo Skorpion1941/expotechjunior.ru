@@ -9,8 +9,14 @@ const openLink = (link: string) => {
 <template>
   <footer>
     <div class="foot">
-      <nuxt-link to="/" class="logo">
-        <img src="~/public/white-logo.png"
+      <nuxt-link
+        to="/"
+        class="logo"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+        data-aos-offset="0"
+      >
+        <img src="/white-logo.webp"
       /></nuxt-link>
       <nav>
         <ul>
@@ -20,9 +26,16 @@ const openLink = (link: string) => {
             >
           </li>
         </ul>
-        <h3>8-960-970-9374<br />todoo.hobbycenter@yandex.ru</h3>
+        <h3 data-aos="fade-up" data-aos-duration="1000" data-aos-offset="0">
+          8-960-970-9374<br />todoo.hobbycenter@yandex.ru
+        </h3>
       </nav>
-      <div class="icon">
+      <div
+        class="icon"
+        data-aos="fade-left"
+        data-aos-duration="1000"
+        data-aos-offset="0"
+      >
         <Icon
           class="img"
           @click="openLink('https://vk.com/hobby_center_tomsk')"

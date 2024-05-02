@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
-import { openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 
+const { open } = useModalStore();
 const props = defineProps(["search"]);
 const { search } = toRefs(props);
+
+const modalStore = useModalStore();
 const tableHeads = [
   { name: "№", select: false },
   { name: "Название", select: false },
@@ -16,7 +18,6 @@ const tableHeads = [
 
 const tableSizeColumns = "60px 500px 300px 585px 120px 340px ";
 
-const modelValue = ref(["Все", "Все", "Все", "Все", "Все"]);
 const directions = ref();
 directions.value = allDirections.value;
 
@@ -90,19 +91,28 @@ watch(allDirections, () => {
         <div class="btn">
           <button
             @click="
-              () => {
-                openModal(
-                  'directionUpdate',
-                  'Изменить направление',
-                  false,
-                  arr
-                );
-              }
+              open({
+                name: 'directionUpdate',
+                title: 'Изменить направление',
+                item: arr,
+              })
             "
           >
             <h3>Изменить</h3>
           </button>
-          <button><h3>Удалить</h3></button>
+          <button
+            @click="
+              open({
+                name: 'delete',
+                title: 'Удалить направление',
+                item: arr,
+                tableDelete: 'directions',
+                textDelete: 'направление',
+              })
+            "
+          >
+            <h3>Удалить</h3>
+          </button>
         </div>
       </UiTableColumn>
     </UiTableRow>

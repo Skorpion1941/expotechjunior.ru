@@ -30,7 +30,7 @@ const SWIPER_URL = ref<SwiperSlide[]>([
 <template>
   <section>
     <div class="info">
-      <div class="text">
+      <div class="text" data-aos="fade-right" data-aos-duration="1000">
         <h1>ЯРМАРКА ПРОЕКТОВ В ТОМСКЕ</h1>
         <h3>
           С 17 по 23 мая на базе Детского технопарка в Томске состоится защита

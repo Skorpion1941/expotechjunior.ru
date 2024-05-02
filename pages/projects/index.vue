@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, watch } from "vue";
+import { directionValue } from "~/components/home/direction/useDirection";
 import { allDirections } from "~/util/useDirections";
 import { allProjects } from "~/util/useProjects";
 const projects = ref();
 const filters = reactive({
-  sortDirection: [],
+  sortDirection: [directionValue.id, "", "", "", directionValue.name],
   searchQuery: "",
 });
 const selectDirection = ref();
@@ -28,16 +29,15 @@ onMounted(async () => {
   projects.value = allProjects.value;
   count.value = projects.value.length;
   selectDirection.value = Object.values(allDirections.value);
-  if (selectDirection.value[0].name != "Все") {
-    selectDirection.value.unshift({
-      id: 0,
-      createdAt: "",
-      name: "Все",
-      short_name: "Все",
-      description: "Все",
-      color: "Все",
-    });
-  }
+  selectDirection.value.unshift({
+    id: 0,
+    createdAt: "",
+    short_name: "Все",
+    description: "Все",
+    name: "Все",
+    color: "Все",
+  });
+  filtersProject();
 });
 watch(filters, () => {
   filtersProject();
@@ -54,7 +54,7 @@ watch(filters, () => {
           v-model:model-value="filters.sortDirection"
           :array="selectDirection"
           :name="4"
-          placeholder="Все"
+          :placeholder="directionValue.name"
         ></UiSelect>
         <UiInput
           name="search"
@@ -68,8 +68,8 @@ watch(filters, () => {
       <div class="container" v-auto-animate v-if="count > 0">
         <ProjectCardList :array="projects" role="user"></ProjectCardList>
       </div>
-      <div v-else class="empty">
-        <h2>Ничего не найдено</h2>
+      <div v-else class="empty" data-aos="zoom-in">
+        <h2>Проектов не найдено</h2>
         <h5>Попробуйте изменить критерии поиска</h5>
       </div>
     </div>

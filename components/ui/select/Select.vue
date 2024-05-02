@@ -53,14 +53,15 @@ const addOption = (item) => {
 .selector {
   width: 100%;
   border: 1px solid #ccc;
-  overflow: hidden;
   border-radius: 15px;
   min-width: 300px;
-  height: 42px;
+  min-height: 42px;
+  overflow: hidden;
   .select-fields {
     width: 100%;
     display: flex;
     padding: 0 !important;
+    overflow: hidden;
     h4 {
       padding: 10px 20px;
     }
@@ -72,14 +73,16 @@ const addOption = (item) => {
       &:first-child {
         width: 100%;
         display: flex;
+        border-right: 1px solid #ccc;
       }
       &:last-child {
-        border-left: 1px solid #ccc;
         width: 40px;
-        height: 42px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         .down-arrow {
+          align-self: center;
           font-size: 1.5rem;
-          margin: 5px 0 0 5px;
           display: inline-block;
           cursor: pointer;
           transition: 0.2s linear;
@@ -114,7 +117,7 @@ const addOption = (item) => {
   }
 }
 .select_show {
-  border-radius: 20px 20px 0 0;
+  border-radius: 15px 15px 0 0;
 }
 .show {
   display: none;

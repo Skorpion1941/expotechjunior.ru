@@ -1,15 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal } from "../../useModal";
 import { allProjects } from "~/util/useProjects";
-import { fetchSchedules } from "~/util/useSchedules";
-const { user } = useAuthStore();
+import { allSchedules, fetchSchedules } from "~/util/useSchedules";
+
+const { close } = useModalStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
-const errorMessage = reactive({
-  project: "",
-});
+const projects = ref();
 const createScheduleValue = reactive({
   project: [],
   date: "",
@@ -20,7 +18,9 @@ const schema = Yup.object().shape({
   date: Yup.string().required("Это поле обязательно"),
   time: Yup.string().required("Это поле обязательно"),
 });
-
+const errorMessage = reactive({
+  project: "",
+});
 const createSchedule = async () => {
   errorMessage.project = "";
   if (createScheduleValue.project.length == 0) {
@@ -36,16 +36,24 @@ const createSchedule = async () => {
     });
     await fetchSchedules();
     if (error) throw error;
-    closeModal();
+    close();
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
       console.log(error);
     }
   } finally {
     loading.value = false;
   }
 };
+onMounted(() => {
+  const schedules = Object.values(allSchedules.value).map(
+    (item: any) => item.project_id
+  );
+
+  projects.value = Object.values(allProjects.value).filter(
+    (project: any) => !schedules.includes(project.id)
+  );
+});
 </script>
 <template>
   <div>
@@ -56,25 +64,29 @@ const createSchedule = async () => {
     >
       <UiSelect
         v-model:model-value="createScheduleValue.project"
-        :array="allProjects"
+        :array="projects"
         label="Проект"
         :name="2"
-        placeholder="Выберите направление"
+        placeholder="Выберите проект"
       ></UiSelect>
       <p>{{ errorMessage.project }}</p>
-      <div class="date">
-        <label for="">Дата</label>
-        <Field
-          type="date"
-          name="date"
-          v-model="createScheduleValue.date"
-          min="2024-05-17"
-          max="2024-05-22"
-        />
-        <p v-if="errors">{{ errors.date }}</p>
-        <label for="">Время</label>
-        <Field type="time" name="time" v-model="createScheduleValue.time" />
-        <p v-if="errors">{{ errors.time }}</p>
+      <div class="date-time">
+        <div>
+          <label for="">Дата</label>
+          <Field
+            type="date"
+            name="date"
+            v-model="createScheduleValue.date"
+            min="2024-05-17"
+            max="2024-05-22"
+          />
+          <p v-if="errors">{{ errors.date }}</p>
+        </div>
+        <div>
+          <label for="">Время</label>
+          <Field type="time" name="time" v-model="createScheduleValue.time" />
+          <p v-if="errors">{{ errors.time }}</p>
+        </div>
       </div>
 
       <div>
@@ -92,24 +104,30 @@ form {
   button {
     margin-top: 10px;
   }
-  div {
+  .date-time {
     display: flex;
-    gap: 5px;
-    margin: 5px 0;
-    flex-direction: column;
-    input {
-      padding: 12px 20px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
+    gap: 10px;
+    justify-content: space-between;
+    div {
+      display: flex;
+      gap: 5px;
+      margin: 5px 0;
+      flex-direction: column;
+      input {
+        width: 150px;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+      }
     }
-  }
-  p {
-    color: red;
-    margin: 0px;
-  }
-  a {
-    text-decoration: underline;
-    color: #02c9af;
+    p {
+      color: red;
+      margin: 0px;
+    }
+    a {
+      text-decoration: underline;
+      color: #02c9af;
+    }
   }
 }
 </style>

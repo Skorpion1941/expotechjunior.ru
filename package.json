@@ -26,6 +26,7 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/style-resources": "^1.2.2",
     "@vueuse/core": "^10.9.0",
+    "nuxt-aos": "^1.2.4",
     "nuxt-icon": "^0.6.8",
     "sass": "^1.71.1"
   }

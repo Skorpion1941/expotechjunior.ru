@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal, itemValue } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
 import { fetchProjects, updateProject } from "~/util/useProjects";
+
+const { modal, close } = useModalStore();
 const loading = ref(false);
-const errorMessage = reactive({
-  direction: "",
-  team: "",
-});
+
 const direction = ref();
 direction.value = Object.values(allDirections.value).find(
-  (item: any) => item.id == itemValue.value.direction_id
+  (item: any) => item.id == modal.item?.direction_id
 );
 const directionMain = ref([
-  itemValue.value.direction_id,
+  modal.item?.direction_id,
   "",
   "",
   "",
@@ -22,11 +20,11 @@ const directionMain = ref([
 ]);
 
 const updateProjectValue = reactive({
-  name: itemValue.value.name,
-  title_photo: itemValue.value.title_photo,
-  tilda_url: itemValue.value.tilda_url,
-  description: itemValue.value.description,
-  team: Object.values(itemValue.value.team),
+  name: modal.item?.name,
+  title_photo: modal.item?.title_photo,
+  tilda_url: modal.item?.tilda_url,
+  description: modal.item?.description,
+  team: Object.values(modal.item?.team),
   direction: directionMain.value,
 });
 
@@ -34,7 +32,10 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
   tilda_url: Yup.string().url().required("Это поле обязательно"),
 });
-
+const errorMessage = reactive({
+  direction: "",
+  team: "",
+});
 const update = async () => {
   errorMessage.direction = "";
   if (updateProjectValue.direction.length == 0) {
@@ -47,8 +48,8 @@ const update = async () => {
   }
   try {
     loading.value = true;
-    updateProject({
-      id: itemValue.value.id,
+    await updateProject({
+      id: modal.item?.id,
       name: updateProjectValue.name,
       team: updateProjectValue.team,
       tilda_url: updateProjectValue.tilda_url,
@@ -58,10 +59,9 @@ const update = async () => {
     });
 
     await fetchProjects();
-    closeModal();
+    close();
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
       console.log(error);
     }
   } finally {
@@ -165,19 +165,15 @@ form {
     min-height: 60px;
     max-height: 300px;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 14px;
 
     &::-webkit-scrollbar {
       width: 12px;
     }
-    &::-webkit-scrollbar-track {
-      background: $second-color;
-      border-radius: 0 20px 20px 0;
-    }
     &::-webkit-scrollbar-thumb {
       background-color: $first-color;
-      border-radius: 20px;
+      border-radius: 15px;
     }
   }
 }

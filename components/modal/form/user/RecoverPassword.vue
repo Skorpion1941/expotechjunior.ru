@@ -28,7 +28,7 @@ const recoverPassword = async () => {
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      console.log(error.message);
     }
   } finally {
     loading.value = false;
@@ -37,7 +37,11 @@ const recoverPassword = async () => {
 };
 </script>
 <template>
-  <Form :validation-schema="schema" v-slot="{ errors }">
+  <Form
+    @submit="recoverPassword"
+    :validation-schema="schema"
+    v-slot="{ errors }"
+  >
     <UiInput
       label="Email :"
       name="email"

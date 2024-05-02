@@ -92,7 +92,9 @@ const openLink = (link: string) => {
 
     <div class="schedule">
       <div class="calendar">
-        <h2>МАЙ 2024</h2>
+        <h2 data-aos="fade-down" data-aos-duration="1000" data-aos-offset="0">
+          МАЙ 2024
+        </h2>
         <div class="days">
           <div v-for="day in days" :key="day">
             <h5>{{ day }}</h5>
@@ -100,7 +102,12 @@ const openLink = (link: string) => {
         </div>
         <div class="numbers">
           <div v-for="number in numbers" :key="number.id">
-            <button class="btn">
+            <button
+              class="btn"
+              data-aos="zoom-in"
+              data-aos-duration="1000"
+              data-aos-offset="0"
+            >
               <h5
                 v-if="number.canSelect"
                 @click="onSelectDay(number.id)"
@@ -118,7 +125,12 @@ const openLink = (link: string) => {
           </div>
         </div>
       </div>
-      <div class="schedule-table">
+      <div
+        class="schedule-table"
+        data-aos="zoom-left"
+        data-aos-duration="1200"
+        data-aos-offset="0"
+      >
         <div class="title">
           <h2>{{ activeDay.day.name }}</h2>
           <a @click="openLink('https://www.youtube.com/@kvantorium_tomsk')">
@@ -213,7 +225,16 @@ section {
     }
   }
   .table {
-    height: 100%;
+    height: 525px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first-color;
+      border-radius: 20px;
+    }
   }
 }
 @media screen and (max-width: 1280px) {

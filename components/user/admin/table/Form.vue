@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-import { openModal } from "~/components/modal/useModal";
 import { allForms } from "~/util/useForm";
 
-const props = defineProps(["search"]);
-const { search } = toRefs(props);
+defineProps(["search"]);
+
+const { open } = useModalStore();
+const modalStore = useModalStore();
 const tableHeads = [
   { name: "№", select: false },
   { name: "Направлние", select: false },
   { name: "Яндекс форма", select: false },
+  { name: "Максимальные баллы", select: false },
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 400px 550px 235px";
+const tableSizeColumns = "60px 400px 550px 250px 285px";
 
 const forms = ref();
 forms.value = allForms.value;
@@ -47,17 +49,34 @@ watch(allForms, () => {
         <a @click="openLink(arr.url_form)" href="#">{{ arr.url_form }}</a>
       </UiTableColumn>
       <UiTableColumn>
+        {{ arr.max_scope }}
+      </UiTableColumn>
+      <UiTableColumn>
         <div class="btn">
           <button
             @click="
-              () => {
-                openModal('formUpdate', 'Изменить проект', false, arr);
-              }
+              open({
+                name: 'formUpdate',
+                title: 'Изменить форму',
+                item: arr,
+              })
             "
           >
             <h3>Изменить</h3>
           </button>
-          <button><h3>Удалить</h3></button>
+          <button
+            @click="
+              open({
+                name: 'delete',
+                title: 'Удалить форму',
+                item: arr,
+                tableDelete: 'forms',
+                textDelete: 'форму',
+              })
+            "
+          >
+            <h3>Удалить</h3>
+          </button>
         </div>
       </UiTableColumn>
     </UiTableRow>

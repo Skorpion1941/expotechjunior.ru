@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { openModal } from "~/components/modal/useModal";
+const { open } = useModalStore();
 export interface TableData {
   name: string;
   table: string;
@@ -73,14 +73,13 @@ const selectTable = (item: any) => {
   </UserAdminTableList>
   <section>
     <UiTitle class="title" :name="modelValue.name"></UiTitle>
-    <div style="display: flex; gap: 10px">
+    <div class="search">
       <button
         @click="
-          openModal(
-            modelValue.nameCreateModal,
-            modelValue.titleCreateModal,
-            false
-          )
+          open({
+            name: modelValue.nameCreateModal,
+            title: modelValue.titleCreateModal,
+          })
         "
       >
         <h3>Добавить</h3>
@@ -125,6 +124,11 @@ section {
   justify-content: space-between;
   .title {
     width: 500px;
+  }
+  .search {
+    display: flex;
+    gap: 10px;
+    align-self: center;
   }
 }
 </style>

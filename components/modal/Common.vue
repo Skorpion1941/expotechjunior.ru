@@ -1,15 +1,7 @@
 <script lang="ts" setup>
-import { defineProps } from "vue";
-import { closeModal, openModal } from "./useModal";
+import { useModalStore } from "~/store/modal.store";
 
-interface Modal {
-  title: string;
-  nameForm: string;
-  backShow: boolean;
-  fromTitleModal: string;
-  fromNameModal: string;
-}
-const props = defineProps<Modal>();
+const { modal, open, close } = useModalStore();
 </script>
 
 <template>
@@ -17,8 +9,14 @@ const props = defineProps<Modal>();
     <div class="modals">
       <div class="title">
         <button
-          v-if="backShow"
-          @click="openModal(fromNameModal, fromTitleModal, backShow)"
+          v-if="modal.backShow"
+          @click="
+            open({
+              name: `${modal.nameFrom}`,
+              title: `${modal.titleFrom}`,
+              backShow: false,
+            })
+          "
           class="back"
         >
           <Icon
@@ -28,7 +26,7 @@ const props = defineProps<Modal>();
             size="35px"
           ></Icon>
         </button>
-        <button class="close" @click="closeModal">
+        <button class="close" @click="close">
           <Icon
             class="icon"
             name="akar-icons:cross"
@@ -37,11 +35,11 @@ const props = defineProps<Modal>();
           ></Icon>
         </button>
         <h2>
-          <b>{{ title }}</b>
+          <b>{{ modal.title }}</b>
         </h2>
       </div>
       <div class="form" v-auto-animate>
-        <ModalMainForm :name="nameForm"></ModalMainForm>
+        <ModalMainForm></ModalMainForm>
       </div>
     </div>
   </div>
@@ -53,6 +51,7 @@ const props = defineProps<Modal>();
   z-index: 10;
   width: 100%;
   height: 100%;
+  background: rgb(0, 0, 0, 0.3);
   .modals {
     position: relative;
     background-color: #fefefe;
@@ -68,6 +67,7 @@ const props = defineProps<Modal>();
       overflow: auto;
       &::-webkit-scrollbar {
         width: 12px;
+        height: 12px;
       }
       &::-webkit-scrollbar-track {
         background: white;

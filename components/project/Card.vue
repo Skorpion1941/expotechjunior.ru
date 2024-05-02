@@ -22,6 +22,7 @@ const findAssessment = () => {
   );
   countAssessments.value = cardAssessments.value.length;
 };
+
 const countingRating = () => {
   const scoreArray = Object.values(cardAssessments.value).map(
     (item: any) => item.score
@@ -34,9 +35,13 @@ const countingRating = () => {
     rating.value = 0;
     return;
   }
-  rating.value = (score.value / (16 * countAssessments.value)) * 10;
+
+  rating.value =
+    10 /
+    ((cardAssessments.value[0]?.score_max * countAssessments.value) /
+      score.value);
   rating.value = parseFloat(rating.value.toFixed(1));
-  console.log(score);
+  console.log(rating.value);
 };
 const openLink = (link: string) => {
   window.open(link);
@@ -48,12 +53,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" data-aos="fade-up" data-aos-duration="500">
     <div class="img-project" @click="openLink(props.tilda_url as string)">
       <UiPhoto :path="title_photo" width="100%" height="100%"></UiPhoto>
     </div>
     <div class="project-info">
-      <div>
+      <div class="info">
         <h3>{{ name }}</h3>
         <div style="display: flex; justify-content: space-between">
           <h4 style="align-self: center">Рейтинг: {{ rating }}</h4>
@@ -65,14 +70,14 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="comment-export">
-        <!-- <Icon
+      <!-- <div class="comment-export">
+        <Icon
           @click="onClickComment()"
           name="ant-design:comment-outlined"
           class="comment"
           size="50"
-        ></Icon> -->
-      </div>
+        ></Icon>
+      </div> -->
       <button
         v-if="props.role == 'expert'"
         @click="openLink('https://forms.yandex.ru/u/6612a3ac3e9d08de6e1bfe24/')"
@@ -80,11 +85,11 @@ onMounted(() => {
         <h4>Оценить</h4>
       </button>
       <div class="btn">
-        <nuxt-link :to="`/project/${name}`">
-          <button><h4>Карта проекта</h4></button>
+        <nuxt-link :to="`/projects/${name}`">
+          <button><h3>Карта проекта</h3></button>
         </nuxt-link>
         <button @click="openLink(props.tilda_url as string)">
-          <h4>Лендинг</h4>
+          <h3>Лендинг</h3>
         </button>
       </div>
     </div>
@@ -108,19 +113,22 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .info {
+      h3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+      }
+    }
   }
   .img-project {
     width: 100%;
     height: 50%;
   }
-  h3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 10px;
-  }
+
   .check {
     display: flex;
     justify-content: flex-end;
@@ -132,18 +140,18 @@ onMounted(() => {
     justify-content: space-between;
     justify-self: flex-end;
   }
-  .comment-export {
-    display: flex;
-    justify-content: space-between;
-    .comment {
-      color: $first-color;
-      transition: color 0.5s ease-in-out;
-      cursor: pointer;
-      &:hover {
-        color: $second-color;
-      }
-    }
-  }
+  // .comment-export {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   .comment {
+  //     color: $first-color;
+  //     transition: color 0.5s ease-in-out;
+  //     cursor: pointer;
+  //     &:hover {
+  //       color: $second-color;
+  //     }
+  //   }
+  // }
 }
 @media screen and (max-width: 1280px) {
   .card {

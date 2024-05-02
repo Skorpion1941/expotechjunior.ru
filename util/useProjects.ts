@@ -64,14 +64,12 @@ export async function updateProject(projects: Project) {
       .eq("id", projects.id as number);
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
 
     console.log("Updated task", projects.id);
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

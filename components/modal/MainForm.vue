@@ -1,66 +1,59 @@
 <script lang="ts" setup>
-import { defineProps } from "vue";
-
-interface MailForm {
-  name: string;
-}
-const posts = defineProps<MailForm>();
+const { modal } = useModalStore();
 </script>
 
 <template>
   <!-- Пользователь -->
-  <ModalFormUserLogin v-if="name == 'login'"></ModalFormUserLogin>
+  <ModalFormUserLogin v-if="modal.name == 'login'"></ModalFormUserLogin>
   <ModalFormUserRegister
-    v-if="name == 'register'"
+    v-if="modal.name == 'register'"
     role="user"
   ></ModalFormUserRegister>
   <ModalFormUserRegister
-    v-if="name == 'registerExpert'"
+    v-if="modal.name == 'registerExpert'"
     role="expert"
   ></ModalFormUserRegister>
   <ModalFormUserRecoverPassword
-    v-if="name == 'confirmEmail'"
+    v-if="modal.name == 'confirmEmail'"
     :confirm="true"
   ></ModalFormUserRecoverPassword>
   <ModalFormUserRecoverPassword
-    v-if="name == 'recoverPassword'"
+    v-if="modal.name == 'recoverPassword'"
     :confirm="false"
   ></ModalFormUserRecoverPassword
-  ><ModalFormUserUpdate v-if="name == 'userUpdate'" role="user">
+  ><ModalFormUserUpdate v-if="modal.name == 'userUpdate'" role="user">
   </ModalFormUserUpdate>
-  <ModalFormUserUpdate v-if="name == 'expertUpdate'" role="expert">
+  <ModalFormUserUpdate v-if="modal.name == 'expertUpdate'" role="expert">
   </ModalFormUserUpdate>
 
   <!-- Проект -->
-  <ModalFormProjectCreate v-if="name == 'projectCreate'">
+  <ModalFormProjectCreate v-if="modal.name == 'projectCreate'">
   </ModalFormProjectCreate>
-  <ModalFormProjectUpdate v-if="name == 'projectUpdate'">
+  <ModalFormProjectUpdate v-if="modal.name == 'projectUpdate'">
   </ModalFormProjectUpdate>
-  <ModalFormProject v-if="name == 'project'"></ModalFormProject>
-  <!-- Проект -->
+  <ModalFormProject v-if="modal.name == 'project'"></ModalFormProject>
+  <!-- Расписание -->
   <ModalFormScheduleCreate
-    v-if="name == 'scheduleCreate'"
+    v-if="modal.name == 'scheduleCreate'"
   ></ModalFormScheduleCreate>
   <ModalFormScheduleUpdate
-    v-if="name == 'scheduleUpdate'"
+    v-if="modal.name == 'scheduleUpdate'"
   ></ModalFormScheduleUpdate>
-  <!-- Проект -->
+  <!-- Направления -->
   <ModalFormDirectionCreate
-    v-if="name == 'directionCreate'"
+    v-if="modal.name == 'directionCreate'"
   ></ModalFormDirectionCreate
   ><ModalFormDirectionUpdate
-    v-if="name == 'directionUpdate'"
+    v-if="modal.name == 'directionUpdate'"
   ></ModalFormDirectionUpdate>
-  <!-- Проект -->
-  <ModalFormYandexformCreate v-if="name == 'formCreate'">
+  <!-- Яндекс формы -->
+  <ModalFormYandexformCreate v-if="modal.name == 'formCreate'">
   </ModalFormYandexformCreate
   ><ModalFormYandexformUpdate
-    v-if="name == 'formUpdate'"
+    v-if="modal.name == 'formUpdate'"
   ></ModalFormYandexformUpdate>
-  <!-- Проект -->
-  <ModalFormQuestionCreate v-if="name == 'questionCreate'">
-  </ModalFormQuestionCreate>
-  <ModalFormDelete v-if="name == 'delete'"> </ModalFormDelete>
+  <ModalFormDelete v-if="modal.name == 'delete'"> </ModalFormDelete>
+  <ModalFormNotice v-if="modal.name == 'notice'"></ModalFormNotice>
 </template>
 
 <style scoped lang="scss"></style>

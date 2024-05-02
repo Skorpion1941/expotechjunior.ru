@@ -39,7 +39,6 @@ export async function addSchedule(
       .insert(schedule as never);
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
@@ -47,7 +46,6 @@ export async function addSchedule(
     console.log("created a new schedules");
     return data;
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem inserting to db", err);
     return null;
   }
@@ -65,12 +63,10 @@ export async function updateSchedule(schedule: Schedule) {
       .eq("id", schedule.id as number);
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

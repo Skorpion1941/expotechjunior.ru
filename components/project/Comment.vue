@@ -21,7 +21,7 @@ defineProps({
       </h4>
     </div>
     <h6>
-      {{ comment?.text }}
+      {{ comment?.text.replace(/\s/g, "&nbsp;") }}
     </h6>
   </div>
 </template>
@@ -46,6 +46,7 @@ defineProps({
     //background: rgb(2, 202, 175, 0.2);
     background: rgb(4, 144, 214, 0.2);
     overflow: hidden;
+    text-align: left;
     width: 700px;
     border: 1px solid white;
     padding: 10px;

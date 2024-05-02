@@ -38,14 +38,12 @@ export async function addForm(form: Form[]) {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
 
     console.log("created a new form");
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem inserting to db", err);
     return null;
   }
@@ -64,12 +62,10 @@ export async function updateForm(form: Form) {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

@@ -1,15 +1,16 @@
 <script setup>
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal, itemValue } from "../../useModal";
 import { fetchDirections, updateDirection } from "~/util/useDirections";
+
+const { modal, close } = useModalStore();
 const loading = ref(false);
 const updateDirectionValue = reactive({
-  name: itemValue.value.name,
-  short_name: itemValue.value.short_name,
-  description: itemValue.value.description,
-  color: itemValue.value.color,
-  photo: itemValue.value.photo,
+  name: modal.item?.name,
+  short_name: modal.item?.short_name,
+  description: modal.item?.description,
+  color: modal.item?.color,
+  photo: modal.item?.photo,
 });
 
 const schema = Yup.object().shape({
@@ -21,8 +22,8 @@ const schema = Yup.object().shape({
 
 const update = async () => {
   loading.value = true;
-  updateDirection({
-    id: itemValue.value.id,
+  await updateDirection({
+    id: modal.item?.id,
     name: updateDirectionValue.name,
     short_name: updateDirectionValue.short_name,
     description: updateDirectionValue.description,
@@ -31,7 +32,7 @@ const update = async () => {
   });
 
   await fetchDirections();
-  closeModal();
+  close();
   loading.value = false;
 };
 </script>
@@ -42,7 +43,7 @@ const update = async () => {
         <UiDirectionPhoto
           v-model:path="updateDirectionValue.photo"
           width="50%"
-          height="300px"
+          height="280px"
           :update="true"
         >
         </UiDirectionPhoto>
@@ -72,7 +73,7 @@ const update = async () => {
         v-model:model-value="updateDirectionValue.description"
         :errors="errors.description"
       ></UiInput>
-      <div class="flex full-w">
+      <div class="color">
         <UiInput
           label="Цвет направления:"
           name="color"
@@ -108,6 +109,10 @@ form {
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+  .color {
+    display: flex;
+    flex-direction: row;
   }
   div {
     display: flex;

@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@formkit/auto-animate/nuxt",
     "nuxt-swiper",
+    "nuxt-aos",
   ],
   veeValidate: {
     // disable or enable auto imports

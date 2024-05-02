@@ -1,14 +1,15 @@
-<script setup>
-import { reactive, ref, onMounted } from "vue";
+<script setup lang="ts">
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
-import { fetchForms } from "~/util/useForm";
+import { allForms, fetchForms } from "~/util/useForm";
+
+const { close } = useModalStore();
 const supabase = useSupabaseClient();
+
 const loading = ref(false);
-const errorMessage = reactive({
-  direction: "",
-});
+const directions = ref();
+
 const createFormValue = reactive({
   url_form: "",
   direction: [],
@@ -17,7 +18,9 @@ const createFormValue = reactive({
 const schema = Yup.object().shape({
   url_form: Yup.string().url().required("Это поле обязательно"),
 });
-
+const errorMessage = reactive({
+  direction: "",
+});
 const createForm = async () => {
   errorMessage.direction = "";
   if (createFormValue.direction.length == 0) {
@@ -31,7 +34,7 @@ const createForm = async () => {
       url_form: createFormValue.url_form,
     });
     await fetchForms();
-    closeModal();
+    close();
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
@@ -42,13 +45,22 @@ const createForm = async () => {
     loading.value = false;
   }
 };
+onMounted(() => {
+  const forms = Object.values(allForms.value).map(
+    (item: any) => item.direction_id
+  );
+
+  directions.value = Object.values(allDirections.value).filter(
+    (direction: any) => !forms.includes(direction.id)
+  );
+});
 </script>
 <template>
   <div>
     <Form @submit="createForm()" :validation-schema="schema" v-slot="{ errors }"
       ><UiSelect
         v-model:model-value="createFormValue.direction"
-        :array="allDirections"
+        :array="directions"
         label="Напрвление проекта"
         :name="4"
         placeholder="Выберите направление"
@@ -80,34 +92,11 @@ form {
   button {
     margin-top: 10px;
   }
-  .photo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
   div {
     display: flex;
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
-
-    label {
-    }
-
-    input {
-      padding: 12px 20px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-    }
-  }
-
-  p {
-    color: red;
-    margin: 0px;
-  }
-  a {
-    text-decoration: underline;
-    color: #02c9af;
   }
 }
 </style>

@@ -2,14 +2,13 @@
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
-import { allOrganizations } from "~/util/useOrganizations";
 import { allDirections } from "~/util/useDirections";
-import { openModal } from "../../useModal";
 
 const props = defineProps({
   role: String,
 });
 const { user } = useAuthStore();
+const { open } = useModalStore();
 const supabase = useSupabaseClient();
 const signIn = ref(false);
 const loading = ref(false);
@@ -83,13 +82,12 @@ const signUp = async () => {
     if (error) throw error;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
       console.log(error);
     }
   } finally {
     loading.value = false;
     if (props.role == "user") {
-      openModal("login", "Вход");
+      open({ name: "login", title: "Вход" });
       return;
     }
     signIn.value = true;
@@ -167,7 +165,6 @@ const signUp = async () => {
         v-model:model-value="registerValue.organization"
         :errors="errors.organization"
       ></UiInput>
-
       <UiInput
         label="Должность:"
         name="post"
@@ -214,10 +211,10 @@ const signUp = async () => {
     </Form>
   </div>
   <div v-if="signIn && role.name == 'expert'" class="notification">
-    <h3>
+    <h5>
       Вам на почту {{ registerValue.email }} было отправленно письмо для
       подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
-    </h3>
+    </h5>
   </div>
 </template>
 <style scoped lang="scss">

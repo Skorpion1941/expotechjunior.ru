@@ -1,19 +1,19 @@
 <script setup>
 import { HEADER_DATA } from "./nav.data";
-import { openModal } from "../modal/useModal";
 
+const { open } = useModalStore();
 const { user } = useAuthStore();
 </script>
 <template>
   <header>
     <div class="logo">
-      <nuxt-link to="/"> <img src="/logo.png" /></nuxt-link>
+      <nuxt-link to="/"> <img src="/logo.webp" /></nuxt-link>
     </div>
     <ul>
       <li v-for="item in HEADER_DATA" :key="item.name">
-        <nuxt-link class="link" :to="item.url"
-          ><h5>{{ item.name }}</h5></nuxt-link
-        >
+        <nuxt-link class="link" :to="item.url">
+          <h5>{{ item.name }}</h5>
+        </nuxt-link>
       </li>
     </ul>
     <div class="btn-entry">
@@ -32,7 +32,7 @@ const { user } = useAuthStore();
           </div>
         </NuxtLink>
       </div>
-      <button v-else @click="openModal('login', 'Вход', false)">
+      <button v-else @click="open({ name: 'login', title: 'Вход' })">
         <h3>ВХОД</h3>
       </button>
     </div>
@@ -46,7 +46,8 @@ header {
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid $second-color;
-  position: sticky;
+  position: -webkit-fixed; /* Для Safari */
+  position: fixed;
   top: 0;
   z-index: 1000;
   background: white;
@@ -66,8 +67,8 @@ header {
     }
     a {
       color: $third-color;
-      text-transform: uppercase;
       text-decoration: none;
+      text-transform: uppercase;
       transition: all 0.4s ease 0s;
     }
   }

@@ -7,13 +7,21 @@ const openLink = (link: string) => {
 </script>
 <template>
   <div class="welcome full-w">
-    <div class="kvant-img full-w">
+    <div
+      class="kvant-img full-w"
+      data-aos="fade-right"
+      data-aos-duration="2000"
+    >
       <div class="full-wh"></div>
-      <img class="slide-in-fwd-left full-wh" src="/welcome.webp" />
+      <img class="full-wh" src="/welcome.webp" />
     </div>
     <div class="vector full-wh">
       <div class="info full-wh flex flex-column">
-        <div class="info-img flex full-w">
+        <div
+          class="info-img flex full-w"
+          data-aos="fade-down"
+          data-aos-duration="1000"
+        >
           <NuxtImg
             src="https://thumb.tildacdn.com/tild3261-3862-4135-a662-663334613663/-/resize/108x/-/format/webp/pgrants_logo_gp-vert.png"
             class="scale-img"
@@ -33,15 +41,29 @@ const openLink = (link: string) => {
         </div>
         <div class="info-welcome">
           <div class="full-w flex">
-            <img src="/white-logo.png" />
-            <h5>
+            <img
+              src="/white-logo.webp"
+              data-aos="zoom-in"
+              data-aos-duration="1100"
+            />
+            <h5 data-aos="fade-left" data-aos-duration="1100">
               ВСЕРОССИЙСКАЯ ЯРМАРКА<br />
               ТЕХНОЛОГИЧЕСКИХ ПРОЕКТОВ
             </h5>
           </div>
-          <h1>Expo-TECH Junior</h1>
-          <hr />
-          <div style="gap: 10px" class="full-w flex">
+          <h1 data-aos="fade-left" data-aos-duration="1100">
+            Expo-TECH Junior
+          </h1>
+          <div class="line" data-aos="zoom-in-left" data-aos-duration="1000">
+            <div class="circle"></div>
+            <hr />
+          </div>
+          <div
+            style="gap: 10px; align-items: center"
+            class="full-w flex"
+            data-aos="fade-up"
+            data-aos-duration="1100"
+          >
             <button>
               <nuxt-link to="projects"><h3>Проекты участников</h3></nuxt-link>
             </button>
@@ -97,7 +119,7 @@ const openLink = (link: string) => {
       transform: skewX(20deg);
     }
     &::after {
-      content: url("/public/triangle.png");
+      content: url("/public/triangle.webp");
       right: 163px;
       position: absolute;
       margin-top: -2px;
@@ -124,31 +146,28 @@ const openLink = (link: string) => {
     .info-welcome {
       margin-top: 100px;
       img {
+        width: 55px;
         height: 60px;
       }
-      div {
-        gap: 5px;
-        align-items: center;
-      }
-      hr {
-        border: 2px solid $first-color;
-        margin: 5px 0 15px 0;
-        &::before {
-          content: "";
-          position: absolute;
-          z-index: 10px;
+      .line {
+        width: 100%;
+        display: flex;
+        align-self: center;
+        .circle {
           width: 16px;
           height: 16px;
-          background-color: $first-color;
+          background: $first-color;
           border-radius: 50px;
-          left: -14px;
-          margin-top: -8px;
+        }
+        hr {
+          width: 100%;
+          border: 2px solid $first-color;
+          margin: 5px 0 15px 0;
         }
       }
       .btn {
         background: none;
         border: 3px solid white;
-
         &:hover {
           background-color: $second-color;
           border-color: $second-color;
@@ -182,12 +201,6 @@ const openLink = (link: string) => {
         }
         hr {
           border: 1.5px solid $first-color;
-          &::before {
-            width: 10px;
-            height: 10px;
-            left: -9px;
-            margin-top: -5px;
-          }
         }
       }
       .info-img {
@@ -238,12 +251,6 @@ const openLink = (link: string) => {
         hr {
           border: 1.5px solid $first-color;
           margin: 5px 0 5px 0;
-          &::before {
-            width: 10px;
-            height: 10px;
-            left: -9px;
-            margin-top: -5px;
-          }
         }
         button {
           a {

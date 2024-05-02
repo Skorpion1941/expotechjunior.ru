@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
-import { openDelete, openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 import { allProfiles } from "~/util/useProfiles";
 import { allProjects } from "~/util/useProjects";
 
 const props = defineProps(["search"]);
 const { search } = toRefs(props);
+const { open } = useModalStore();
 const tableHeads = [
   { name: "№", select: false },
   { name: "Фото", select: false },
@@ -18,7 +18,7 @@ const tableHeads = [
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 192px 250px 380px 350px 300px 260px 405px";
+const tableSizeColumns = "60px 192px 250px 380px 350px 300px 260px 440px";
 
 const directions = ref();
 
@@ -137,19 +137,24 @@ watch(allProjects, () => {
           <button @click="openLink(arr.tilda_url)"><h3>Просмотр</h3></button>
           <button
             @click="
-              () => {
-                openModal('projectUpdate', 'Изменить проект', false, arr);
-              }
+              open({
+                name: 'projectUpdate',
+                title: 'Изменить проект',
+                item: arr,
+              })
             "
           >
             <h3>Изменить</h3>
           </button>
           <button
             @click="
-              () => {
-                openModal('delete', 'Удалить проект', false, arr);
-                openDelete('projects', 'проект');
-              }
+              open({
+                name: 'delete',
+                title: 'Удалить проект',
+                item: arr,
+                tableDelete: 'projects',
+                textDelete: 'проект',
+              })
             "
           >
             <h3>Удалить</h3>

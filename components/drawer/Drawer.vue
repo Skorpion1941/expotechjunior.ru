@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { allAssessments, fetchAssessments } from "~/util/useAssessments";
+import { allAssessments } from "~/util/useAssessments";
 import { commentValue, closeComment } from "./useDrawer";
 
 const cardAssessments = ref({});
 const findAssessment = () => {
-  console.log(allAssessments.value);
   cardAssessments.value = Object.values(allAssessments.value).filter(
     (item: any) => item.projects.id == commentValue.comment.id
   );

@@ -46,7 +46,6 @@ export async function addProfile(profile: Profile[]): Promise<Profile | null> {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
@@ -54,7 +53,6 @@ export async function addProfile(profile: Profile[]): Promise<Profile | null> {
     console.log("created a new organization");
     return data;
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem inserting to db", err);
     return null;
   }
@@ -73,14 +71,12 @@ export async function updateProfile(profile: Profile) {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
 
     console.log("Updated task", profile.id);
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

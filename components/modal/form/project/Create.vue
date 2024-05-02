@@ -1,9 +1,10 @@
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
-import { allProjects, fetchProjects } from "~/util/useProjects";
+import { fetchProjects } from "~/util/useProjects";
+
+const { close } = useModalStore();
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
 const loading = ref(false);
@@ -48,10 +49,9 @@ const createProject = async () => {
     });
     await fetchProjects();
     if (error) throw error;
-    closeModal();
+    close();
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
       console.log(error);
     }
   } finally {

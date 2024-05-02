@@ -5,7 +5,6 @@ const supabase = useSupabaseClient();
 const props = defineProps({
   id: Number,
 });
-console.log(props.id);
 const commentsProject = ref();
 const textComment = ref("");
 const fetchComments = async () => {
@@ -50,24 +49,28 @@ const addComment = async () => {
 };
 onMounted(async () => {
   await fetchComments();
-  console.log(commentsProject.value);
 });
 </script>
 <template>
   <h2>Комментарии к проекту ({{ commentsProject?.length }}):</h2>
   <div class="full-w flex flex-column project">
-    <div class="comments scroll" v-if="commentsProject?.length > 0">
+    <div class="comments" v-if="commentsProject?.length > 0">
       <ProjectComment
         v-for="assessment in commentsProject"
         :key="assessment.id"
         :comment="assessment"
       ></ProjectComment>
     </div>
-    <div v-else style="text-align: center" class="full-wh">
+    <div v-else style="text-align: center; min-height: 400px" class="full-wh">
       <h5 style="margin-top: 200px">Комментариев нет</h5>
     </div>
     <div class="add flex" v-if="user.role == 'expert'">
-      <textarea wrap="soft" class="scroll" v-model="textComment"></textarea>
+      <textarea
+        wrap="soft"
+        class="scroll"
+        spellcheck="true"
+        v-model="textComment"
+      ></textarea>
       <button @click="addComment()"><h3>Отправить</h3></button>
     </div>
   </div>
@@ -78,25 +81,32 @@ h2 {
 }
 .project {
   position: relative;
-  height: 800px;
 }
 .comments {
-  height: 600px;
+  min-height: 400px;
+  max-height: 600px;
   overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  .comment:first-child {
+    margin-top: 25px;
+  }
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $first-color;
+    border-radius: 20px;
+  }
 }
 .add {
-  width: 600px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  justify-content: end;
-  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 10px;
+  margin-top: 50px;
   textarea {
-    right: 0;
     min-width: 600px;
     max-width: 600px;
     min-height: 100px;
@@ -105,14 +115,13 @@ h2 {
     background: rgb(204, 204, 204, 0.1);
     border: 1px solid #ccc;
     border-radius: 20px;
+    font-size: 18px;
     color: $third-color;
-    resize: none;
   }
 }
 @media screen and (max-width: 1280px) {
   .project {
     position: relative;
-    height: 600px;
   }
   .add {
     width: 400px;
@@ -126,7 +135,7 @@ h2 {
 }
 @media screen and (max-width: 800px) {
   .comments {
-    height: 300px;
+    min-width: 300px;
   }
   .project {
     position: relative;

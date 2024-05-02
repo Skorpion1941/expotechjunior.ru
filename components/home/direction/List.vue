@@ -7,6 +7,7 @@ defineProps({
   <HomeDirectionCard
     v-for="item in direction"
     :key="item.id"
+    :id="item.id"
     :name="item.name"
     :imgUrl="item.photo"
   >

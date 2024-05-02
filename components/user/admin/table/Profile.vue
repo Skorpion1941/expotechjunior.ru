@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
 import { allProfiles } from "~/util/useProfiles";
-import { allOrganizations } from "~/util/useOrganizations";
 import { allRoles } from "~/util/useRoles";
 
 const props = defineProps(["search"]);
 const { search } = toRefs(props);
+const modalStore = useModalStore();
 const tableHeads = [
   { name: "Аватар", select: false },
   { name: "ФИО", select: false },
@@ -19,13 +19,8 @@ const tableHeads = [
 const tableSizeColumns = "120px 320px 350px 200px 355px 280px 400px";
 
 const modelValue = ref(["Все", "Все", "Все", "Все"]);
-const role = ref();
-
+const roles = ref();
 const profiles = ref();
-
-const filters = reactive({
-  sortRole: [],
-});
 
 const findRoles = (name: string) => {
   const role = Object.values(allRoles.value).find(
@@ -53,14 +48,13 @@ const filtersProfiles = () => {
 };
 
 onMounted(() => {
-  role.value = Object.values(allRoles.value);
-  if (role.value[0].name != "Все")
-    role.value.unshift({
-      id: 0,
-      createdAt: "",
-      name: "Все",
-      code: "Все",
-    });
+  roles.value = Object.values(allRoles.value);
+  roles.value.unshift({
+    id: 0,
+    createdAt: "",
+    name: "Все",
+    code: "Все",
+  });
   filtersProfiles();
 });
 watch(modelValue, () => {
@@ -78,7 +72,7 @@ watch(allProfiles, () => {
   <UiTableBase
     v-model:model-value="modelValue"
     :v-bind="modelValue"
-    :array="role"
+    :array="roles"
     :name="2"
     width="280px"
     :head="tableHeads"
@@ -101,10 +95,8 @@ watch(allProfiles, () => {
       <UiTableColumn>
         {{ item.surname }} {{ item.name }} {{ item.patronymic }}
       </UiTableColumn>
-      <UiTableColumn> {{ item.organization }}</UiTableColumn>
-
-      <UiTableColumn> {{ item.city }}</UiTableColumn>
-
+      <UiTableColumn>{{ item.organization }}</UiTableColumn>
+      <UiTableColumn>{{ item.city }}</UiTableColumn>
       <UiTableColumn>
         <div
           style="display: flex"

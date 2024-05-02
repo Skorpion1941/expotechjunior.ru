@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-const modalValue = ref();
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <UserAdminTable></UserAdminTable>

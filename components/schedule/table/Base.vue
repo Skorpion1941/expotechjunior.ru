@@ -44,19 +44,8 @@ const addOption = (item) => {
 <style lang="scss" scoped>
 .table {
   width: 100%;
-  overflow: auto;
   margin-bottom: 20px;
 
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-  &::-webkit-scrollbar-track {
-    background: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: $first-color;
-    border-radius: 20px;
-  }
   &-wrapper {
     display: flex;
     justify-content: center;

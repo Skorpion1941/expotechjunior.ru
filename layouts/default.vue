@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-import { modalValue } from "~/components/modal/useModal";
-
 import { commentValue } from "~/components/drawer/useDrawer";
 import { useAuthStore } from "~/store/auth.store";
 import { fetchDirections } from "~/util/useDirections";
-import { allOrganizations, fetchOrganizations } from "~/util/useOrganizations";
 import { fetchProjects } from "~/util/useProjects";
 import { allProfiles, fetchProfiles } from "~/util/useProfiles";
 import { fetchSchedules } from "~/util/useSchedules";
-import { allAssessments, fetchAssessments } from "~/util/useAssessments";
+import { fetchAssessments } from "~/util/useAssessments";
+import { useModalStore } from "~/store/modal.store";
 
-const store = useAuthStore();
+const authStore = useAuthStore();
+const { modal } = useModalStore();
 const supabase = useSupabaseClient();
 const isLoadingStore = useIsLoadingStore();
-const organization = ref();
 const myProfile = ref();
 
 const seeUser = async () => {
@@ -24,8 +22,7 @@ const seeUser = async () => {
       myProfile.value = Object.values(allProfiles.value).find(
         (profile: any) => profile.id == data.session.user?.id
       );
-
-      store.set({
+      authStore.set({
         id: myProfile.value.id,
         email: data.session.user?.email,
         name: myProfile.value.name,
@@ -41,7 +38,6 @@ const seeUser = async () => {
         status: true,
       });
     }
-    console.log(store.user);
     if (error) throw error;
   } catch (error) {
     console.log(error);
@@ -63,16 +59,9 @@ onMounted(async () => {
   <div v-else>
     <div style="min-height: 100%; display: flex; flex-direction: column">
       <LayoutHeader></LayoutHeader>
-      <div style="min-height: 581px">
+      <div class="wrapper">
         <Drawer v-if="commentValue.show"></Drawer>
-        <ModalCommon
-          v-if="modalValue.show"
-          :title="modalValue.title"
-          :name-form="modalValue.name"
-          :back-show="modalValue.backShow"
-          :from-name-modal="modalValue.nameFrom"
-          :from-title-modal="modalValue.titleFrom"
-        ></ModalCommon>
+        <ModalCommon v-if="modal.show"></ModalCommon>
         <slot></slot>
       </div>
       <LayoutFooter></LayoutFooter>
@@ -86,6 +75,10 @@ div {
   max-width: 1920px;
   margin: auto;
   overflow: hidden;
+}
+.wrapper {
+  min-height: 581px;
+  margin-top: 70px;
 }
 @media screen and (max-width: 1280px) {
   div {

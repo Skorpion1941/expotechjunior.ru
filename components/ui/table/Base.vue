@@ -21,7 +21,7 @@ const addOption = (item) => {
 };
 </script>
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper flex">
     <div class="table">
       <div
         class="table-head"
@@ -72,19 +72,17 @@ const addOption = (item) => {
   margin-bottom: 40px;
   margin-top: 15px;
   min-height: 300px;
+  max-height: 800px;
   border: 2px solid #eeeff4;
   &::-webkit-scrollbar {
     width: 12px;
-  }
-  &::-webkit-scrollbar-track {
-    background: white;
+    height: 12px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: $first-color;
     border-radius: 20px;
   }
   &-wrapper {
-    display: flex;
     justify-content: center;
   }
   &-head {

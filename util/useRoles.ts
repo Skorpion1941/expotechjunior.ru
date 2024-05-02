@@ -39,7 +39,6 @@ export async function addRoles(role: Role[]): Promise<Project | null> {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error inserting", error);
       return null;
     }
@@ -66,14 +65,12 @@ export async function updateRoles(role: Role) {
       .single();
 
     if (error) {
-      alert(error.message);
       console.error("There was an error updating", error);
       return;
     }
 
     console.log("Updated task", role.id);
   } catch (err) {
-    alert("Error");
     console.error("Unknown problem updating record", err);
   }
 }

@@ -1,32 +1,37 @@
-<script setup>
-import { reactive, ref, onMounted } from "vue";
+<script setup lang="ts">
+import { reactive, ref } from "vue";
 import * as Yup from "yup";
-import { closeModal, itemValue } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
-import { fetchForms, updateForm } from "~/util/useForm";
-const supabase = useSupabaseClient();
+import { allForms, fetchForms, updateForm } from "~/util/useForm";
+
+const { modal, close } = useModalStore();
 const loading = ref(false);
 const errorMessage = reactive({
   direction: "",
 });
+const directions = ref();
 const direction = ref();
 direction.value = Object.values(allDirections.value).find(
-  (item) => item.id == itemValue.value.direction_id
+  (item: any) => item.id == modal.item?.direction_id
 );
 const directionMain = ref([
-  itemValue.value.direction_id,
+  modal.item?.direction_id,
   "",
   "",
   "",
   direction.value?.name,
 ]);
 const updateFormValue = reactive({
-  url_form: itemValue.value.url_form,
+  url_form: modal.item?.url_form,
   direction: directionMain.value,
+  max_scope: modal.item?.max_scope,
 });
 
 const schema = Yup.object().shape({
   url_form: Yup.string().url().required("Это поле обязательно"),
+  number: Yup.number("В этом поле могут быть только числа").required(
+    "Это поле обязательно"
+  ),
 });
 
 const update = async () => {
@@ -38,12 +43,13 @@ const update = async () => {
   try {
     loading.value = true;
     await updateForm({
-      id: itemValue.value.id,
+      id: modal.item?.id,
       direction_id: updateFormValue.direction[0],
       url_form: updateFormValue.url_form,
+      max_scope: updateFormValue.max_scope,
     });
     await fetchForms();
-    closeModal();
+    close();
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
@@ -53,13 +59,22 @@ const update = async () => {
     loading.value = false;
   }
 };
+onMounted(() => {
+  const forms = Object.values(allForms.value).map(
+    (item: any) => item.direction_id
+  );
+
+  directions.value = Object.values(allDirections.value).filter(
+    (direction: any) => !forms.includes(direction.id)
+  );
+});
 </script>
 <template>
   <div>
     <Form @submit="update()" :validation-schema="schema" v-slot="{ errors }"
       ><UiSelect
         v-model:model-value="updateFormValue.direction"
-        :array="allDirections"
+        :array="directions"
         label="Напрвление проекта"
         :name="4"
         placeholder="Выберите направление"
@@ -75,6 +90,16 @@ const update = async () => {
         v-model:model-value="updateFormValue.url_form"
         :errors="errors.url_form"
       ></UiInput>
+      <div>
+        <label>Максимальное количество баллов в форме:</label>
+        <Field
+          v-model="updateFormValue.max_scope"
+          name="number"
+          type="number"
+          min="0"
+        />
+        <p>{{ errors.number }}</p>
+      </div>
 
       <div>
         <button type="submit" :disabled="loading">
@@ -91,29 +116,28 @@ form {
   button {
     margin-top: 10px;
   }
-  .photo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
   div {
     display: flex;
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
-    input {
-      padding: 12px 20px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-    }
+  }
+
+  input {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    color: $third-color;
   }
   p {
     color: red;
     margin: 0px;
   }
-  a {
-    text-decoration: underline;
-    color: #02c9af;
+}
+@media screen and (max-width: 1280px) {
+  input {
+    padding: 7px 7px;
+    border-radius: 10px;
   }
 }
 </style>

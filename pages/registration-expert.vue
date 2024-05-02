@@ -7,9 +7,10 @@
         <Icon name="akar-icons:cross" color="white" size="30px"></Icon>
       </button>
       <h1>
-        <b>Регистрация</b>
+        <b>Регистрация </b>
       </h1>
     </div>
+    <div></div>
     <ModalMainForm name="registerExpert"></ModalMainForm>
   </div>
 </template>

@@ -3,17 +3,17 @@ import { fetchDirections } from "~/util/useDirections";
 import { fetchForms } from "~/util/useForm";
 import { fetchProjects } from "~/util/useProjects";
 import { fetchSchedules } from "~/util/useSchedules";
-import { closeModal, itemDeleteValue, itemValue } from "../useModal";
 
 const supabase = useSupabaseClient();
+const { modal, close, open } = useModalStore();
 const deleteItem = async () => {
   try {
     await supabase
-      .from(itemDeleteValue.table)
+      .from(modal.tableDelete as never)
       .delete()
-      .eq("id", itemValue.value.id);
-    closeModal();
-    switch (itemDeleteValue.table) {
+      .eq("id", modal.item?.id);
+    close();
+    switch (modal.tableDelete) {
       case "projects":
         fetchProjects();
         break;
@@ -34,9 +34,9 @@ const deleteItem = async () => {
 </script>
 <template>
   <div class="delete">
-    <h5>Вы уверены, что хотите удалить {{ itemDeleteValue?.text }}</h5>
+    <h5>Вы уверены, что хотите удалить {{ modal.textDelete }}</h5>
     <div class="btn flex">
-      <button @click="closeModal()"><h3>Отменить</h3></button>
+      <button @click="close()"><h3>Отменить</h3></button>
 
       <button @click="deleteItem()"><h3>Подтвердить</h3></button>
     </div>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
-import { allAssessments } from "~/util/useAssessments";
 import { allProfiles } from "~/util/useProfiles";
 
 const props = defineProps({
@@ -18,7 +17,6 @@ const findProfile = () => {
     );
   });
   avatar.value = profile.value.avatar_url;
-  console.log(avatar.value);
 };
 
 onMounted(() => {

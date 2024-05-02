@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { ref, defineProps } from "vue";
-import { openDelete, openModal } from "~/components/modal/useModal";
 import { allDirections } from "~/util/useDirections";
 import { allSchedules } from "~/util/useSchedules";
+
+const { open } = useModalStore();
 
 const props = defineProps(["search"]);
 const { search } = toRefs(props);
@@ -50,7 +51,6 @@ const findDirection = (id: number) => {
 };
 const filterSchedules = () => {
   schedules.value = allSchedules.value;
-
   if (filters.sortDirection.length > 0 && filters.sortDirection[4] != "Все") {
     schedules.value = Object.values(schedules.value).filter(
       (item: any) => item.projects.direction_id == filters.sortDirection[0]
@@ -64,15 +64,14 @@ const filterSchedules = () => {
 };
 onMounted(() => {
   directions.value = Object.values(allDirections.value);
-  if (directions.value[0].name != "Все")
-    directions.value.unshift({
-      id: 0,
-      createdAt: "",
-      name: "Все",
-      short_name: "Все",
-      description: "Все",
-      color: "Все",
-    });
+  directions.value.unshift({
+    id: 0,
+    createdAt: "",
+    name: "Все",
+    short_name: "Все",
+    description: "Все",
+    color: "Все",
+  });
   filterSchedules();
 });
 watch(filters, () => {
@@ -130,19 +129,24 @@ watch(allSchedules, () => {
         <div class="btn">
           <button
             @click="
-              () => {
-                openModal('scheduleUpdate', 'Изменить расписание', false, arr);
-              }
+              open({
+                name: 'scheduleUpdate',
+                title: 'Изменить расписание',
+                item: arr,
+              })
             "
           >
             <h3>Изменить</h3>
           </button>
           <button
             @click="
-              () => {
-                openModal('delete', 'Удалить расписание', false, arr);
-                openDelete('schedules', 'расписание');
-              }
+              open({
+                name: 'delete',
+                title: 'Удалить расписание',
+                item: arr,
+                tableDelete: 'schedules',
+                textDelete: 'расписание',
+              })
             "
           >
             <h3>Удалить</h3>

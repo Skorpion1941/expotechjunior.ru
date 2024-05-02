@@ -12,6 +12,7 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
   color: $third-color;
+  word-break: break-word;
 }
 button {
   padding: 8px 10px;
@@ -21,7 +22,6 @@ button {
   background-color: $first-color;
   transition: border-color 0.5s ease-in-out, background-color 0.5s ease-in-out;
   cursor: pointer;
-
   &:hover {
     background-color: $second-color;
     border-color: $second-color;
