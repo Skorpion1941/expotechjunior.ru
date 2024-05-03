@@ -103,7 +103,7 @@ const { modal, open, close } = useModalStore();
   h1,
   h2 {
     margin: 0px;
-    padding: 20px 0;
+    padding: 35px 0;
     color: $text-color;
   }
 }

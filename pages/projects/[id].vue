@@ -58,12 +58,12 @@ onMounted(() => {
 
 <template>
   <div class="project" v-if="find && !error">
-    <div class="project-head">
+    <div class="project-head" data-aos="zoom-in-down" data-aos-duration="1000">
       <h1>{{ project?.name }}</h1>
     </div>
     <div class="project-info">
       <div class="info">
-        <div class="direction flex">
+        <div class="direction flex" data-aos="zoom-in" data-aos-duration="1000">
           <h3>Рейтинг: {{ rating }}</h3>
           <div class="btn">
             <button @click="openLink(project?.tilda_url)">
@@ -78,11 +78,15 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div>
+        <div data-aos="fade-right" data-aos-duration="1000">
           <h2>О проекте:</h2>
           <h3 style="text-align: justify">{{ project?.description }}</h3>
         </div>
-        <div style="margin-top: 7px">
+        <div
+          style="margin-top: 7px"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
           <h2>Над проектом работали</h2>
           <ol>
             <li v-for="team in project?.team" :key="team.id">
@@ -91,7 +95,7 @@ onMounted(() => {
           </ol>
         </div>
       </div>
-      <div class="photo">
+      <div class="photo" data-aos="fade-left" data-aos-duration="1500">
         <UiPhoto
           :path="project?.title_photo"
           width="100%"

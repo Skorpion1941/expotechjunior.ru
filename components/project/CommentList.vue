@@ -71,7 +71,13 @@ onMounted(async () => {
         :on-click-delete="fetchComments()"
       ></ProjectComment>
     </div>
-    <div v-else style="text-align: center; min-height: 400px" class="full-wh">
+    <div
+      v-else
+      style="text-align: center; min-height: 400px"
+      class="full-wh"
+      data-aos="zoom-in"
+      data-aos-duration="1000"
+    >
       <h5 style="margin-top: 200px">Комментариев нет</h5>
     </div>
   </div>

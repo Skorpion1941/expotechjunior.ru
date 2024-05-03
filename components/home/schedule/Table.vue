@@ -5,6 +5,7 @@ import { allSchedules } from "~/util/useSchedules";
 
 const props = defineProps(["day"]);
 const { day } = toRefs(props);
+
 const tableHeads = [
   { name: "Время" },
   { name: "Название проекта" },
@@ -20,12 +21,14 @@ const schedules = ref();
 const filters = reactive({
   sortDirection: ["Все", "Все", "Все", "Все", "Все"],
 });
+
 const findDirection = (id: number) => {
   const direction: any = Object.values(allDirections.value).find(
     (item: any) => item.id == id
   );
   return `${direction.name}`;
 };
+
 const compareTime = (a: any, b: any) => {
   let dateA = new Date(a.time);
   let dateB = new Date(b.time);
@@ -38,8 +41,6 @@ const filterSchedules = () => {
   );
   schedules.value.sort(compareTime);
 };
-
-// Сортируем массив по времени
 
 const openLink = (link: string) => {
   window.open(link);

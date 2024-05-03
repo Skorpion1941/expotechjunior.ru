@@ -154,7 +154,6 @@ section {
   width: 80%;
   margin: 100px auto;
   display: flex;
-
   flex-direction: column;
 }
 .schedule {
