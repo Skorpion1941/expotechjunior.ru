@@ -1,23 +1,8 @@
 <script setup>
-const props = defineProps([
-  "modelValue",
-  "head",
-  "columnTemplates",
-  "color",
-  "size",
-]);
+const props = defineProps(["head", "columnTemplates", "color", "size"]);
 
 const isListVisible = ref(false);
-const { modelValue, head, columnTemplates } = toRefs(props);
-const emit = defineEmits(["update:modelValue"]);
-
-const toggleList = () => {
-  isListVisible.value = !isListVisible.value;
-};
-const addOption = (item) => {
-  emit("update:modelValue", Object.values(item));
-  console.log(modelValue.value);
-};
+const { head, columnTemplates } = toRefs(props);
 </script>
 <template>
   <div class="table-wrapper">
@@ -60,7 +45,7 @@ const addOption = (item) => {
       height: 100%;
       border-bottom: 3px solid;
       .name {
-        text-align: start;
+        text-align: center;
         margin-left: 5px;
       }
     }

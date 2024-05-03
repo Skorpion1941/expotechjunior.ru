@@ -9,11 +9,10 @@ const tableHeads = [
   { name: "№", select: false },
   { name: "Направлние", select: false },
   { name: "Яндекс форма", select: false },
-  { name: "Максимальные баллы", select: false },
   { name: "", select: false },
 ];
 
-const tableSizeColumns = "60px 400px 550px 250px 285px";
+const tableSizeColumns = "60px 400px 550px 285px";
 
 const forms = ref();
 forms.value = allForms.value;
@@ -47,9 +46,6 @@ watch(allForms, () => {
       </UiTableColumn>
       <UiTableColumn>
         <a @click="openLink(arr.url_form)" href="#">{{ arr.url_form }}</a>
-      </UiTableColumn>
-      <UiTableColumn>
-        {{ arr.max_scope }}
       </UiTableColumn>
       <UiTableColumn>
         <div class="btn">

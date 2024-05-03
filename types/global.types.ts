@@ -66,5 +66,4 @@ export interface Form {
   createdAt?: string;
   direction_id: number;
   url_form: string;
-  max_scope: number;
 }

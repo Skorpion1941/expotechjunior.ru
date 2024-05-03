@@ -12,10 +12,12 @@ defineProps({
     :key="direction.id"
     :id="direction.id"
     :name="direction.name"
+    :checked="direction.checked"
     :on-click-option="
       () => {
         direction.checked = !direction.checked;
         addChecked(array, direction, direction.checked);
+        console.log(direction);
       }
     "
   ></UiSelectMultipleOption>

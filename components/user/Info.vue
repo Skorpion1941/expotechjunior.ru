@@ -3,7 +3,6 @@ const { open } = useModalStore();
 const { user, clear } = useAuthStore();
 const router = useRouter();
 const supabase = useSupabaseClient();
-const array = ref([]);
 const signOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
@@ -17,10 +16,6 @@ const signOut = async () => {
     router.push("/");
   }
 };
-
-onMounted(() => {
-  array.value = user.directions;
-});
 </script>
 
 <template>
@@ -52,28 +47,30 @@ onMounted(() => {
               {{ user.surname }} {{ user.name }}
               {{ user.patronymic }}
             </h1>
-            <h3 class="">{{ user.email }}</h3>
+            <h5 class="">{{ user.email }}</h5>
           </div>
           <div class="info" style="gap: 5px !important">
             <h2>Организация</h2>
-            <h3 style="padding-top: 10px">
+            <h5 style="padding-top: 10px">
               {{ user.organization }},
               {{ user.city }}
-            </h3>
-            <h3>
+            </h5>
+            <h5>
               {{ user.post.charAt(0).toUpperCase() + user.post.substr(1) }}
-            </h3>
+            </h5>
           </div>
           <div class="direction" v-if="user.role == 'expert'">
             <h2>Направления интересов</h2>
             <div>
-              <UiSelectCheckedList :array="array"></UiSelectCheckedList>
+              <UiSelectCheckedList
+                :array="user.directions"
+              ></UiSelectCheckedList>
             </div>
           </div>
 
           <div v-if="user.about_me">
             <h2 style="padding-top: 10px">О себе</h2>
-            <h4>{{ user.about_me }}</h4>
+            <h6>{{ user.about_me }}</h6>
           </div>
         </div>
       </div>

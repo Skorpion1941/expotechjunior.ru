@@ -53,6 +53,15 @@ onMounted(async () => {
 </script>
 <template>
   <h2>Комментарии к проекту ({{ commentsProject?.length }}):</h2>
+  <div class="add flex" v-if="user.role == 'expert'">
+    <textarea
+      wrap="soft"
+      class="scroll"
+      spellcheck="true"
+      v-model="textComment"
+    ></textarea>
+    <button @click="addComment()"><h3>Отправить</h3></button>
+  </div>
   <div class="full-w flex flex-column project">
     <div class="comments" v-if="commentsProject?.length > 0">
       <ProjectComment
@@ -64,15 +73,6 @@ onMounted(async () => {
     </div>
     <div v-else style="text-align: center; min-height: 400px" class="full-wh">
       <h5 style="margin-top: 200px">Комментариев нет</h5>
-    </div>
-    <div class="add flex" v-if="user.role == 'expert'">
-      <textarea
-        wrap="soft"
-        class="scroll"
-        spellcheck="true"
-        v-model="textComment"
-      ></textarea>
-      <button @click="addComment()"><h3>Отправить</h3></button>
     </div>
   </div>
 </template>
@@ -104,7 +104,7 @@ h2 {
 .add {
   width: 100%;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 10px;
   margin-top: 50px;
   textarea {

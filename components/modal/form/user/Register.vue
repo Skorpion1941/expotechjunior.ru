@@ -57,6 +57,7 @@ const signUp = async () => {
     return;
   }
   try {
+    console.log(JSON.stringify(registerValue.directions));
     loading.value = true;
     const { error } = await supabase.auth.signUp({
       email: registerValue.email,

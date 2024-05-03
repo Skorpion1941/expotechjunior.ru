@@ -70,6 +70,9 @@ header {
       text-decoration: none;
       text-transform: uppercase;
       transition: all 0.4s ease 0s;
+      h5 {
+        font-weight: 600;
+      }
     }
   }
   .btn-entry {

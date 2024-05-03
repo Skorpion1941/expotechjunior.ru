@@ -12,7 +12,7 @@ const tableHeads = [
   { name: "Докладчик(и)" },
 ];
 
-const tableSizeColumns = "80px 300px 227px 230px";
+const tableSizeColumns = "110px 320px 227px 260px";
 
 const directions = ref();
 const schedules = ref();
@@ -29,7 +29,6 @@ const findDirection = (id: number) => {
 const compareTime = (a: any, b: any) => {
   let dateA = new Date(a.time);
   let dateB = new Date(b.time);
-
   return dateA - dateB;
 };
 

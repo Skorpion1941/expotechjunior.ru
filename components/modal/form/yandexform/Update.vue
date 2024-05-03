@@ -24,14 +24,10 @@ const directionMain = ref([
 const updateFormValue = reactive({
   url_form: modal.item?.url_form,
   direction: directionMain.value,
-  max_scope: modal.item?.max_scope,
 });
 
 const schema = Yup.object().shape({
   url_form: Yup.string().url().required("Это поле обязательно"),
-  number: Yup.number("В этом поле могут быть только числа").required(
-    "Это поле обязательно"
-  ),
 });
 
 const update = async () => {
@@ -46,7 +42,6 @@ const update = async () => {
       id: modal.item?.id,
       direction_id: updateFormValue.direction[0],
       url_form: updateFormValue.url_form,
-      max_scope: updateFormValue.max_scope,
     });
     await fetchForms();
     close();
@@ -90,17 +85,6 @@ onMounted(() => {
         v-model:model-value="updateFormValue.url_form"
         :errors="errors.url_form"
       ></UiInput>
-      <div>
-        <label>Максимальное количество баллов в форме:</label>
-        <Field
-          v-model="updateFormValue.max_scope"
-          name="number"
-          type="number"
-          min="0"
-        />
-        <p>{{ errors.number }}</p>
-      </div>
-
       <div>
         <button type="submit" :disabled="loading">
           <h3>{{ loading ? "Загрузка..." : "Изменить" }}</h3>

@@ -5,7 +5,6 @@ const props = defineProps({
   checked: { type: Boolean, default: false },
   onClickOption: Function,
 });
-console.log(props.value);
 </script>
 <template>
   <label class="task">

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { defineProps } from "vue";
 import { updateProfile } from "~/util/useProfiles";
 import { closeModal } from "../../useModal";
+import { allDirections } from "~/util/useDirections";
 
 const props = defineProps({
   role: String,
@@ -11,7 +12,10 @@ const props = defineProps({
 const supabase = useSupabaseClient();
 const { user, set } = useAuthStore();
 const { close } = useModalStore();
+
 const loading = ref(false);
+const directionsSelect = ref();
+
 const updateValue = reactive({
   name: user.name,
   surname: user.surname,
@@ -19,7 +23,7 @@ const updateValue = reactive({
   avatar_url: user.avatar_url,
   post: user.post,
   about_me: user.about_me,
-  directions: user.directions,
+  directions: Object.values(user.directions),
   organization: user.organization,
   city: user.city,
 });
@@ -31,8 +35,29 @@ const schema = Yup.object().shape({
   city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
 });
-
+const errorMessage = reactive({
+  directions: "",
+});
+const selectDirections = async () => {
+  const selectId = Object.values(user.directions).map((item) => item.id);
+  directionsSelect.value = Object.values(allDirections.value).map((item) => {
+    if (selectId.includes(item.id)) {
+      return {
+        ...item,
+        checked: true,
+      };
+    }
+    return { ...item };
+  });
+  console.log(directionsSelect.value);
+  console.log(selectId.includes(1));
+};
 const updateUser = async () => {
+  errorMessage.directions = "";
+  if (updateValue.directions.length == 0 && role.value == "expert") {
+    errorMessage.directions = "Это поле обязательно";
+    return;
+  }
   try {
     loading.value = true;
     const { data, error } = await supabase.auth.updateUser({
@@ -85,6 +110,12 @@ const updateUser = async () => {
     close();
   }
 };
+onMounted(() => {
+  selectDirections();
+});
+watch(updateValue, () => {
+  console.log(updateValue.directions);
+});
 </script>
 <template>
   <div>
@@ -156,8 +187,11 @@ const updateUser = async () => {
       <UiSelectMultiple
         v-if="user.role == 'expert'"
         v-model:model-value="updateValue.directions"
-        array=""
+        :array="directionsSelect"
+        style="z-index: 5"
       ></UiSelectMultiple>
+
+      <p>{{ errorMessage.directions }}</p>
 
       <div>
         <label>О себе:</label>

@@ -51,15 +51,14 @@ const filtersProject = () => {
 };
 
 onMounted(() => {
-  filterProjects.value = myProjects.value;
   fetchForms();
+  filterProjects.value = myProjects.value;
   if (user.role == "user") {
     userProject();
     return;
   }
   if (user.role == "expert") {
     expertProject();
-
     selectDirection.value = Object.values(user.directions);
     selectDirection.value.unshift({
       id: 0,
@@ -78,6 +77,9 @@ watch(filters, () => {
 });
 watch(allProjects, () => {
   userProject();
+});
+watch(user, () => {
+  expertProject();
 });
 </script>
 

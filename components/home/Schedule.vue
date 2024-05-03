@@ -232,7 +232,7 @@ section {
       height: 12px;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: $first-color;
+      background-color: $third-color;
       border-radius: 20px;
     }
   }

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from "vue";
 import { allAssessments } from "~/util/useAssessments";
+import { allForms } from "~/util/useForm";
 
 const props = defineProps({
   id: Number,
@@ -11,10 +12,21 @@ const props = defineProps({
   role: String,
   onClickCard: Function,
 });
+const cardForm = ref();
+const urlForm = ref("");
+
 const cardAssessments = ref();
-const rating = ref();
-const score = ref();
-const countAssessments = ref();
+const rating = ref(0);
+const score = ref(0);
+const countAssessments = ref(0);
+
+const findForm = () => {
+  cardForm.value = Object.values(allForms.value).filter(
+    (item: any) => item.direction_id == props.direction?.id
+  );
+  urlForm.value = cardForm.value[0]?.url_form;
+};
+
 const findAssessment = () => {
   cardAssessments.value = Object.values(allAssessments.value).filter(
     (item: any) => item.projects.id == props.id
@@ -40,12 +52,12 @@ const countingRating = () => {
     ((cardAssessments.value[0]?.score_max * countAssessments.value) /
       score.value);
   rating.value = parseFloat(rating.value.toFixed(1));
-  console.log(rating.value);
 };
 const openLink = (link: string) => {
   window.open(link);
 };
 onMounted(() => {
+  findForm();
   findAssessment();
   countingRating();
 });
@@ -69,10 +81,8 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <button
-        v-if="props.role == 'expert'"
-        @click="openLink('https://forms.yandex.ru/u/6612a3ac3e9d08de6e1bfe24/')"
-      >
+      <div></div>
+      <button v-if="props.role == 'expert'" @click="openLink(`${urlForm}`)">
         <h4>Оценить</h4>
       </button>
       <div class="btn">
@@ -89,8 +99,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .card {
-  width: 360px;
-  height: 500px;
+  width: 400px;
+  height: 480px;
   border: 3px solid $first-color;
   overflow: hidden;
   border-radius: 20px;
@@ -99,7 +109,7 @@ onMounted(() => {
   }
   .project-info {
     width: 90%;
-    height: 45%;
+    height: 50%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -130,6 +140,7 @@ onMounted(() => {
     flex-wrap: wrap;
     justify-content: space-between;
     justify-self: flex-end;
+    margin-bottom: 20px;
   }
   // .comment-export {
   //   display: flex;

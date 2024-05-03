@@ -155,7 +155,7 @@ onMounted(() => {
     cursor: pointer;
   }
   .photo {
-    height: 500px;
+    height: 420px;
   }
 }
 .error {

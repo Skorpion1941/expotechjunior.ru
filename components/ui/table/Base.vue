@@ -88,8 +88,11 @@ const addOption = (item) => {
   &-head {
     display: grid;
     align-items: center;
-
     background: #fff;
+    .name {
+      margin: 10px 5px;
+      text-align: center;
+    }
     &__name {
       width: 100%;
       height: 100%;
@@ -102,9 +105,7 @@ const addOption = (item) => {
     }
   }
 }
-.name {
-  margin: 10px 5px;
-}
+
 .select {
   position: relative;
 }

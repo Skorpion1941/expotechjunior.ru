@@ -48,13 +48,13 @@ export default defineNuxtConfig({
         "/projects",
         "/recover-password",
         "/registration-expert",
-        "/project/*",
+        "/projects/*",
       ],
     },
   },
   googleFonts: {
     families: {
-      Roboto: [400, 500, 700],
+      "Nunito Sans": [400, 500, 600, 700, 800, 900],
     },
   },
 });
