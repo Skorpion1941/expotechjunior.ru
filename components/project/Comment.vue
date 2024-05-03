@@ -1,31 +1,66 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-
-defineProps({
+const supabase = useSupabaseClient();
+const { user } = useAuthStore();
+const props = defineProps({
   comment: Object,
+  onClickDelete: Function,
 });
+const deleteComment = async () => {
+  try {
+    await supabase
+      .from("comments")
+      .delete()
+      .eq("id", props.comment?.id as number);
+    console.log("deleted comment", props.comment?.id);
+    props.onClickDelete();
+  } catch (error) {
+    console.error("error", error);
+  }
+};
 </script>
 <template>
   <div class="comment">
     <div class="comment-info">
       <div class="avatar">
         <UiAvatar
-          :path="comment?.profiles.avatar_url"
+          :path="props.comment?.profiles.avatar_url"
           width="100%"
           height="100%"
         ></UiAvatar>
       </div>
       <h4>
-        {{ comment?.profiles.surname }} {{ comment?.profiles.name }}
-        {{ comment?.profiles.patronymic }}
+        {{ props.comment?.profiles.surname }} {{ props.comment?.profiles.name }}
+        {{ props.comment?.profiles.patronymic }}
       </h4>
     </div>
-    <h6>
-      {{ comment?.text.replace(/\s/g, "&nbsp;") }}
-    </h6>
+    <div class="flex">
+      <h6>
+        {{ props.comment?.text.replace(/\s/g, "&nbsp;") }}
+      </h6>
+      <button
+        @click="deleteComment"
+        style="
+          background: none !important;
+          border: none !important ;
+          margin-top: -25px;
+        "
+        v-if="user.role == 'admin'"
+      >
+        <Icon
+          name="material-symbols:delete-forever-outline-sharp"
+          size="40"
+          color="#02caaf"
+        ></Icon>
+      </button>
+    </div>
   </div>
 </template>
 <style scoped lang="scss">
+.img {
+  width: 70px;
+}
+
 .comment {
   display: flex;
   flex-direction: column;

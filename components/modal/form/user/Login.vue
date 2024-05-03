@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { object, string, type InferType } from "yup";
-import { openModal, closeModal, fromModal } from "../../useModal";
 import { useAuthStore } from "~/store/auth.store";
 import { allProfiles } from "~/util/useProfiles";
 
 const supabase = useSupabaseClient();
 const { set } = useAuthStore();
-const modalStore = useModalStore();
+const { open, close } = useModalStore();
 const loading = ref(false);
 const errorMassage = ref("");
 const myProfile = ref();
@@ -52,7 +51,7 @@ const signIn = async () => {
     if (error) {
       throw error;
     }
-    modalStore.close;
+    close();
   } catch (error) {
     if (error instanceof Error) {
       switch (error.status) {
@@ -112,7 +111,7 @@ const signIn = async () => {
         href="#"
         @click="
           () => {
-            modalStore.open({
+            open({
               name: 'confirmEmail',
               title: 'Восстановить пароль',
               backShow: true,

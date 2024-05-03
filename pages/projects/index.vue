@@ -5,14 +5,27 @@ import { allDirections } from "~/util/useDirections";
 import { allProjects } from "~/util/useProjects";
 const projects = ref();
 const filters = reactive({
-  sortDirection: [directionValue.id, "", "", "", directionValue.name],
+  sortDirection: [],
   searchQuery: "",
 });
 const selectDirection = ref();
 const count = ref(0);
+
 const filtersProject = () => {
   projects.value = allProjects.value;
-
+  if (directionValue.active == true) {
+    filters.sortDirection = [
+      directionValue.id,
+      "",
+      "",
+      "",
+      directionValue.name,
+    ];
+    directionValue.active = false;
+  }
+  if (directionValue.active == false) {
+    directionValue.name = "Все";
+  }
   if (filters.sortDirection.length > 0 && filters.sortDirection[4] != "Все") {
     projects.value = Object.values(projects.value).filter(
       (project: any) => project.directions.id == filters.sortDirection[0]
@@ -37,6 +50,7 @@ onMounted(async () => {
     name: "Все",
     color: "Все",
   });
+
   filtersProject();
 });
 watch(filters, () => {

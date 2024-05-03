@@ -13,8 +13,15 @@ const { open } = useModalStore();
 
 const signIn = ref(false);
 const loading = ref(false);
+const roles = ref([
+  { name: "Пользователь", code: "user" },
+  { name: "Эксперт", code: "expert" },
+  { name: "Админ", code: "admin" },
+]);
+const role = ref();
+role.value = { code: [props.role] };
 
-const registerValue = reactive({
+const createValue = reactive({
   name: "",
   surname: "",
   patronymic: "",
@@ -48,59 +55,63 @@ const schema = Yup.object().shape({
 });
 const errorMessage = reactive({
   directions: "",
-  register: "",
 });
-const signUp = async () => {
+const createUser = async () => {
   errorMessage.directions = "";
-  if (registerValue.directions.length == 0 && role.value == "expert") {
+  if (createValue.directions.length == 0 && role.value == "expert") {
     errorMessage.directions = "Это поле обязательно";
     return;
   }
   try {
     loading.value = true;
     const { error } = await supabase.auth.signUp({
-      email: registerValue.email,
-      password: registerValue.password,
+      email: createValue.email,
+      password: createValue.password,
       options: {
         data: {
-          name: registerValue.name,
-          surname: registerValue.surname,
-          patronymic: registerValue.patronymic,
-          email: registerValue.email,
-          avatar_url: registerValue.avatar_url,
-          post: registerValue.post,
-          about_me: registerValue.about_me,
-          directions: JSON.stringify(registerValue.directions),
-          organization: registerValue.organization,
-          city: registerValue.city,
-          role: props.role,
+          name: createValue.name,
+          surname: createValue.surname,
+          patronymic: createValue.patronymic,
+          email: createValue.email,
+          avatar_url: createValue.avatar_url,
+          post: createValue.post,
+          about_me: createValue.about_me,
+          directions: JSON.stringify(createValue.directions),
+          organization: createValue.organization,
+          city: createValue.city,
+          role: role.value.code[1],
         },
       },
     });
     if (error) throw error;
-    signIn.value = true;
-    if (props.role == "user") {
-      open({ name: "login", title: "Вход" });
-      return;
-    }
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
-      errorMessage.register =
-        "При регистрации произошла ошибка перезагрузите страницу и повторно заполните форму";
     }
   } finally {
     loading.value = false;
+    signIn.value = true;
   }
 };
 </script>
 <template>
   <div v-if="!signIn" class="form">
-    <Form @submit="signUp()" :validation-schema="schema" v-slot="{ errors }">
+    <Form
+      @submit="createUser()"
+      :validation-schema="schema"
+      v-slot="{ errors }"
+    >
+      <UiSelect
+        v-model:model-value="role.code"
+        :array="roles"
+        label="Роль"
+        :name="0"
+        placeholder="Роль"
+      ></UiSelect>
       <div class="avatar-fio">
         <div class="avatar">
           <UiAvatar
-            v-model:path="registerValue.avatar_url"
+            v-model:path="createValue.avatar_url"
             width="100%"
             height="100%"
             :update="true"
@@ -112,7 +123,7 @@ const signUp = async () => {
             name="name"
             type="text"
             placeholder="Введите имя"
-            v-model:model-value="registerValue.name"
+            v-model:model-value="createValue.name"
             :errors="errors.name"
           ></UiInput>
           <UiInput
@@ -120,7 +131,7 @@ const signUp = async () => {
             name="surname"
             type="text"
             placeholder="Введите фамилию"
-            v-model:model-value="registerValue.surname"
+            v-model:model-value="createValue.surname"
             :errors="errors.surname"
           ></UiInput>
           <UiInput
@@ -128,7 +139,7 @@ const signUp = async () => {
             name="patronymic"
             type="text"
             placeholder="Введите отчество"
-            v-model:model-value="registerValue.patronymic"
+            v-model:model-value="createValue.patronymic"
             :errors="errors.patronymic"
           ></UiInput>
         </div>
@@ -139,7 +150,7 @@ const signUp = async () => {
         name="email"
         type="email"
         placeholder="Введите Email"
-        v-model:model-value="registerValue.email"
+        v-model:model-value="createValue.email"
         :errors="errors.email"
       ></UiInput
       ><UiInput
@@ -147,7 +158,7 @@ const signUp = async () => {
         name="city"
         type="text"
         placeholder="Введите город"
-        v-model:model-value="registerValue.city"
+        v-model:model-value="createValue.city"
         :errors="errors.city"
       ></UiInput>
       <UiInput
@@ -155,7 +166,7 @@ const signUp = async () => {
         name="organization"
         type="text"
         placeholder="Введите организацию"
-        v-model:model-value="registerValue.organization"
+        v-model:model-value="createValue.organization"
         :errors="errors.organization"
       ></UiInput>
       <UiInput
@@ -163,12 +174,12 @@ const signUp = async () => {
         name="post"
         type="text"
         placeholder="Введите должность"
-        v-model:model-value="registerValue.post"
+        v-model:model-value="createValue.post"
         :errors="errors.post"
       ></UiInput
       ><UiSelectMultiple
-        v-if="props.role == 'expert'"
-        v-model:model-value="registerValue.directions"
+        v-if="role.name == 'expert'"
+        v-model:model-value="createValue.directions"
         :array="allDirections"
         style="z-index: 5"
       ></UiSelectMultiple>
@@ -179,7 +190,7 @@ const signUp = async () => {
         name="password"
         type="password"
         placeholder="Введите пароль"
-        v-model:model-value="registerValue.password"
+        v-model:model-value="createValue.password"
         :errors="errors.password"
       ></UiInput>
       <UiInput
@@ -187,13 +198,13 @@ const signUp = async () => {
         name="password_repeat"
         type="password"
         placeholder="Повтирите пароль"
-        v-model:model-value="registerValue.password_repeat"
+        v-model:model-value="createValue.password_repeat"
         :errors="errors.password_repeat"
       ></UiInput>
 
       <div>
         <label>О себе:</label>
-        <textarea maxlength="500" v-model="registerValue.about_me"></textarea>
+        <textarea maxlength="500" v-model="createValue.about_me"></textarea>
       </div>
 
       <div>
@@ -201,13 +212,12 @@ const signUp = async () => {
           <h3>{{ loading ? "Загрузка..." : "Зарегистрироваться" }}</h3>
         </button>
       </div>
-      <p style="text-align: center">{{ errorMessage.register }}</p>
     </Form>
   </div>
-  <div v-if="signIn && props.role == 'expert'" class="notification">
+  <div v-if="signIn && role.name == 'expert'" class="notification">
     <h5>
-      На вашу почту {{ registerValue.email }} было отправленно письмо для
-      подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
+      На почту {{ createValue.email }} было отправленно письмо для подтверждения
+      регистрации
     </h5>
   </div>
 </template>
@@ -226,7 +236,6 @@ form {
     flex-direction: row;
     .avatar {
       width: 400px;
-      height: 300px;
     }
     .fio {
       width: 550px;
@@ -276,7 +285,7 @@ form {
 }
 .notification {
   width: 100%;
-  h5 {
+  h3 {
     margin: 30px 50px;
     text-align: center;
   }

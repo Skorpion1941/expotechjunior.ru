@@ -5,23 +5,22 @@ const { modal } = useModalStore();
 <template>
   <!-- Пользователь -->
   <ModalFormUserLogin v-if="modal.name == 'login'"></ModalFormUserLogin>
-  <ModalFormUserRegister
-    v-if="modal.name == 'register'"
-    role="user"
-  ></ModalFormUserRegister>
-  <ModalFormUserRegister
-    v-if="modal.name == 'registerExpert'"
-    role="expert"
-  ></ModalFormUserRegister>
+  <ModalFormUserRegister v-if="modal.name == 'register'" role="user">
+  </ModalFormUserRegister>
+  <ModalFormUserRegister v-if="modal.name == 'registerExpert'" role="expert">
+  </ModalFormUserRegister>
   <ModalFormUserRecoverPassword
     v-if="modal.name == 'confirmEmail'"
     :confirm="true"
-  ></ModalFormUserRecoverPassword>
+  >
+  </ModalFormUserRecoverPassword>
   <ModalFormUserRecoverPassword
     v-if="modal.name == 'recoverPassword'"
     :confirm="false"
-  ></ModalFormUserRecoverPassword
-  ><ModalFormUserUpdate v-if="modal.name == 'userUpdate'" role="user">
+  >
+  </ModalFormUserRecoverPassword>
+  <ModalFormUserCreate v-if="modal.name == 'userCreate'"></ModalFormUserCreate>
+  <ModalFormUserUpdate v-if="modal.name == 'userUpdate'" role="user">
   </ModalFormUserUpdate>
   <ModalFormUserUpdate v-if="modal.name == 'expertUpdate'" role="expert">
   </ModalFormUserUpdate>
@@ -33,25 +32,20 @@ const { modal } = useModalStore();
   </ModalFormProjectUpdate>
   <ModalFormProject v-if="modal.name == 'project'"></ModalFormProject>
   <!-- Расписание -->
-  <ModalFormScheduleCreate
-    v-if="modal.name == 'scheduleCreate'"
-  ></ModalFormScheduleCreate>
-  <ModalFormScheduleUpdate
-    v-if="modal.name == 'scheduleUpdate'"
-  ></ModalFormScheduleUpdate>
+  <ModalFormScheduleCreate v-if="modal.name == 'scheduleCreate'">
+  </ModalFormScheduleCreate>
+  <ModalFormScheduleUpdate v-if="modal.name == 'scheduleUpdate'">
+  </ModalFormScheduleUpdate>
   <!-- Направления -->
-  <ModalFormDirectionCreate
-    v-if="modal.name == 'directionCreate'"
-  ></ModalFormDirectionCreate
-  ><ModalFormDirectionUpdate
-    v-if="modal.name == 'directionUpdate'"
-  ></ModalFormDirectionUpdate>
+  <ModalFormDirectionCreate v-if="modal.name == 'directionCreate'">
+  </ModalFormDirectionCreate>
+  <ModalFormDirectionUpdate v-if="modal.name == 'directionUpdate'">
+  </ModalFormDirectionUpdate>
   <!-- Яндекс формы -->
   <ModalFormYandexformCreate v-if="modal.name == 'formCreate'">
   </ModalFormYandexformCreate
-  ><ModalFormYandexformUpdate
-    v-if="modal.name == 'formUpdate'"
-  ></ModalFormYandexformUpdate>
+  ><ModalFormYandexformUpdate v-if="modal.name == 'formUpdate'">
+  </ModalFormYandexformUpdate>
   <ModalFormDelete v-if="modal.name == 'delete'"> </ModalFormDelete>
   <ModalFormNotice v-if="modal.name == 'notice'"></ModalFormNotice>
 </template>

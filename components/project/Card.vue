@@ -10,7 +10,6 @@ const props = defineProps({
   tilda_url: String,
   role: String,
   onClickCard: Function,
-  onClickComment: Function,
 });
 const cardAssessments = ref();
 const rating = ref();
@@ -70,14 +69,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <!-- <div class="comment-export">
-        <Icon
-          @click="onClickComment()"
-          name="ant-design:comment-outlined"
-          class="comment"
-          size="50"
-        ></Icon>
-      </div> -->
       <button
         v-if="props.role == 'expert'"
         @click="openLink('https://forms.yandex.ru/u/6612a3ac3e9d08de6e1bfe24/')"

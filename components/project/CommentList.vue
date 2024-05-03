@@ -56,9 +56,10 @@ onMounted(async () => {
   <div class="full-w flex flex-column project">
     <div class="comments" v-if="commentsProject?.length > 0">
       <ProjectComment
-        v-for="assessment in commentsProject"
-        :key="assessment.id"
-        :comment="assessment"
+        v-for="comment in commentsProject"
+        :key="comment.id"
+        :comment="comment"
+        :on-click-delete="fetchComments()"
       ></ProjectComment>
     </div>
     <div v-else style="text-align: center; min-height: 400px" class="full-wh">

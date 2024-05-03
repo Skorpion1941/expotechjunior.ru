@@ -10,8 +10,7 @@
         <b>Регистрация </b>
       </h1>
     </div>
-    <div></div>
-    <ModalMainForm name="registerExpert"></ModalMainForm>
+    <ModalFormUserRegister role="expert"></ModalFormUserRegister>
   </div>
 </template>
 

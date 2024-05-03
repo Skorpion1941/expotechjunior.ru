@@ -17,7 +17,7 @@ const selectDirection = ref([]);
 const userProject = () => {
   myProjects.value = allProjects.value;
   myProjects.value = Object.values(allProjects.value).filter(
-    (project) => project.user_id == user.id
+    (project: any) => project.user_id == user.id
   );
   filtersProject();
 };
@@ -28,7 +28,7 @@ const userCreate = () => {
 };
 const expertProject = () => {
   expertDirections.value = user.directions.map((item: any) => item.id);
-  myProjects.value = Object.values(allProjects.value).filter((project) => {
+  myProjects.value = Object.values(allProjects.value).filter((project: any) => {
     return Object.values(expertDirections.value).includes(project.direction_id);
   });
   filtersProject();
@@ -38,7 +38,7 @@ const filtersProject = () => {
   console.log(filters.sortDirection.length);
   if (filters.sortDirection.length != 0 && filters.sortDirection[4] != "Все") {
     filterProjects.value = Object.values(filterProjects.value).filter(
-      (project) => project.directions.name == filters.sortDirection[4]
+      (project: any) => project.directions.name == filters.sortDirection[4]
     );
   }
   if (filters.searchQuery != "") {
@@ -61,16 +61,14 @@ onMounted(() => {
     expertProject();
 
     selectDirection.value = Object.values(user.directions);
-    if (selectDirection.value[0].name != "Все") {
-      selectDirection.value.unshift({
-        id: 0,
-        createdAt: "",
-        name: "Все",
-        short_name: "Все",
-        description: "Все",
-        color: "Все",
-      });
-    }
+    selectDirection.value.unshift({
+      id: 0,
+      createdAt: "",
+      name: "Все",
+      short_name: "Все",
+      description: "Все",
+      color: "Все",
+    });
     return;
   }
   fetchRoles();
@@ -120,7 +118,7 @@ watch(allProjects, () => {
         </div>
       </div>
     </div>
-    <div v-else><UserAdmin></UserAdmin></div>
+    <div v-else><UserAdminTable></UserAdminTable></div>
   </div>
 </template>
 

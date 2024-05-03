@@ -49,7 +49,6 @@ const toggleList = () => {
 }
 .selector {
   width: 100%;
-
   border: 1px solid #ccc;
   overflow: hidden;
   border-radius: 15px;
@@ -60,7 +59,7 @@ const toggleList = () => {
     justify-content: space-between;
     div {
       &:first-child {
-        margin-left: 15px;
+        margin-left: 5px;
         display: flex;
         gap: 5px;
         overflow: hidden;

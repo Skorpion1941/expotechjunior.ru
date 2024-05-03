@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { commentValue } from "~/components/drawer/useDrawer";
 import { useAuthStore } from "~/store/auth.store";
 import { fetchDirections } from "~/util/useDirections";
 import { fetchProjects } from "~/util/useProjects";
@@ -60,7 +59,6 @@ onMounted(async () => {
     <div style="min-height: 100%; display: flex; flex-direction: column">
       <LayoutHeader></LayoutHeader>
       <div class="wrapper">
-        <Drawer v-if="commentValue.show"></Drawer>
         <ModalCommon v-if="modal.show"></ModalCommon>
         <slot></slot>
       </div>

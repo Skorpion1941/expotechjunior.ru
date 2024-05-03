@@ -9,8 +9,8 @@ const openLink = (link: string) => {
   <div class="welcome full-w">
     <div
       class="kvant-img full-w"
-      data-aos="fade-right"
-      data-aos-duration="2000"
+      data-aos="slide-right"
+      data-aos-duration="1500"
     >
       <div class="full-wh"></div>
       <img class="full-wh" src="/welcome.webp" />
@@ -54,7 +54,7 @@ const openLink = (link: string) => {
           <h1 data-aos="fade-left" data-aos-duration="1100">
             Expo-TECH Junior
           </h1>
-          <div class="line" data-aos="zoom-in-left" data-aos-duration="1000">
+          <div class="line" data-aos="slide-left" data-aos-duration="1300">
             <div class="circle"></div>
             <hr />
           </div>

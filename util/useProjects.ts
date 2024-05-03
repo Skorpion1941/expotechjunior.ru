@@ -77,7 +77,7 @@ export async function updateProject(projects: Project) {
 /**
  *  Deletes a todo via its id
  */
-async function deleteProject(projects: Project) {
+export async function deleteProject(projects: Project) {
   try {
     const supabase = useSupabaseClient();
     await supabase

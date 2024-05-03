@@ -23,7 +23,6 @@ input {
   margin: 10px;
 }
 label {
-  font-size: 18px;
   align-items: center;
 }
 </style>

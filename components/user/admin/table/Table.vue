@@ -1,49 +1,8 @@
 <script lang="ts" setup>
+import { TABLE_DATA } from "../admin.data";
+
 const { open } = useModalStore();
-export interface TableData {
-  name: string;
-  table: string;
-  select: boolean;
-  nameCreateModal: string;
-  titleCreateModal: string;
-}
-const TABLE_DATA = ref<TableData[]>([
-  {
-    name: "Пользователи",
-    table: "profile",
-    select: false,
-    nameCreateModal: "register",
-    titleCreateModal: "Добавить проект",
-  },
-  {
-    name: "Проекты",
-    table: "project",
-    select: true,
-    nameCreateModal: "projectCreate",
-    titleCreateModal: "Добавить проект",
-  },
-  {
-    name: "Направления",
-    table: "direction",
-    select: false,
-    nameCreateModal: "directionCreate",
-    titleCreateModal: "Добавить напрваление",
-  },
-  {
-    name: "Расписание",
-    table: "schedule",
-    select: false,
-    nameCreateModal: "scheduleCreate",
-    titleCreateModal: "Добавить проект в рассписание",
-  },
-  {
-    name: "Формы для оценивания",
-    table: "form",
-    select: false,
-    nameCreateModal: "formCreate",
-    titleCreateModal: "Добавить YandexForm",
-  },
-]);
+
 const table = ref();
 table.value = TABLE_DATA.value;
 const modelValue = ref({

@@ -55,7 +55,6 @@ const addOption = (item) => {
   border: 1px solid #ccc;
   border-radius: 15px;
   min-width: 300px;
-  min-height: 42px;
   overflow: hidden;
   .select-fields {
     width: 100%;
@@ -109,7 +108,7 @@ const addOption = (item) => {
   }
   &::-webkit-scrollbar-track {
     background: white;
-    border-radius: 0 0 20px 0;
+    border-radius: 0 0 15px 0;
   }
   &::-webkit-scrollbar-thumb {
     background-color: $first-color;
