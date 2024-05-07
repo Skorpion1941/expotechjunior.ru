@@ -81,7 +81,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div></div>
       <button v-if="props.role == 'expert'" @click="openLink(`${urlForm}`)">
         <h4>Оценить</h4>
       </button>
@@ -105,7 +104,7 @@ onMounted(() => {
   overflow: hidden;
   border-radius: 20px;
   &:hover {
-    box-shadow: 0 10px 40px rgb(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px rgb(2, 202, 175, 0.2);
   }
   .project-info {
     width: 90%;
@@ -121,7 +120,6 @@ onMounted(() => {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-top: 10px;
       }
     }
   }
@@ -159,18 +157,12 @@ onMounted(() => {
   .card {
     width: 260px;
     height: 360px;
-    h3 {
-      margin-top: 10px;
-    }
   }
 }
 @media screen and (max-width: 800px) {
   .card {
     width: 200px;
     height: 280px;
-    h3 {
-      margin-top: 10px;
-    }
   }
 }
 </style>

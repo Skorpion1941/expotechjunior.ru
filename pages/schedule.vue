@@ -87,8 +87,6 @@ main {
     display: flex;
     justify-content: center;
   }
-  h4 {
-  }
 }
 .slider {
   display: flex;
@@ -107,6 +105,9 @@ main {
       background: none !important;
       border: none !important;
       color: $third-color;
+      h1 {
+        font-weight: 700;
+      }
     }
   }
 }
@@ -129,6 +130,14 @@ main {
 .table {
   width: 1200px;
   margin: 100px auto;
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $third-color;
+    border-radius: 20px;
+  }
 }
 @media screen and (max-width: 1280px) {
   .swiper {
@@ -136,7 +145,7 @@ main {
   }
   .table {
     width: 900px;
-
+    overflow: auto;
     margin: 50px auto;
   }
 }

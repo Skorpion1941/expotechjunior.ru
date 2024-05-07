@@ -224,11 +224,11 @@ section {
     }
   }
   .table {
-    height: 525px;
+    height: 520px;
     overflow: auto;
     &::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
     }
     &::-webkit-scrollbar-thumb {
       background-color: $third-color;
@@ -237,11 +237,15 @@ section {
   }
 }
 @media screen and (max-width: 1280px) {
+  section {
+    margin: 70px auto;
+  }
   h5 {
     padding: 10px;
   }
   .calendar {
-    min-width: 300px;
+    width: 42%;
+    min-width: 400px;
 
     .days {
       div {
@@ -260,8 +264,20 @@ section {
     }
   }
   .schedule-table {
-    width: 50%;
-    height: 400px;
+    width: 53%;
+    height: 420px;
+    .table {
+      height: 348px;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $third-color;
+        border-radius: 20px;
+      }
+    }
   }
 }
 @media screen and (max-width: 1024px) {

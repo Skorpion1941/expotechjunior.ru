@@ -41,12 +41,13 @@ const { user } = useAuthStore();
 <style lang="scss" scoped>
 header {
   width: 100%;
+  max-width: 1920px;
   height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid $second-color;
-  position: -webkit-fixed; /* Для Safari */
+  position: -webkit-fixed;
   position: fixed;
   top: 0;
   z-index: 1000;

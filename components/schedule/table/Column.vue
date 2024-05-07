@@ -28,6 +28,8 @@ const props = defineProps({
 .table-column {
   position: relative;
   padding: 5px 10px;
+  text-align: center;
+
   &-image {
     max-width: 100%;
     @media screen and (max-width: 767px) {

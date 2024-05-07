@@ -10,17 +10,19 @@
         <b>Востановление пароля</b>
       </h1>
     </div>
-    <ModalMainForm name="recoverPassword"></ModalMainForm>
+    <ModalFormUserRecoverPassword></ModalFormUserRecoverPassword>
   </div>
 </template>
 
 <style scoped lang="scss">
 .modal {
-  max-width: 40%;
+  max-width: 35%;
   min-width: 500px;
   margin: 100px auto;
   border: 2px solid $second-color;
   border-radius: 17px;
+
+  background-color: white;
 }
 .close {
   position: absolute;
@@ -38,7 +40,6 @@
   h1,
   h2 {
     margin: 0px;
-    font-size: 28px;
     padding: 20px 0;
     color: $text-color;
   }

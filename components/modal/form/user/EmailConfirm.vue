@@ -56,7 +56,7 @@ const confirmEmail = async () => {
   <div v-else class="notification">
     <h3>
       Вам на почту {{ confirmValue.email }} было отправленно письмо для
-      востановления пароля <NuxtLink to="/">на главную</NuxtLink>
+      востановления пароля
     </h3>
   </div>
 </template>
@@ -82,7 +82,7 @@ form {
 .notification {
   width: 100%;
   h3 {
-    margin: 30px 50px;
+    margin: 30px 40px;
     text-align: center;
   }
 }

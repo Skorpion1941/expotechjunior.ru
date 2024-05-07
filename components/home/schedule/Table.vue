@@ -82,23 +82,14 @@ watch(day, () => {
       </ScheduleTableColumn>
       <ScheduleTableColumn>
         <div
-          style="display: flex; gap: 5px"
+          style="display: flex; gap: 5px; justify-content: center"
           v-for="team in arr.projects.team"
           :key="team.id"
         >
-          <h5>{{ team.surname }} {{ team.name }};</h5>
+          <h5>{{ team.surname }} {{ team.name }},</h5>
         </div>
       </ScheduleTableColumn>
     </ScheduleTableRow>
   </ScheduleTableBase>
 </template>
-<style scoped lang="scss">
-.table {
-  height: 545px;
-}
-@media screen and (max-width: 1280px) {
-  .table {
-    height: 145px;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

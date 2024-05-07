@@ -9,15 +9,9 @@ const { modal } = useModalStore();
   </ModalFormUserRegister>
   <ModalFormUserRegister v-if="modal.name == 'registerExpert'" role="expert">
   </ModalFormUserRegister>
-  <ModalFormUserRecoverPassword
-    v-if="modal.name == 'confirmEmail'"
-    :confirm="true"
-  >
-  </ModalFormUserRecoverPassword>
-  <ModalFormUserRecoverPassword
-    v-if="modal.name == 'recoverPassword'"
-    :confirm="false"
-  >
+  <ModalFormUserEmailConfirm v-if="modal.name == 'emailConfirm'">
+  </ModalFormUserEmailConfirm>
+  <ModalFormUserRecoverPassword v-if="modal.name == 'recoverPassword'">
   </ModalFormUserRecoverPassword>
   <ModalFormUserCreate v-if="modal.name == 'userCreate'"></ModalFormUserCreate>
   <ModalFormUserUpdate v-if="modal.name == 'userUpdate'" role="user">

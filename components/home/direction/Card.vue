@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { selectDirection } from "./useDirection";
 
-const supabase = useSupabaseClient();
-
 const props = defineProps(["id", "name", "imgUrl"]);
 const { id, name, imgUrl } = toRefs(props);
 </script>
@@ -47,6 +45,7 @@ a {
 @media screen and (max-width: 1280px) {
   .card {
     width: 400px;
+    height: 93px;
     .scale-img {
       min-width: 80px;
       height: 80px;

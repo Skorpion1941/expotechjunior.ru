@@ -188,19 +188,30 @@ const openLink = (link: string) => {
   .welcome {
     height: 400px;
     .vector {
+      &::before {
+        left: -132px;
+        height: 100%;
+      }
       &::after {
-        right: 180px;
-        width: 90%;
+        right: 109px;
       }
     }
     .info {
       .info-welcome {
         margin-top: 50px;
         img {
+          width: 40px;
           height: 40px;
         }
-        hr {
-          border: 1.5px solid $first-color;
+        .line {
+          .circle {
+            width: 12px;
+            height: 12px;
+          }
+          hr {
+            border: 1.5px solid $first-color;
+            margin: 4.5px 0 15px 0;
+          }
         }
       }
       .info-img {
@@ -249,7 +260,7 @@ const openLink = (link: string) => {
           height: 30px;
         }
         hr {
-          border: 1.5px solid $first-color;
+          border: 1.2px solid $first-color;
           margin: 5px 0 5px 0;
         }
         button {

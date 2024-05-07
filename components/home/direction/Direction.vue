@@ -29,19 +29,19 @@ section {
     z-index: 3;
   }
 }
+@media screen and (max-width: 1280px) {
+  .direction {
+    margin: 70px auto;
+    .list {
+      margin: 30px 0;
+      gap: 0px;
+    }
+  }
+}
 @media screen and (max-width: 800px) {
   .direction {
-    width: 80%;
-    margin: 5ch auto;
-    display: flex;
-
-    flex-direction: column;
     .list {
       margin: 20px 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0px;
-      z-index: 3;
     }
   }
 }

@@ -61,21 +61,21 @@ watch(day, () => {
       size="20px"
     >
       <ScheduleTableColumn>
-        {{ arr.time.slice(0, -3) }}
+        <h5>{{ arr.time.slice(0, -3) }}</h5>
       </ScheduleTableColumn>
       <ScheduleTableColumn>
-        {{ arr.projects.name }}
+        <h5>{{ arr.projects.name }}</h5>
       </ScheduleTableColumn>
       <ScheduleTableColumn>
-        {{ findDirection(arr.projects.direction_id) }}
+        <h5>{{ findDirection(arr.projects.direction_id) }}</h5>
       </ScheduleTableColumn>
       <ScheduleTableColumn>
         <div
-          style="display: flex; gap: 5px"
+          style="display: flex; gap: 5px; justify-content: center"
           v-for="team in arr.projects.team"
           :key="team.id"
         >
-          <p>{{ team.surname }} {{ team.name }};</p>
+          <h5>{{ team.surname }} {{ team.name }},</h5>
         </div>
       </ScheduleTableColumn>
     </ScheduleTableRow>

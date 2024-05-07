@@ -60,7 +60,7 @@ const recoverPassword = async () => {
     ></UiInput>
     <div>
       <button type="submit" :disabled="loading">
-        <h3>{{ loading ? "Загрузка..." : "Востановить" }}</h3>
+        <h3>{{ loading ? "Загрузка..." : "Обнавить пароль" }}</h3>
       </button>
       <p style="text-align: center">{{ errorMassage }}</p>
     </div>
@@ -69,25 +69,58 @@ const recoverPassword = async () => {
 
 <style scoped lang="scss">
 form {
-  width: 60%;
+  width: 80%;
   margin: 20px auto;
   button {
     margin-top: 10px;
   }
+
   div {
     display: flex;
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
+
+    input {
+      padding: 12px 20px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+    }
   }
   p {
     color: red;
     margin: 0px;
-    font-size: 16px;
   }
   a {
     text-decoration: underline;
     color: #02c9af;
+  }
+  textarea {
+    max-width: 96%;
+    min-width: 96%;
+    min-height: 60px;
+    max-height: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: $second-color;
+      border-radius: 0 20px 20px 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first-color;
+      border-radius: 20px;
+    }
+  }
+}
+.notification {
+  width: 100%;
+  h5 {
+    margin: 30px 50px;
+    text-align: center;
   }
 }
 </style>

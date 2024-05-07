@@ -112,7 +112,7 @@ const signIn = async () => {
         @click="
           () => {
             open({
-              name: 'confirmEmail',
+              name: 'emailConfirm',
               title: 'Восстановить пароль',
               backShow: true,
               nameFrom: 'login',
