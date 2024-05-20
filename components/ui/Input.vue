@@ -9,6 +9,7 @@ export interface UiInput {
   type?: string;
   placeholder?: string;
   errors?: string;
+  noRequest?: { type: Boolean; default: true };
 }
 const props = defineProps([
   "label",
@@ -18,6 +19,7 @@ const props = defineProps([
   "placeholder",
   "errors",
   "style",
+  "noRequest",
 ]);
 const { modelValue } = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
@@ -25,7 +27,10 @@ const emit = defineEmits(["update:modelValue"]);
 
 <template>
   <div>
-    <label v-if="label">{{ props.label }}</label>
+    <div class="flex" style="gap: 5px" v-if="label">
+      <label>{{ props.label }}</label>
+      <p v-if="!props.noRequest">*</p>
+    </div>
     <Field
       :value="modelValue"
       @input="emit('update:modelValue', $event.target.value)"

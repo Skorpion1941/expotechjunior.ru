@@ -54,42 +54,60 @@ watch(day, () => {
 </script>
 
 <template>
-  <ScheduleTableBase
-    style="height: 545px"
-    v-model:model-value="filters.sortDirection"
-    :v-bind="filters.sortDirection"
-    :head="tableHeads"
-    :columnTemplates="tableSizeColumns"
-    size="22px"
-    color="white"
-  >
-    <ScheduleTableRow
-      v-for="arr in schedules"
-      :key="arr.id"
+  <div class="table">
+    <ScheduleTableBase
+      style="height: 545px"
+      v-model:model-value="filters.sortDirection"
+      :v-bind="filters.sortDirection"
+      :head="tableHeads"
       :columnTemplates="tableSizeColumns"
-      bgRow="black"
+      size="22px"
       color="white"
-      size="16px"
     >
-      <ScheduleTableColumn>
-        <h5>{{ arr.time.slice(0, -3) }}</h5>
-      </ScheduleTableColumn>
-      <ScheduleTableColumn>
-        <h5>{{ arr.projects.name }}</h5>
-      </ScheduleTableColumn>
-      <ScheduleTableColumn>
-        <h5>{{ findDirection(arr.projects.direction_id) }}</h5>
-      </ScheduleTableColumn>
-      <ScheduleTableColumn>
-        <div
-          style="display: flex; gap: 5px; justify-content: center"
-          v-for="team in arr.projects.team"
-          :key="team.id"
-        >
-          <h5>{{ team.surname }} {{ team.name }},</h5>
-        </div>
-      </ScheduleTableColumn>
-    </ScheduleTableRow>
-  </ScheduleTableBase>
+      <ScheduleTableRow
+        v-for="arr in schedules"
+        :key="arr.id"
+        :columnTemplates="tableSizeColumns"
+        bgRow="black"
+        color="white"
+        size="16px"
+      >
+        <ScheduleTableColumn>
+          <nuxt-link :to="`/projects/${arr.projects.name}`">
+            <h5>{{ arr.time.slice(0, -3) }}</h5>
+          </nuxt-link>
+        </ScheduleTableColumn>
+        <ScheduleTableColumn>
+          <nuxt-link :to="`/projects/${arr.projects.name}`">
+            <h5>{{ arr.projects.name }}</h5>
+          </nuxt-link>
+        </ScheduleTableColumn>
+        <ScheduleTableColumn>
+          <nuxt-link :to="`/projects/${arr.projects.name}`">
+            <h5>{{ findDirection(arr.projects.direction_id) }}</h5>
+          </nuxt-link>
+        </ScheduleTableColumn>
+        <ScheduleTableColumn>
+          <nuxt-link :to="`/projects/${arr.projects.name}`">
+            <div
+              style="display: flex; gap: 5px; justify-content: center"
+              v-for="team in arr.projects.team"
+              :key="team.id"
+            >
+              <h5>{{ team.surname }} {{ team.name }},</h5>
+            </div>
+          </nuxt-link>
+        </ScheduleTableColumn>
+      </ScheduleTableRow>
+    </ScheduleTableBase>
+  </div>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.table {
+  background: rgba(196, 196, 196, 0.3);
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+</style>

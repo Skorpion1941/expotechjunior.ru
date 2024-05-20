@@ -11,6 +11,7 @@ const props = defineProps({
   tilda_url: String,
   role: String,
   onClickCard: Function,
+  expertDirections: Array,
 });
 const cardForm = ref();
 const urlForm = ref("");
@@ -19,7 +20,12 @@ const cardAssessments = ref();
 const rating = ref(0);
 const score = ref(0);
 const countAssessments = ref(0);
-
+const seeAssess = () => {
+  if (props.role !== "expert") {
+    return false;
+  }
+  return props.expertDirections.includes(props.direction.id);
+};
 const findForm = () => {
   cardForm.value = Object.values(allForms.value).filter(
     (item: any) => item.direction_id == props.direction?.id
@@ -81,7 +87,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <button v-if="props.role == 'expert'" @click="openLink(`${urlForm}`)">
+      <button v-if="seeAssess()" @click="openLink(`${urlForm}`)">
         <h4>Оценить</h4>
       </button>
       <div class="btn">

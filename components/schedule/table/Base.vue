@@ -37,7 +37,7 @@ const { head, columnTemplates } = toRefs(props);
   }
   &-head {
     width: 100%;
-    padding-bottom: 10px;
+    margin: 20px 0 20px 0;
     display: grid;
     align-items: center;
     &__name {

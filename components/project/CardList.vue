@@ -1,9 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { openModal } from "../modal/useModal";
 
+const { user } = useAuthStore();
 const props = defineProps({
   array: Array,
-  role: String,
+});
+
+const expertDirections = ref(0);
+if (user.role != "") {
+  expertDirections.value = Object.values(user.directions).map(
+    (item: any) => item.id
+  );
+}
+
+onMounted(() => {
+  if (user.role != "") {
+    expertDirections.value = Object.values(user.directions).map(
+      (item: any) => item.id
+    );
+  }
 });
 </script>
 <template>
@@ -15,8 +30,9 @@ const props = defineProps({
     :title_photo="item.title_photo"
     :tilda_url="item.tilda_url"
     :direction="item.directions"
-    :role="role"
+    :role="user.role"
     :on-click-card="() => openModal('project', 'Карта проекта', false, item)"
+    :expert-directions="expertDirections"
   ></ProjectCard>
 </template>
 <style lang="scss" scoped></style>

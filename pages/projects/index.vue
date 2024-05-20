@@ -80,7 +80,7 @@ watch(filters, () => {
     </div>
     <div class="card" v-auto-animate>
       <div class="container" v-auto-animate v-if="count > 0">
-        <ProjectCardList :array="projects" role="user"></ProjectCardList>
+        <ProjectCardList :array="projects"></ProjectCardList>
       </div>
       <div v-else class="empty" data-aos="zoom-in">
         <h2>Проектов не найдено</h2>

@@ -50,7 +50,10 @@ const removeTeam = (item: any) => {
 </script>
 <template>
   <div>
-    <label class="title" v-if="label">{{ label }}</label>
+    <div class="flex" style="gap: 5px" v-if="label">
+      <label class="title">{{ label }}</label>
+      <p style="color: red">*</p>
+    </div>
     <div class="selector">
       <div class="select-fields">
         <div>

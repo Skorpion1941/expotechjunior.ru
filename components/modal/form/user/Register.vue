@@ -33,17 +33,25 @@ const schema = Yup.object().shape({
     .required("Это поле обязательно")
     .email("Введите существующий адрес эл. почты"),
   password: Yup.string()
+    .required("Пароль обязателен для заполнения")
+    .min(6, "Пароль должен содержать минимум 6 символов")
+    .max(20, "Пароль не должен превышать 20 символов")
+    .matches(/[A-Z]/, "Пароль должен содержать минимум одну заглавную букву")
+    .matches(/[0-9]/, "Пароль должен содержать минимум одну цифру"),
+  name: Yup.string()
     .required("Это поле обязательно")
-    .min(6, "Минимум 6 символов")
-    .max(20, "Максимум 20 символов"),
-  name: Yup.string().required("Это поле обязательно"),
-  surname: Yup.string().required("Это поле обязательно"),
-  patronymic: Yup.string().required("Это поле обязательно"),
+    .matches(/[А-Яа-я-]/, "Пароль должен содержать только русские буквы"),
+  surname: Yup.string()
+    .required("Это поле обязательно")
+    .matches(/[А-Яа-я-]/, "Пароль должен содержать только русские буквы"),
+  patronymic: Yup.string()
+    .required("Это поле обязательно")
+    .matches(/[А-Яа-я-]/, "Пароль должен содержать только русские буквы"),
   organization: Yup.string().required("Это поле обязательно"),
   city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
   password_repeat: Yup.string()
-    .oneOf([Yup.ref("password")], "Пароль должен совпадать")
+    .oneOf([Yup.ref("password")], "Пароли должены совпадать в обоих полях")
     .required("Это поле обязательно"),
 });
 const errorMessage = reactive({
@@ -174,15 +182,27 @@ const signUp = async () => {
         style="z-index: 5"
       ></UiSelectMultiple>
       <p>{{ errorMessage.directions }}</p>
-
-      <UiInput
-        label="Пароль:"
-        name="password"
-        type="password"
-        placeholder="Введите пароль"
-        v-model:model-value="registerValue.password"
-        :errors="errors.password"
-      ></UiInput>
+      <div
+        style="white-space: pre-line"
+        class="password"
+        data-name="Пароль должен: 
+        &nbsp;&nbsp;&nbsp;&bull; иметь минимум 6 символов 
+        &nbsp;&nbsp;&nbsp;&bull; не превышать 20 символов 
+        &nbsp;&nbsp;&nbsp;&bull; содержать минимум одну заглавную букву 
+        &nbsp;&nbsp;&nbsp;&bull; содержать минимум одну цифру"
+      >
+        <div class="flex" style="gap: 5px; flex-direction: row">
+          <label>Пароль:</label>
+          <p>*</p>
+        </div>
+        <Field
+          v-model:model-value="registerValue.password"
+          name="password"
+          type="password"
+          placeholder="Введите пароль"
+        />
+        <p v-if="errors.password">{{ errors.password }}</p>
+      </div>
       <UiInput
         label="Повтор пароля:"
         name="password_repeat"
@@ -238,12 +258,33 @@ form {
     gap: 5px;
     margin: 5px 0;
     flex-direction: column;
-
-    input {
-      padding: 12px 20px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
+  }
+  input {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    color: $third-color;
+  }
+  .password {
+    position: relative;
+    &:hover:after {
+      content: attr(data-name);
+      position: absolute;
+      left: 0;
+      top: -100px;
+      background: white;
+      border: 2px solid $first-color;
+      border-radius: 15px;
+      text-align: left;
+      font-size: 14px;
+      padding: 3px 0 3px 5px;
+      width: 100%;
+      z-index: 100;
     }
+  }
+  p {
+    color: red;
+    margin: 0px;
   }
   p {
     color: red;
@@ -289,6 +330,10 @@ form {
         min-width: 150px;
         height: 230px;
       }
+    }
+    input {
+      padding: 7px 7px;
+      border-radius: 10px;
     }
   }
 }

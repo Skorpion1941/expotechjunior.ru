@@ -12,7 +12,6 @@ body {
   padding: 0;
   font-family: "Nunito Sans", sans-serif;
   color: $third-color;
-  word-break: break-word;
 }
 button {
   padding: 6px 10px;
@@ -80,6 +79,10 @@ label {
 }
 input {
   font-size: 18px;
+}
+
+p {
+  font-size: 15px;
 }
 textarea {
   font-size: 18px;

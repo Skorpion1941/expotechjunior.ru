@@ -18,7 +18,11 @@ const addOption = (item) => {
 </script>
 <template>
   <div class="multi-selector">
-    <label class="title" v-if="label">{{ label }}</label>
+    <div class="flex" style="gap: 5px" v-if="label">
+      <label class="title">{{ label }}</label>
+      <p style="color: red">*</p>
+    </div>
+
     <div class="selector" :class="{ select_show: isListVisible }">
       <div class="select-fields">
         <div>

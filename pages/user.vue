@@ -110,13 +110,9 @@ watch(user, () => {
           ></UiInput>
         </div>
       </div>
-      <div class="card" v-auto-animate>
+      <div class="card" v-auto-animate v-if="user.role != 'admin'">
         <div class="container" v-auto-animate>
-          <ProjectCardList
-            v-if="user.role != 'admin'"
-            :array="filterProjects"
-            :role="user.role"
-          ></ProjectCardList>
+          <ProjectCardList :array="filterProjects"></ProjectCardList>
         </div>
       </div>
     </div>

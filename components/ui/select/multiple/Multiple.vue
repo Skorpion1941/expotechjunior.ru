@@ -14,7 +14,10 @@ const toggleList = () => {
 </script>
 <template>
   <div class="multi-selector">
-    <label class="title">Направления</label>
+    <div class="flex" style="gap: 5px">
+      <label class="title">Направления:</label>
+      <p style="color: red">*</p>
+    </div>
     <div class="selector" :class="{ select_show: isListVisible }">
       <div class="select-field">
         <div>

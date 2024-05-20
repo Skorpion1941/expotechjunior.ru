@@ -85,7 +85,10 @@ const createProject = async () => {
         :errors="errors.name"
       ></UiInput>
       <div>
-        <label>О себе:</label>
+        <div class="flex" style="gap: 5px; flex-direction: row">
+          <label>Описание проекта:</label>
+          <p style="color: red">*</p>
+        </div>
         <textarea v-model="createProjectValue.description"></textarea>
       </div>
       <UiSelect
@@ -93,13 +96,13 @@ const createProject = async () => {
         :array="allDirections"
         label="Напрвление проекта"
         :name="4"
-        placeholder="Выберите направление"
+        placeholder="Выберите направление:"
       ></UiSelect>
 
       <p>{{ errorMessage.direction }}</p>
       <ModalFormProjectTeam
         v-model:model-value="createProjectValue.team"
-        label="Команда проекта"
+        label="Команда проекта:"
       ></ModalFormProjectTeam>
       <p>{{ errorMessage.team }}</p>
       <UiInput

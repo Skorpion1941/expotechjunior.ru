@@ -6,6 +6,8 @@ import { allProfiles } from "~/util/useProfiles";
 const supabase = useSupabaseClient();
 const { set } = useAuthStore();
 const { open, close } = useModalStore();
+const router = useRouter();
+
 const loading = ref(false);
 const errorMassage = ref("");
 const myProfile = ref();
@@ -17,7 +19,7 @@ const schema = object({
   email: string()
     .required("Это поле обязательно")
     .email("Введите существующий адрес эл. почты"),
-  password: string().required("Это поле обязательно").min(6, "Миним 6"),
+  password: string().required("Это поле обязательно"),
 });
 
 const signIn = async () => {
@@ -51,6 +53,7 @@ const signIn = async () => {
     if (error) {
       throw error;
     }
+    router.push("/user");
     close();
   } catch (error) {
     if (error instanceof Error) {

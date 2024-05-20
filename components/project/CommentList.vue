@@ -1,36 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import { ref, defineProps } from "vue";
+
 const { user } = useAuthStore();
 const supabase = useSupabaseClient();
+
 const props = defineProps({
   id: Number,
+  comments: Array,
+  onReloadComments: Function,
 });
-const commentsProject = ref();
-const textComment = ref("");
-const fetchComments = async () => {
-  try {
-    const { data: comments, error } = await supabase
-      .from("comments")
-      .select("*, profiles(*)")
-      .eq("project_id", props.id)
-      .order("id");
 
-    if (error) {
-      console.log("error", error);
-      return;
-    }
-    if (comments === null) {
-      commentsProject.value = [];
-      return;
-    }
-    commentsProject.value = comments;
-  } catch (err) {
-    console.error("Ошибка", err);
-  }
-};
+const loading = ref(false);
+const textComment = ref("");
+
 const addComment = async () => {
   if (textComment.value == "") return;
   try {
+    loading.value = true;
     const { error } = await supabase.from("comments").insert({
       text: textComment.value,
       project_id: props.id,
@@ -41,34 +27,45 @@ const addComment = async () => {
       console.log("error", error);
       return;
     }
-    fetchComments();
     textComment.value = "";
+    props.onReloadComments();
   } catch (err) {
     console.error("Ошибка", err);
+  } finally {
+    loading.value = false;
   }
 };
-onMounted(async () => {
-  await fetchComments();
-});
+const deleteComment = async (id: number) => {
+  try {
+    await supabase.from("comments").delete().eq("id", id);
+    props.onReloadComments();
+  } catch (error) {
+    console.error("error", error);
+  }
+};
+
+onMounted(async () => {});
 </script>
 <template>
-  <h2>Комментарии к проекту ({{ commentsProject?.length }}):</h2>
-  <div class="add flex" v-if="user.role == 'expert'">
+  <h2>Отзывы от экспертов ({{ props.comments?.length }}):</h2>
+  <div class="add flex" v-if="user.role == 'expert' || user.role == 'admin'">
     <textarea
       wrap="soft"
       class="scroll"
       spellcheck="true"
       v-model="textComment"
     ></textarea>
-    <button @click="addComment()"><h3>Отправить</h3></button>
+    <button @click="addComment()" :disabled="loading">
+      <h3>Отправить</h3>
+    </button>
   </div>
   <div class="full-w flex flex-column project">
-    <div class="comments" v-if="commentsProject?.length > 0">
+    <div class="comments" v-if="props.comments?.length > 0">
       <ProjectComment
-        v-for="comment in commentsProject"
+        v-for="comment in props.comments"
         :key="comment.id"
         :comment="comment"
-        :on-click-delete="fetchComments()"
+        :on-delete-comment="() => deleteComment(comment.id)"
       ></ProjectComment>
     </div>
     <div

@@ -2,11 +2,21 @@
 import { allAssessments } from "~/util/useAssessments";
 import { allProjects } from "~/util/useProjects";
 
+const supabase = useSupabaseClient();
+
 const route = useRoute();
 const nameProject = route.params.id;
-const project = ref();
+
+const project = ref([]);
+const commentsProject = ref([]);
 const error = ref(false);
 const find = ref(false);
+
+const cardAssessments = ref([]);
+const rating = ref(0);
+const score = ref(0);
+const countAssessments = ref(0);
+
 const findProject = () => {
   project.value = Object.values(allProjects.value).find(
     (item: any) => item.name == nameProject
@@ -18,16 +28,13 @@ const findProject = () => {
   find.value = true;
 };
 
-const cardAssessments = ref();
-const rating = ref();
-const score = ref();
-const countAssessments = ref();
 const findAssessment = () => {
   cardAssessments.value = Object.values(allAssessments.value).filter(
     (item: any) => item.projects.id == project.value?.id
   );
   countAssessments.value = cardAssessments.value.length;
 };
+
 const countingRating = () => {
   const scoreArray = Object.values(cardAssessments.value).map(
     (item: any) => item.score
@@ -46,11 +53,34 @@ const countingRating = () => {
       score.value);
   rating.value = parseFloat(rating.value.toFixed(1));
 };
+
+const fetchComments = async () => {
+  try {
+    const { data: comments, error } = await supabase
+      .from("comments")
+      .select("*, profiles(*)")
+      .eq("project_id", project.value.id)
+      .order("id");
+
+    if (error) {
+      console.log("error", error);
+      return;
+    }
+    if (comments === null) {
+      commentsProject.value = [];
+      return;
+    }
+    commentsProject.value = comments;
+  } catch (err) {
+    console.error("Ошибка", err);
+  }
+};
 const openLink = (link: string) => {
   window.open(link);
 };
-onMounted(() => {
-  findProject();
+onMounted(async () => {
+  await findProject();
+  fetchComments();
   findAssessment();
   countingRating();
 });
@@ -104,7 +134,11 @@ onMounted(() => {
       </div>
     </div>
     <div class="comment flex flex-column">
-      <ProjectCommentList :id="project?.id"></ProjectCommentList>
+      <ProjectCommentList
+        :id="project?.id"
+        :comments="commentsProject"
+        :on-reload-comments="() => fetchComments()"
+      ></ProjectCommentList>
     </div>
   </div>
   <div class="error flex" v-else>

@@ -84,7 +84,6 @@ const signOut = async () => {
   background-color: #1572b5;
   color: white;
   .user-block {
-    max-width: 50%;
     min-width: 20%;
     margin: auto;
     padding: 30px;

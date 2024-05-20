@@ -223,7 +223,7 @@ const createUser = async () => {
 </template>
 <style scoped lang="scss">
 form {
-  width: 80%;
+  width: 90%;
 
   margin: 20px auto;
   button {
@@ -236,6 +236,7 @@ form {
     flex-direction: row;
     .avatar {
       width: 400px;
+      height: 300px;
     }
     .fio {
       width: 550px;

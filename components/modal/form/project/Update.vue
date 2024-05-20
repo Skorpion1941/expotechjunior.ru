@@ -92,13 +92,16 @@ const update = async () => {
       >
       </UiInput>
       <div>
-        <label>Описание проекта:</label>
+        <div class="flex" style="gap: 5px; flex-direction: row">
+          <label>Описание проекта:</label>
+          <p style="color: red">*</p>
+        </div>
         <textarea v-model="updateProjectValue.description"></textarea>
       </div>
       <UiSelect
         v-model:model-value="updateProjectValue.direction"
         :array="allDirections"
-        label="Напрвление проекта"
+        label="Напрвление проекта:"
         :name="4"
         placeholder="Выберите направление"
       ></UiSelect>
@@ -106,7 +109,7 @@ const update = async () => {
       <p>{{ errorMessage.direction }}</p>
       <ModalFormProjectTeam
         v-model:model-value="updateProjectValue.team"
-        label="Команда проекта"
+        label="Команда проекта:"
       ></ModalFormProjectTeam>
       <p>{{ errorMessage.team }}</p>
       <UiInput

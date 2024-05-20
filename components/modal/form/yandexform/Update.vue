@@ -70,7 +70,7 @@ onMounted(() => {
       ><UiSelect
         v-model:model-value="updateFormValue.direction"
         :array="directions"
-        label="Напрвление проекта"
+        label="Напрвление проекта:"
         :name="4"
         placeholder="Выберите направление"
       ></UiSelect>

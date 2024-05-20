@@ -65,14 +65,17 @@ onMounted(() => {
       <UiSelect
         v-model:model-value="createScheduleValue.project"
         :array="projects"
-        label="Проект"
+        label="Проект:"
         :name="2"
         placeholder="Выберите проект"
       ></UiSelect>
       <p>{{ errorMessage.project }}</p>
       <div class="date-time">
         <div>
-          <label for="">Дата</label>
+          <div class="flex" style="gap: 5px; flex-direction: row">
+            <label for="">Дата:</label>
+            <p>*</p>
+          </div>
           <Field
             type="date"
             name="date"
@@ -83,7 +86,10 @@ onMounted(() => {
           <p v-if="errors">{{ errors.date }}</p>
         </div>
         <div>
-          <label for="">Время</label>
+          <div class="flex" style="gap: 5px; flex-direction: row">
+            <label for="">Время:</label>
+            <p>*</p>
+          </div>
           <Field type="time" name="time" v-model="createScheduleValue.time" />
           <p v-if="errors">{{ errors.time }}</p>
         </div>

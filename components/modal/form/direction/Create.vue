@@ -54,8 +54,8 @@ const createDirection = async () => {
       <div class="photo">
         <UiDirectionPhoto
           v-model:path="createDirectionValue.photo"
-          width="100%"
-          height="400px"
+          width="50%"
+          height="280px"
           :update="true"
         >
         </UiDirectionPhoto>

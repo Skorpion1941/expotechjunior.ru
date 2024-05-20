@@ -18,6 +18,7 @@ const props = defineProps({
   border-bottom: 1px solid #ccc;
   &:hover {
     background: $second-color;
+    color: white;
   }
   label {
     align-items: center;
