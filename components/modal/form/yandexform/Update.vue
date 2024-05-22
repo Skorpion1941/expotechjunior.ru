@@ -70,7 +70,7 @@ onMounted(() => {
       ><UiSelect
         v-model:model-value="updateFormValue.direction"
         :array="directions"
-        label="Напрвление проекта:"
+        label="Направление проекта:"
         :name="4"
         placeholder="Выберите направление"
       ></UiSelect>
@@ -78,7 +78,7 @@ onMounted(() => {
       <p>{{ errorMessage.direction }}</p>
 
       <UiInput
-        label="Сылка на YandexForm:"
+        label="Ссылка на YandexForm:"
         name="url_form"
         type="url"
         placeholder="https://"

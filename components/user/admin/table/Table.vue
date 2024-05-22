@@ -6,7 +6,7 @@ const { open } = useModalStore();
 const table = ref();
 table.value = TABLE_DATA.value;
 const modelValue = ref({
-  name: "Таблица проекты",
+  name: "Проекты",
   table: "project",
   select: true,
   nameCreateModal: "projectCreate",

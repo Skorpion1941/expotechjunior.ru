@@ -106,7 +106,7 @@ const createUser = async () => {
         :array="roles"
         label="Роль"
         :name="0"
-        placeholder="Роль"
+        placeholder="Выберите роль"
       ></UiSelect>
       <div class="avatar-fio">
         <div class="avatar">
