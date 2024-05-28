@@ -2,7 +2,7 @@
 import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
-import { updateProfile } from "~/util/useProfiles";
+import { fetchProfiles, updateProfile } from "~/util/useProfiles";
 import { closeModal } from "../../useModal";
 import { allDirections } from "~/util/useDirections";
 
@@ -101,6 +101,7 @@ const updateUser = async () => {
       status: true,
     });
     if (error) throw error;
+    fetchProfiles();
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);

@@ -29,7 +29,7 @@ const signIn = async () => {
       email: authValue.email,
       password: authValue.password,
     });
-    if (!user) {
+    if (user == null) {
       return;
     }
     myProfile.value = Object.values(allProfiles.value).find(

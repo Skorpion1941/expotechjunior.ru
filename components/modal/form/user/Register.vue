@@ -3,6 +3,8 @@ import { reactive, ref } from "vue";
 import * as Yup from "yup";
 import { defineProps } from "vue";
 import { allDirections } from "~/util/useDirections";
+import { fetchProjects } from "~/util/useProjects";
+import { fetchProfiles } from "~/util/useProfiles";
 
 const props = defineProps({
   role: String,
@@ -10,6 +12,7 @@ const props = defineProps({
 const supabase = useSupabaseClient();
 const { user } = useAuthStore();
 const { open } = useModalStore();
+const router = useRouter();
 
 const signIn = ref(false);
 const loading = ref(false);
@@ -97,10 +100,12 @@ const signUp = async () => {
     });
     if (error) throw error;
     signIn.value = true;
+    router.push("/");
     if (props.role == "user") {
       open({ name: "login", title: "Вход" });
       return;
     }
+    fetchProfiles();
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -213,7 +218,7 @@ const signUp = async () => {
         <p v-if="errors.password">{{ errors.password }}</p>
       </div>
       <UiInput
-        label="Повтор пароля:"
+        label="Повторите пароль:"
         name="password_repeat"
         type="password"
         placeholder="Повтирите пароль"
@@ -234,12 +239,12 @@ const signUp = async () => {
       <p style="text-align: center">{{ errorMessage.register }}</p>
     </Form>
   </div>
-  <div v-if="signIn && props.role == 'expert'" class="notification">
+  <!-- <div v-if="signIn && props.role == 'expert'" class="notification">
     <h5>
       На вашу почту {{ registerValue.email }} было отправленно письмо для
       подтверждения регистрации <NuxtLink to="/">на главную</NuxtLink>
     </h5>
-  </div>
+  </div> -->
 </template>
 <style scoped lang="scss">
 form {
