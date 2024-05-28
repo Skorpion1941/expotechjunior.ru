@@ -161,10 +161,10 @@ watch(updateValue, () => {
         </div>
       </div>
       <UiInput
-        label="Город:"
+        label="Место проживания:"
         name="city"
         type="text"
-        placeholder="Введите город"
+        placeholder="горож Томск"
         v-model:model-value="updateValue.city"
         :errors="errors.city"
       ></UiInput>

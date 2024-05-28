@@ -27,7 +27,9 @@ const updateFormValue = reactive({
 });
 
 const schema = Yup.object().shape({
-  url_form: Yup.string().url().required("Это поле обязательно"),
+  url_form: Yup.string()
+    .url("В этом поле необходимо указать ссылку на YandexForm")
+    .required("Это поле обязательно"),
 });
 
 const update = async () => {

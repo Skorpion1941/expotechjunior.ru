@@ -78,7 +78,7 @@ const signIn = async () => {
 <template>
   <Form @submit="signIn()" :validation-schema="schema" v-slot="{ errors }">
     <UiInput
-      label="Email :"
+      label="Email:"
       name="email"
       type="email"
       placeholder="Введите Email"
@@ -86,7 +86,7 @@ const signIn = async () => {
       :errors="errors.email"
     ></UiInput>
     <UiInput
-      label="Пароль :"
+      label="Пароль:"
       name="password"
       type="password"
       placeholder="Введите пароль"

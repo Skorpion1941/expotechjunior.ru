@@ -23,7 +23,7 @@ const createProjectValue = reactive({
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно"),
-  tilda_url: Yup.string().url().required("Это поле обязательно"),
+  tilda_url: Yup.string().url("В этом поле необходиммо указать ссылку на проект участника").required("Это поле обязательно"),
 });
 
 const createProject = async () => {

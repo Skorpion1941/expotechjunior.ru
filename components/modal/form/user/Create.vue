@@ -41,16 +41,33 @@ const schema = Yup.object().shape({
     .email("Введите существующий адрес эл. почты"),
   password: Yup.string()
     .required("Это поле обязательно")
-    .min(6, "Минимум 6 символов")
-    .max(20, "Максимум 20 символов"),
-  name: Yup.string().required("Это поле обязательно"),
-  surname: Yup.string().required("Это поле обязательно"),
-  patronymic: Yup.string().required("Это поле обязательно"),
+    .min(6, "Пароль должен содержать минимум 6 символов")
+    .max(20, "Пароль не должен превышать 20 символов")
+    .matches(/[A-ZА-Я]/, "Пароль должен содержать минимум одну заглавную букву")
+    .matches(/[0-9]/, "Пароль должен содержать минимум одну цифру"),
+  name: Yup.string()
+    .required("Это поле обязательно")
+    .matches(
+      /[А-Яа-я- ]/,
+      "Пароль должен содержать только кириллицу, дефис и пробел"
+    ),
+  surname: Yup.string()
+    .required("Это поле обязательно")
+    .matches(
+      /[А-Яа-я- ]/,
+      "Пароль должен содержать только кириллицу, дефис и пробел"
+    ),
+  patronymic: Yup.string()
+    .required("Это поле обязательно")
+    .matches(
+      /[А-Яа-я- ]/,
+      "Пароль должен содержать только кириллицуы, дефис и пробел"
+    ),
   organization: Yup.string().required("Это поле обязательно"),
   city: Yup.string().required("Это поле обязательно"),
   post: Yup.string().required("Это поле обязательно"),
   password_repeat: Yup.string()
-    .oneOf([Yup.ref("password")], "Пароль должен совпадать")
+    .oneOf([Yup.ref("password")], "Пароли должены совпадать в обоих полях")
     .required("Это поле обязательно"),
 });
 const errorMessage = reactive({
@@ -154,10 +171,10 @@ const createUser = async () => {
         :errors="errors.email"
       ></UiInput
       ><UiInput
-        label="Город:"
+        label="Место проживания:"
         name="city"
         type="text"
-        placeholder="Введите город"
+        placeholder="город Томск"
         v-model:model-value="createValue.city"
         :errors="errors.city"
       ></UiInput>
