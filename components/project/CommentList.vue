@@ -108,6 +108,7 @@ h2 {
   align-items: flex-start;
   gap: 10px;
   margin-top: 50px;
+  margin-bottom: 20px;
   textarea {
     min-width: 600px;
     max-width: 600px;
