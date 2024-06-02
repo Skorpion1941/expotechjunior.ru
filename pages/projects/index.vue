@@ -101,6 +101,10 @@ watch(filters, () => {
   .filter {
     display: flex;
     gap: 15px;
+    align-self: center;
+    div {
+      align-self: center;
+    }
   }
   .card {
     margin: 100px 0;

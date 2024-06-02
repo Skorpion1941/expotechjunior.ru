@@ -95,9 +95,11 @@ watch(user, () => {
 
 <template>
   <main>
+    <!-- Компонент с информацией об учетной записью -->
     <UserInfo></UserInfo>
     <div class="my-project" v-if="user.role != 'admin'">
       <div class="title">
+        <!-- Компонент заголовка -->
         <UiTitle
           :name="user.role == 'user' ? 'МОИ ПРОЕКТЫ' : 'ПРОЕКТЫ ДЛЯ ОЦЕНКИ'"
         ></UiTitle>
@@ -105,6 +107,7 @@ watch(user, () => {
           <button v-if="user.role == 'user'" @click="userCreate()">
             Добавить проект
           </button>
+          <!-- Компонент выпажаюшего списка -->
           <UiSelect
             v-if="selectDirection.length > 2 && user.role == 'expert'"
             v-model:model-value="filters.sortDirection"
@@ -112,6 +115,7 @@ watch(user, () => {
             :name="4"
             placeholder="Все"
           ></UiSelect>
+          <!-- Компонент поля ввода -->
           <UiInput
             name="search"
             type="url"
@@ -122,10 +126,12 @@ watch(user, () => {
       </div>
       <div class="card" v-auto-animate v-if="user.role != 'admin'">
         <div class="container" v-auto-animate>
+          <!-- Список проетов для оценивания -->
           <ProjectCardList :array="filterProjects"></ProjectCardList>
         </div>
       </div>
     </div>
+    <!-- Компонетн адмнистративной панели -->
     <div v-else><UserAdminTable></UserAdminTable></div>
   </main>
 </template>
@@ -152,6 +158,10 @@ watch(user, () => {
   .filter {
     display: flex;
     gap: 15px;
+    align-self: center;
+    div {
+      align-self: center;
+    }
   }
 }
 </style>
