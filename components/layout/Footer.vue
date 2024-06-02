@@ -9,6 +9,7 @@ const openLink = (link: string) => {
 <template>
   <footer>
     <div class="foot">
+      <!-- Логотип -->
       <nuxt-link
         to="/"
         class="logo"
@@ -18,6 +19,7 @@ const openLink = (link: string) => {
       >
         <img src="/white-logo.webp"
       /></nuxt-link>
+      <!-- Навигация -->
       <nav>
         <ul>
           <li v-for="item in HEADER_DATA" :key="item.name">
@@ -30,6 +32,7 @@ const openLink = (link: string) => {
           8-960-970-9374<br />todoo.hobbycenter@yandex.ru
         </h3>
       </nav>
+      <!-- Иконки соц. сетей -->
       <div
         class="icon"
         data-aos="fade-left"

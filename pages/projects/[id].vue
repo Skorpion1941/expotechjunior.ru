@@ -7,12 +7,12 @@ const supabase = useSupabaseClient();
 const route = useRoute();
 const nameProject = route.params.id;
 
-const project = ref([]);
+const project = ref();
 const commentsProject = ref([]);
 const error = ref(false);
 const find = ref(false);
 
-const cardAssessments = ref([]);
+const cardAssessments = ref();
 const rating = ref(0);
 const score = ref(0);
 const countAssessments = ref(0);
@@ -88,6 +88,7 @@ onMounted(async () => {
 
 <template>
   <div class="project" v-if="find && !error">
+    <!-- Название прокета -->
     <div class="project-head" data-aos="zoom-in-down" data-aos-duration="1000">
       <h1>{{ project?.name }}</h1>
     </div>
@@ -96,11 +97,12 @@ onMounted(async () => {
         <div class="direction flex" data-aos="zoom-in" data-aos-duration="1000">
           <h3>Рейтинг: {{ rating }}</h3>
           <div class="btn">
+            <!-- Кнока "Лендинг" -->
             <button @click="openLink(project?.tilda_url)">
               <h4>Лендинг проекта</h4>
             </button>
-
             <div style="align-self: center">
+              <!-- Компонетн Направления -->
               <UiSelectChecked
                 :name="project?.directions?.short_name"
                 :color="project?.directions?.color"
@@ -108,6 +110,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
+        <!-- Описание проекта -->
         <div data-aos="fade-right" data-aos-duration="1000">
           <h2>О проекте:</h2>
           <h3 style="text-align: justify">{{ project?.description }}</h3>
@@ -117,6 +120,7 @@ onMounted(async () => {
           data-aos="fade-right"
           data-aos-duration="1000"
         >
+          <!-- Список команды -->
           <h2>Над проектом работали</h2>
           <ol>
             <li v-for="team in project?.team" :key="team.id">
@@ -126,6 +130,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="photo" data-aos="fade-left" data-aos-duration="1500">
+        <!-- Компонетн фотографии -->
         <UiPhoto
           :path="project?.title_photo"
           width="100%"
@@ -134,6 +139,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="comment flex flex-column">
+      <!-- Компонетн списка комметнарий -->
       <ProjectCommentList
         :id="project?.id"
         :comments="commentsProject"

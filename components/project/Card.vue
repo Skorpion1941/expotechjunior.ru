@@ -13,9 +13,12 @@ const props = defineProps({
   onClickCard: Function,
   expertDirections: Array,
 });
+
+const { user } = useAuthStore();
+
 const cardForm = ref();
 const urlForm = ref("");
-
+const checked = ref(false);
 const cardAssessments = ref();
 const rating = ref(0);
 const score = ref(0);
@@ -24,7 +27,7 @@ const seeAssess = () => {
   if (props.role !== "expert") {
     return false;
   }
-  return props.expertDirections.includes(props.direction.id);
+  return props.expertDirections?.includes(props.direction?.id);
 };
 const findForm = () => {
   cardForm.value = Object.values(allForms.value).filter(
@@ -52,7 +55,6 @@ const countingRating = () => {
     rating.value = 0;
     return;
   }
-
   rating.value =
     10 /
     ((cardAssessments.value[0]?.score_max * countAssessments.value) /
@@ -63,9 +65,13 @@ const openLink = (link: string) => {
   window.open(link);
 };
 onMounted(() => {
+  checked.value = seeAssess();
   findForm();
   findAssessment();
   countingRating();
+});
+watch(props, () => {
+  checked.value = seeAssess();
 });
 </script>
 
@@ -87,7 +93,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <button v-if="seeAssess()" @click="openLink(`${urlForm}`)">
+      <button v-if="checked" @click="openLink(`${urlForm}`)">
         <h4>Оценить</h4>
       </button>
       <div class="btn">

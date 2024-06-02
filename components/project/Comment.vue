@@ -6,14 +6,6 @@ const props = defineProps({
   comment: Object,
   onDeleteComment: Function,
 });
-const deleteComment = async (id: number) => {
-  try {
-    await supabase.from("comments").delete().eq("id", id);
-    props.onReloadComments;
-  } catch (error) {
-    console.error("error", error);
-  }
-};
 </script>
 <template>
   <div class="flex">

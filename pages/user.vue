@@ -4,6 +4,7 @@ import { openModal } from "../components/modal/useModal";
 import { allProjects } from "~/util/useProjects";
 import { fetchRoles } from "~/util/useRoles";
 import { fetchForms } from "~/util/useForm";
+
 const { user } = useAuthStore();
 const myProjects = ref();
 const filterProjects = ref();
@@ -67,7 +68,7 @@ onMounted(() => {
       short_name: "Все",
       description: "Все",
       color: "Все",
-    });
+    } as never);
     return;
   }
   fetchRoles();
@@ -80,11 +81,20 @@ watch(allProjects, () => {
 });
 watch(user, () => {
   expertProject();
+  selectDirection.value = Object.values(user.directions);
+  selectDirection.value.unshift({
+    id: 0,
+    createdAt: "",
+    name: "Все",
+    short_name: "Все",
+    description: "Все",
+    color: "Все",
+  } as never);
 });
 </script>
 
 <template>
-  <div>
+  <main>
     <UserInfo></UserInfo>
     <div class="my-project" v-if="user.role != 'admin'">
       <div class="title">
@@ -117,7 +127,7 @@ watch(user, () => {
       </div>
     </div>
     <div v-else><UserAdminTable></UserAdminTable></div>
-  </div>
+  </main>
 </template>
 
 <style scoped lang="scss">

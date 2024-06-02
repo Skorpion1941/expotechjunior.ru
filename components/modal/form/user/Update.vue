@@ -220,11 +220,11 @@ form {
     display: flex;
     flex-direction: row;
     .avatar {
-      width: 50%;
+      width: 51%;
       height: 290px;
     }
     .fio {
-      width: 50%;
+      width: 49%;
     }
   }
   div {

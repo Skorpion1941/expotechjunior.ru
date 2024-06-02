@@ -43,8 +43,6 @@ const deleteComment = async (id: number) => {
     console.error("error", error);
   }
 };
-
-onMounted(async () => {});
 </script>
 <template>
   <h2>Отзывы от экспертов ({{ props.comments?.length }}):</h2>

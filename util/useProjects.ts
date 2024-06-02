@@ -14,7 +14,7 @@ export async function fetchProjects() {
       .order("id");
 
     if (error) {
-      console.log("error", error);
+      console.log("Ошибка", error);
       return;
     }
     if (projects === null) {
@@ -38,16 +38,14 @@ export async function addProject(projects: Project[]): Promise<Project | null> {
       .single();
 
     if (error) {
-      alert(error.message);
-      console.error("There was an error inserting", error);
+      console.error("Произошла ошибка при добавлении", error);
       return null;
     }
 
-    console.log("created a new projects");
+    console.log("Новый проект добавлен");
     return data;
   } catch (err) {
-    alert("Error");
-    console.error("Unknown problem inserting to db", err);
+    console.error("Неизвестная проблема при добавлении в базу данных", err);
     return null;
   }
 }
@@ -64,13 +62,13 @@ export async function updateProject(projects: Project) {
       .eq("id", projects.id as number);
 
     if (error) {
-      console.error("There was an error updating", error);
+      console.error("Произошла ошибка при изменении", error);
       return;
     }
 
-    console.log("Updated task", projects.id);
+    console.log("Обнавленный проект", projects.id);
   } catch (err) {
-    console.error("Unknown problem updating record", err);
+    console.error("Неизвестная проблема с обновлением записи", err);
   }
 }
 
@@ -84,8 +82,8 @@ export async function deleteProject(projects: Project) {
       .from("projects")
       .delete()
       .eq("id", projects.id as number);
-    console.log("deleted projects", projects.id);
+    console.log("Проект удален", projects.id);
   } catch (error) {
-    console.error("error", error);
+    console.error("Ошибка", error);
   }
 }

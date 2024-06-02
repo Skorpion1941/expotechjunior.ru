@@ -9,7 +9,7 @@ const filters = reactive({
   searchQuery: "",
 });
 const selectDirection = ref();
-const count = ref(0);
+const countProject = ref(0);
 
 const filtersProject = () => {
   projects.value = allProjects.value;
@@ -40,7 +40,7 @@ const filtersProject = () => {
 
 onMounted(async () => {
   projects.value = allProjects.value;
-  count.value = projects.value.length;
+  countProject.value = projects.value.length;
   selectDirection.value = Object.values(allDirections.value);
   selectDirection.value.unshift({
     id: 0,
@@ -55,12 +55,12 @@ onMounted(async () => {
 });
 watch(filters, () => {
   filtersProject();
-  count.value = projects.value.length;
+  countProject.value = projects.value.length;
 });
 </script>
 
 <template>
-  <div class="my-project">
+  <div class="projects">
     <div class="title">
       <UiTitle name="ПРОЕКТЫ УЧАСТНИКОВ"></UiTitle>
       <div class="filter">
@@ -79,7 +79,7 @@ watch(filters, () => {
       </div>
     </div>
     <div class="card" v-auto-animate>
-      <div class="container" v-auto-animate v-if="count > 0">
+      <div class="container" v-auto-animate v-if="countProject > 0">
         <ProjectCardList :array="projects"></ProjectCardList>
       </div>
       <div v-else class="empty" data-aos="zoom-in">
@@ -91,7 +91,7 @@ watch(filters, () => {
 </template>
 
 <style scoped lang="scss">
-.my-project {
+.projects {
   width: 80%;
   margin: 100px auto;
   .title {

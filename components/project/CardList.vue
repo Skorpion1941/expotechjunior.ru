@@ -2,11 +2,11 @@
 import { openModal } from "../modal/useModal";
 
 const { user } = useAuthStore();
-const props = defineProps({
+defineProps({
   array: Array,
 });
 
-const expertDirections = ref(0);
+const expertDirections = ref();
 if (user.role != "") {
   expertDirections.value = Object.values(user.directions).map(
     (item: any) => item.id
@@ -14,6 +14,13 @@ if (user.role != "") {
 }
 
 onMounted(() => {
+  if (user.role != "") {
+    expertDirections.value = Object.values(user.directions).map(
+      (item: any) => item.id
+    );
+  }
+});
+watch(user, () => {
   if (user.role != "") {
     expertDirections.value = Object.values(user.directions).map(
       (item: any) => item.id

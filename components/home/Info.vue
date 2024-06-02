@@ -4,7 +4,7 @@ interface SwiperSlide {
   id: number;
   swiperUrl: string;
 }
-const SWIPER_URL = ref<SwiperSlide[]>([
+const SWIPER_IMG = ref<SwiperSlide[]>([
   {
     id: 1,
     swiperUrl:
@@ -64,7 +64,7 @@ const SWIPER_URL = ref<SwiperSlide[]>([
           },
         }"
       >
-        <SwiperSlide v-for="slide in SWIPER_URL" :key="slide.id">
+        <SwiperSlide v-for="slide in SWIPER_IMG" :key="slide.id">
           <div>
             <NuxtImg :src="slide.swiperUrl" class="img"></NuxtImg>
           </div>

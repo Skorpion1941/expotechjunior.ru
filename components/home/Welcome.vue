@@ -7,6 +7,7 @@ const openLink = (link: string) => {
 </script>
 <template>
   <div class="welcome full-w">
+    <!-- Изображение Кванториума -->
     <div
       class="kvant-img full-w"
       data-aos="slide-right"
@@ -17,6 +18,7 @@ const openLink = (link: string) => {
     </div>
     <div class="vector full-wh">
       <div class="info full-wh flex flex-column">
+        <!-- Спонсоры ярмарки -->
         <div
           class="info-img flex full-w"
           data-aos="fade-down"
@@ -39,6 +41,7 @@ const openLink = (link: string) => {
             class="scale-img"
           ></NuxtImg>
         </div>
+        <!-- Наименование мероприятия и кнопки -->
         <div class="info-welcome">
           <div class="full-w flex">
             <img
@@ -71,7 +74,7 @@ const openLink = (link: string) => {
               <nuxt-link to="schedule"><h3>Расписание</h3> </nuxt-link>
             </button>
             <a @click="openLink('https://kvantoriumtomsk.ru/')">
-              <strong>Страница техопарка</strong>
+              <strong>Страница технопарка</strong>
               <Icon
                 name="material-symbols:arrow-forward"
                 color="white"

@@ -79,7 +79,6 @@ const onSelectDay = (id: number) => {
     item.color = "#0490d6";
   });
   activeDay.value = numbers.value.find((item: any) => item.id == id);
-  console.log(activeDay.value);
 };
 const openLink = (link: string) => {
   window.open(link);
@@ -89,7 +88,6 @@ const openLink = (link: string) => {
 <template>
   <section>
     <UiTitle name="РАСПИСАНИЕ ЗАЩИТ ПРОЕКТОВ"></UiTitle>
-
     <div class="schedule">
       <div class="calendar">
         <h2 data-aos="fade-down" data-aos-duration="1000" data-aos-offset="0">

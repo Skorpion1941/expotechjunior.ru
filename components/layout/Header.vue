@@ -6,9 +6,11 @@ const { user } = useAuthStore();
 </script>
 <template>
   <header>
+    <!-- Логотип -->
     <div class="logo">
       <nuxt-link to="/"> <img src="/logo.webp" /></nuxt-link>
     </div>
+    <!-- Навигация -->
     <ul>
       <li v-for="item in HEADER_DATA" :key="item.name">
         <nuxt-link class="link" :to="item.url">
@@ -16,6 +18,7 @@ const { user } = useAuthStore();
         </nuxt-link>
       </li>
     </ul>
+    <!-- Кнопка вход и ФИО атоизированногот пользователя -->
     <div class="btn-entry">
       <div class="user-info" v-if="user.status == true">
         <NuxtLink to="/user">
